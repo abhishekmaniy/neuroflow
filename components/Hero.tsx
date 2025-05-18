@@ -1,7 +1,7 @@
 'use client'
 
-
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
@@ -10,7 +10,11 @@ const Hero = () => {
   const router = useRouter()
 
   const handleSubmit = (e: React.FormEvent) => {
+    const { isSignedIn } = useAuth()
     e.preventDefault()
+    if (!isSignedIn) {
+      return router.push('/sign-in')
+    }
     if (prompt.trim()) {
       // Encode the prompt to pass as URL parameter
       const encodedPrompt = encodeURIComponent(prompt)
