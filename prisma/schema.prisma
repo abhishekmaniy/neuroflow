@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String            @unique
+  email        String            @unique
+  name         String
+  createdAt    DateTime          @default(now())
+  mindmaps     MindMap[]
+  subscription UserSubscription?
+}
+
+model MindMap {
+  id          String   @id @default(uuid())
+  title       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  nodes       Node[]
+  isPublic    Boolean  @default(false)
+  generatedBy String? // e.g. "manual" or "ai"
+}
+
+model Node {
+  id        String  @id @default(uuid())
+  mindMapId String
+  mindMap   MindMap @relation(fields: [mindMapId], references: [id])
+  parentId  String?
+  content   String
+  positionX Float
+  positionY Float
+  children  Node[]  @relation("NodeChildren")
+  parent    Node?   @relation("NodeChildren", fields: [parentId], references: [id])
+}
+
+model SubscriptionPlan {
+  id        String   @id @default(uuid())
+  name      String // Free, Pro, Team
+  price     Float
+  currency  String // USD, INR, etc.
+  features  String[] // ["unlimited-maps", "ai-generation"]
+  isDefault Boolean  @default(false)
+
+  UserSubscription UserSubscription[]
+}
+
+model UserSubscription {
+  id                   String           @id @default(uuid())
+  userId               String           @unique
+  user                 User             @relation(fields: [userId], references: [id])
+  planId               String
+  plan                 SubscriptionPlan @relation(fields: [planId], references: [id])
+  startedAt            DateTime         @default(now())
+  expiresAt            DateTime
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+}
