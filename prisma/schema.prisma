@@ -18,21 +18,25 @@ model User {
   id           String            @unique
   email        String            @unique
   name         String
-  createdAt    DateTime          @default(now())
   mindmaps     MindMap[]
   subscription UserSubscription?
 }
 
+enum generatedByEnum {
+  Manual
+  Ai
+}
+
 model MindMap {
-  id          String   @id @default(uuid())
+  id          String          @id @default(uuid())
   title       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User            @relation(fields: [userId], references: [id])
   nodes       Node[]
-  isPublic    Boolean  @default(false)
-  generatedBy String? // e.g. "manual" or "ai"
+  isPublic    Boolean         @default(false)
+  generatedBy generatedByEnum
 }
 
 model Node {
@@ -54,7 +58,6 @@ model SubscriptionPlan {
   currency  String // USD, INR, etc.
   features  String[] // ["unlimited-maps", "ai-generation"]
   isDefault Boolean  @default(false)
-
   UserSubscription UserSubscription[]
 }
 
