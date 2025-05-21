@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../lib/generated/prisma"
@@ -15,50 +9,87 @@ datasource db {
 }
 
 model User {
-  id           String            @unique
+  id           String            @id @default(cuid())
   email        String            @unique
   name         String
   mindmaps     MindMap[]
+  chats        Chat[]            @relation("UserChats")
   subscription UserSubscription?
-}
-
-enum generatedByEnum {
-  Manual
-  Ai
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @default(now()) @updatedAt
 }
 
 model MindMap {
-  id          String          @id @default(uuid())
+  id          String      @id @default(uuid())
   title       String
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
   userId      String
-  user        User            @relation(fields: [userId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
   nodes       Node[]
-  isPublic    Boolean         @default(false)
-  generatedBy generatedByEnum
+  isPublic    Boolean     @default(false)
+  generatedBy GeneratedBy
+  chats       Chat[]      @relation("MindMapChats")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum GeneratedBy {
+  MANUAL
+  AI
 }
 
 model Node {
-  id        String  @id @default(uuid())
+  id        String    @id @default(uuid())
   mindMapId String
-  mindMap   MindMap @relation(fields: [mindMapId], references: [id])
+  mindMap   MindMap   @relation(fields: [mindMapId], references: [id])
   parentId  String?
   content   String
   positionX Float
   positionY Float
-  children  Node[]  @relation("NodeChildren")
-  parent    Node?   @relation("NodeChildren", fields: [parentId], references: [id])
+  direction Direction @default(RIGHT)
+  children  Node[]    @relation("NodeChildren")
+  parent    Node?     @relation("NodeChildren", fields: [parentId], references: [id])
+}
+
+enum Direction {
+  LEFT
+  RIGHT
+  TOP
+  DOWN
+}
+
+model Chat {
+  id        String    @id @default(cuid())
+  userId    String?
+  user      User?     @relation("UserChats", fields: [userId], references: [id])
+  mindMapId String
+  mindMap   MindMap   @relation("MindMapChats", fields: [mindMapId], references: [id])
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  role      Role
+  content   String
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ASSISTANT
 }
 
 model SubscriptionPlan {
-  id               String             @id @default(uuid())
-  name             String // Free, Pro, Team
-  price            Float
-  currency         String // USD, INR, etc.
-  features         String[] // ["unlimited-maps", "ai-generation"]
-  isDefault        Boolean            @default(false)
-  UserSubscription UserSubscription[]
+  id            String             @id @default(uuid())
+  name          String // Free, Pro, Team
+  price         Float
+  currency      String // USD, INR, etc.
+  features      String[] // ["unlimited-maps", "ai-generation"]
+  isDefault     Boolean            @default(false)
+  subscriptions UserSubscription[]
 }
 
 model UserSubscription {

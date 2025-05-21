@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 
@@ -55,52 +54,58 @@ const pricingPlans = [
 
 const Pricing = () => {
   return (
-    <section id="pricing" className="neuro-section bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4">
+    <section id="pricing" className="relative py-20 bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-blue-950 dark:via-blue-900 dark:to-blue-950">
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60vw] h-[30vh] bg-gradient-to-tr from-blue-200 via-white to-blue-400 opacity-40 blur-2xl rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-gradient-to-br from-blue-100 via-white to-blue-300 opacity-20 blur-2xl rounded-full"></div>
+      </div>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 relative inline-block">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 relative inline-block text-blue-900 dark:text-white">
             Simple Pricing
-            <span className="absolute -bottom-3 left-0 right-0 h-1 bg-gradient-to-r from-neuro-primary to-neuro-blue rounded-full"></span>
+            <span className="absolute -bottom-3 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full"></span>
           </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-lg text-blue-700 dark:text-blue-200 max-w-3xl mx-auto">
             Choose the plan that fits your needs. All plans include core NeuroFlow features.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {pricingPlans.map((plan, index) => (
-            <div 
-              key={index} 
-              className={`relative rounded-xl overflow-hidden transition-all duration-300 transform hover:-translate-y-2 ${
-                plan.highlight 
-                  ? "shadow-lg border-2 border-neuro-primary dark:border-neuro-primary" 
-                  : "border border-gray-100 dark:border-gray-700 shadow-md"
+            <div
+              key={index}
+              className={`relative rounded-2xl overflow-hidden transition-all duration-300 transform hover:-translate-y-2 ${
+                plan.highlight
+                  ? "shadow-2xl border-2 border-blue-500 dark:border-blue-400 bg-gradient-to-br from-blue-500 to-blue-700"
+                  : "border border-blue-100 dark:border-blue-900 bg-white/80 dark:bg-blue-950/70 shadow-xl"
               }`}
             >
               {plan.highlight && (
-                <div className="absolute top-0 left-0 right-0 bg-neuro-primary text-white text-center py-1 text-sm font-medium">
+                <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-blue-600 to-blue-400 text-white text-center py-1 text-sm font-medium z-10 shadow">
                   Most Popular
                 </div>
               )}
-              <div className={`p-8 bg-white dark:bg-gray-800 h-full flex flex-col ${plan.highlight ? "pt-12" : ""}`}>
-                <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  {plan.period && <span className="text-gray-500 dark:text-gray-400">{plan.period}</span>}
+              <div className={`p-8 h-full flex flex-col ${plan.highlight ? "pt-12" : ""}`}>
+                <h3 className={`text-xl font-bold mb-2 text-center ${plan.highlight ? "text-white" : "text-blue-900 dark:text-white"}`}>{plan.name}</h3>
+                <div className="mb-4 text-center">
+                  <span className={`text-4xl font-bold ${plan.highlight ? "text-white" : "text-blue-900 dark:text-white"}`}>{plan.price}</span>
+                  {plan.period && <span className={`ml-1 ${plan.highlight ? "text-blue-200" : "text-blue-500 dark:text-blue-300"}`}>{plan.period}</span>}
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">{plan.description}</p>
+                <p className={`mb-6 text-center ${plan.highlight ? "text-blue-100" : "text-blue-700 dark:text-blue-200"}`}>{plan.description}</p>
                 <ul className="mb-8 flex-1">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-center mb-3">
-                      <Check size={18} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                      <Check size={18} className={`mr-2 flex-shrink-0 ${plan.highlight ? "text-white" : "text-blue-500 dark:text-blue-300"}`} />
+                      <span className={`${plan.highlight ? "text-blue-100" : "text-blue-900 dark:text-blue-100"}`}>{feature}</span>
                     </li>
                   ))}
                 </ul>
-                <Button 
-                  variant={plan.buttonVariant} 
-                  className={`w-full ${
-                    plan.highlight ? "bg-neuro-primary hover:bg-neuro-secondary text-white" : ""
+                <Button
+                  variant={plan.buttonVariant}
+                  className={`w-full py-3 rounded-xl font-bold text-lg transition-all ${
+                    plan.highlight
+                      ? "bg-gradient-to-r from-blue-500 via-blue-600 to-blue-400 text-white shadow-lg hover:scale-105"
+                      : "border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30"
                   }`}
                 >
                   {plan.buttonText}

@@ -1,5 +1,4 @@
-'use client'
-
+'use client';
 
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -27,29 +26,27 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onRegenerateMap }) => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = () => {
-    if (!input.trim()) return;
+    const trimmed = input.trim();
+    if (!trimmed) return;
 
-    // Add user message
     const userMessage: Message = {
       id: `user-${Date.now()}`,
-      content: input,
+      content: trimmed,
       isUser: true,
     };
-    
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
-    
-    // Trigger mind map regeneration
-    onRegenerateMap(input);
-    
-    // Add AI response (would normally come from an API)
+    onRegenerateMap(trimmed);
+
+    // Simulated AI response
     setTimeout(() => {
       const aiResponse: Message = {
         id: `ai-${Date.now()}`,
-        content: "I've updated your mind map based on your input. Is there anything specific you'd like me to explain or modify?",
+        content: "I've updated your mind map based on your input. Let me know if you'd like further changes!",
         isUser: false,
       };
-      setMessages((prevMessages) => [...prevMessages, aiResponse]);
+      setMessages((prev) => [...prev, aiResponse]);
     }, 1000);
   };
 
@@ -60,29 +57,28 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onRegenerateMap }) => {
     }
   };
 
-  // Auto scroll to the latest message
   useEffect(() => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-lg border border-gray-100 shadow-sm">
-      <div className="px-4 py-3 border-b border-gray-100">
-        <h3 className="text-lg font-semibold">AI Assistant</h3>
-        <p className="text-sm text-gray-600">Chat with AI to improve your mind map</p>
+    <div className="flex flex-col h-full rounded-2xl border border-muted bg-background shadow-md">
+      <div className="px-4 py-3 border-b border-muted">
+        <h3 className="text-lg font-semibold text-foreground">AI Assistant</h3>
+        <p className="text-sm text-muted-foreground">Ask questions or suggest changes to your mind map</p>
       </div>
-      
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[80%] p-3 rounded-lg ${
+              className={`px-4 py-2 max-w-[80%] rounded-xl text-sm leading-relaxed ${
                 msg.isUser
                   ? "bg-neuro-primary text-white"
-                  : "bg-gray-100 text-gray-800"
+                  : "bg-muted text-foreground"
               }`}
             >
               {msg.content}
@@ -91,21 +87,22 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onRegenerateMap }) => {
         ))}
         <div ref={endOfMessagesRef} />
       </div>
-      
-      <div className="p-3 border-t border-gray-100">
+
+      <div className="p-3 border-t border-muted">
         <div className="flex items-center gap-2">
           <input
             type="text"
-            placeholder="Ask about your mind map or suggest improvements..."
-            className="flex-1 p-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neuro-light"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
+            placeholder="Ask about your mind map..."
+            className="flex-1 px-3 py-2 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-neuro-light transition"
           />
           <Button 
-            onClick={handleSendMessage} 
-            className="bg-neuro-primary hover:bg-neuro-secondary"
+            onClick={handleSendMessage}
             size="icon"
+            className="bg-neuro-primary hover:bg-neuro-secondary"
+            aria-label="Send message"
           >
             <SendIcon size={18} />
           </Button>

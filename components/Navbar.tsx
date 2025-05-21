@@ -8,8 +8,8 @@ import ThemeToggle from './ThemeToggle'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { useEffect, useState } from 'react'
 import { User } from '@/lib/generated/prisma'
-import { useUserStore } from '@/store/user-store'
 import axios from 'axios'
+import { useUserStore } from '@/store/user-store'
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -36,7 +36,9 @@ const Navbar = () => {
       const userData: User = {
         name: `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim(),
         email: user.emailAddresses?.[0]?.emailAddress ?? '',
-        id: user.id
+        id: user.id,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
 
       try {
@@ -64,62 +66,72 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='w-full py-4 border-b border-gray-100 dark:border-gray-800 backdrop-blur-lg bg-white/70 dark:bg-gray-900/70 sticky top-0 z-30'>
-      <div className='container mx-auto px-4 flex justify-between items-center'>
-        <div className='flex items-center'>
-          <Link href='/' className='flex items-center'>
-            <span className='text-2xl font-bold neuro-gradient-text'>
+    <nav className="w-full py-4 border-b border-blue-100 dark:border-blue-900/40 backdrop-blur-2xl bg-white/80 dark:bg-blue-950/80 sticky top-0 z-30 shadow-lg">
+      <div className="container mx-auto px-4 flex justify-between items-center">
+        <div className="flex items-center">
+          <Link href="/" className="flex items-center select-none">
+            <span className="text-2xl font-extrabold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent drop-shadow-lg tracking-tight">
               NeuroFlow
             </span>
           </Link>
         </div>
 
-        <div className='hidden md:flex items-center space-x-8'>
+        <div className="hidden md:flex items-center space-x-8">
           <Link
-            href='/'
-            className='text-gray-700 dark:text-gray-300 hover:text-neuro-primary transition-colors'
+            href="/"
+            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
           >
             Home
           </Link>
           <Link
-            href='/#features'
-            className='text-gray-700 dark:text-gray-300 hover:text-neuro-primary transition-colors'
+            href="/#features"
+            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
             onClick={handleNavClick('features')}
           >
             Features
           </Link>
           <Link
-            href='/#pricing'
-            className='text-gray-700 dark:text-gray-300 hover:text-neuro-primary transition-colors'
+            href="/#pricing"
+            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
             onClick={handleNavClick('pricing')}
           >
             Pricing
           </Link>
           <Link
-            href='/examples'
-            className='text-gray-700 dark:text-gray-300 hover:text-neuro-primary transition-colors'
+            href="/examples"
+            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
           >
             Examples
           </Link>
         </div>
 
-        <div className='flex items-center space-x-4'>
+        <div className="flex items-center space-x-4">
           <ThemeToggle />
           {isSignedIn ? (
             <>
               <Avatar>
                 <AvatarImage
-                  src='https://github.com/shadcn.png'
-                  alt='@shadcn'
+                  src={user?.imageUrl || 'https://github.com/shadcn.png'}
+                  alt={user?.firstName || 'User'}
                 />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>
+                  {user?.firstName?.[0] ?? 'U'}
+                  {user?.lastName?.[0] ?? ''}
+                </AvatarFallback>
               </Avatar>
-              <SignOutButton />
+              <SignOutButton>
+                <Button
+                  variant="outline"
+                  className="border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition"
+                >
+                  Log out
+                </Button>
+              </SignOutButton>
             </>
           ) : (
             <Button
-              variant='outline'
-              className='hidden md:inline-flex dark:text-white dark:border-gray-700'
+              variant="outline"
+              className="border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition"
               onClick={() => router.push('/sign-in')}
             >
               Log in

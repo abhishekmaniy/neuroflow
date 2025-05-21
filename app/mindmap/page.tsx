@@ -1,160 +1,126 @@
 'use client'
 
-
-import Canvas from '@/components/mindmap/Canvas'
-import ChatInterface from '@/components/mindmap/ChatInterface'
-import ControlPanel from '@/components/mindmap/ControlPannel'
-import Navbar from '@/components/Navbar'
-import { Button } from '@/components/ui/button'
-import { useToast } from '@/hooks/use-toast'
-import { Fullscreen } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useAuth } from '@clerk/nextjs'
+import axios from 'axios'
+import { Fullscreen } from 'lucide-react'
 import { toast } from 'sonner'
+
+import Navbar from '@/components/Navbar'
+import MindMapCanvas from '@/components/mindmap/Canvas'
+import ChatInterface from '@/components/mindmap/ChatInterface'
+import { Button } from '@/components/ui/button'
+
+import { GeneratedBy, MindMap, Node } from '@/lib/generated/prisma'
+import ControlPanel from '@/components/mindmap/ControlPannel'
 
 const MindMapPage = () => {
   const searchParams = useSearchParams()
   const initialPrompt = searchParams.get('prompt') || ''
-  const [mindMapData, setMindMapData] = useState<any>(null)
+
+  const [mindMapData, setMindMapData] = useState<MindMap | null>(null)
+  const [nodes, setNodes] = useState<Node[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isFullScreen, setIsFullScreen] = useState(false)
-  const { toast: uiToast } = useToast()
 
-  // Handle fullscreen functionality
+  const { userId } = useAuth()
+
+  // 🧠 Generate mind map from prompt
+  const getMindMapAndNodes = async () => {
+    setIsLoading(true)
+    try {
+      if (!userId || !initialPrompt) return
+      const mindMap = await generateMindMap(initialPrompt)
+      console.log('Generated MindMap:', mindMap)
+    } catch (error) {
+      toast.error('Failed to generate mind map')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const generateMindMap = async (prompt: string) => {
+    const response = await axios.post('/api/gemini-process', { prompt, userId })
+    const { data } = response.data
+
+    const generatedByEnum =
+      data.generatedBy === 'AI' ? GeneratedBy.AI : GeneratedBy.MANUAL
+
+    const mindmap: MindMap = {
+      id: data.id,
+      title: data.title,
+      userId: data.userId,
+      isPublic: data.isPublic,
+      generatedBy: generatedByEnum,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt
+    }
+
+    setMindMapData(mindmap)
+    setNodes(data.nodes)
+    toast.success('Mind map generated successfully!')
+    return mindmap
+  }
+
+  useEffect(() => {
+    if (userId && initialPrompt) {
+      getMindMapAndNodes()
+    }
+  }, [userId, initialPrompt])
+
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(err => {
-        toast.error(
-          'Error attempting to enable fullscreen mode: ' + err.message
-        )
-      })
-      setIsFullScreen(true)
+      document.documentElement
+        .requestFullscreen()
+        .then(() => setIsFullScreen(true))
+        .catch(err => toast.error('Error enabling fullscreen: ' + err.message))
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen()
-        setIsFullScreen(false)
-      }
+      document.exitFullscreen().then(() => setIsFullScreen(false))
     }
   }
 
-  // Add keyboard listener for fullscreen
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'f' || e.key === 'F') {
-        toggleFullScreen()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyPress)
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress)
-    }
-  }, [])
-
-  // Simulate loading and generating a mind map
-  useEffect(() => {
-    if (initialPrompt) {
-      generateMindMap(initialPrompt)
-    }
-  }, [initialPrompt])
-
-  const generateMindMap = (prompt: string) => {
-    setIsLoading(true)
-
-    // In a real implementation, this would call an AI service
-    setTimeout(() => {
-      // Generate placeholder data based on the prompt
-      const newMindMapData = generatePlaceholderData(prompt)
-      setMindMapData(newMindMapData)
-      setIsLoading(false)
-
-      toast.success('Mind map generated successfully!')
-    }, 1500)
-  }
-
+  // 🧠 Handle Chat Updates
   const handleRegenerateMindMap = (message: string) => {
-    // Update the mind map based on the chat message
     setIsLoading(true)
-
-    // In a real implementation, this would call an AI service
     setTimeout(() => {
-      // Generate updated data based on the message
       const updatedData = enhanceMindMap(mindMapData, message)
       setMindMapData(updatedData)
       setIsLoading(false)
-
       toast.success('Mind map updated!')
     }, 1000)
   }
 
+  // ⚙️ Control Panel Handlers
   const handleDownload = (format: string) => {
-    // In a real implementation, this would convert the mind map to the chosen format
-    // and trigger a download
     toast.success(`Downloading mind map as ${format.toUpperCase()}`)
   }
 
   const handleShare = () => {
-    // Handled in the ControlPanel component
+    // Placeholder – this is handled inside ControlPanel
   }
 
   const handleViewHistory = () => {
-    // In a real implementation, this would load the history from the server
+    // Placeholder – expand if needed
   }
 
-  // Helper function to generate placeholder mind map data
-  const generatePlaceholderData = (prompt: string) => {
-    // Very simple placeholder generator - in a real app, this would use AI
-    const mainTopic = prompt.trim()
-    const subtopics = [
-      'Key Concepts',
-      'Applications',
-      'Challenges',
-      'Resources'
-    ]
-
-    return {
-      text: mainTopic,
-      children: subtopics.map((topic, index) => ({
-        text: topic,
-        children: Array(Math.floor(Math.random() * 3) + 1)
-          .fill(null)
-          .map((_, i) => ({
-            text: `${topic} detail ${i + 1}`,
-            ...(Math.random() > 0.7
-              ? {
-                  children: [{ text: `Sub-detail ${i + 1}` }]
-                }
-              : {})
-          }))
-      }))
-    }
-  }
-
-  // Helper function to enhance the mind map based on a message
+  // 🔁 Enhance mind map (local fake augmentation)
   const enhanceMindMap = (currentData: any, message: string) => {
     if (!currentData) return null
-
-    // Clone the current data
     const newData = JSON.parse(JSON.stringify(currentData))
+    newData.children = newData.children || []
 
-    // Add a new node based on the message
-    // In a real implementation, this would be much more sophisticated
     if (message.toLowerCase().includes('add')) {
-      // Add a new branch
       newData.children.push({
         text: message.replace(/add|Add/g, '').trim(),
         children: [{ text: 'New detail 1' }]
       })
     } else if (message.toLowerCase().includes('expand')) {
-      // Expand an existing branch
-      if (newData.children.length > 0) {
-        const randomIndex = Math.floor(Math.random() * newData.children.length)
-        newData.children[randomIndex].children = [
-          ...(newData.children[randomIndex].children || []),
-          { text: message.replace(/expand|Expand/g, '').trim() }
-        ]
-      }
+      const idx = Math.floor(Math.random() * newData.children.length)
+      if (!newData.children[idx].children) newData.children[idx].children = []
+      newData.children[idx].children.push({
+        text: message.replace(/expand|Expand/g, '').trim()
+      })
     }
 
     return newData
@@ -163,7 +129,6 @@ const MindMapPage = () => {
   return (
     <div className='min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100'>
       <Navbar />
-
       <main className='flex-1 container mx-auto px-4 py-8'>
         <div className='flex justify-between items-center mb-6'>
           <h1 className='text-3xl font-bold text-center md:text-left'>
@@ -180,6 +145,7 @@ const MindMapPage = () => {
             {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
           </Button>
         </div>
+
         <p className='text-gray-600 dark:text-gray-400 mb-6 text-center md:text-left'>
           Explore, refine, and share your mind map
         </p>
@@ -195,17 +161,24 @@ const MindMapPage = () => {
           </div>
         ) : (
           <div className='grid grid-cols-1 lg:grid-cols-4 gap-6'>
+            {/* Mind Map Canvas */}
             <div className='lg:col-span-3'>
               <div className='bg-white dark:bg-gray-800 rounded-lg shadow h-[600px]'>
-                <Canvas mindMapData={mindMapData} />
+                {mindMapData && nodes ? (
+                  <MindMapCanvas mindMap={mindMapData} nodes={nodes} />
+                ) : (
+                  <div className='flex justify-center items-center h-full text-lg text-gray-500'>
+                    No data found
+                  </div>
+                )}
               </div>
             </div>
 
+            {/* Right Sidebar */}
             <div className='flex flex-col gap-6'>
               <div className='h-[450px]'>
                 <ChatInterface onRegenerateMap={handleRegenerateMindMap} />
               </div>
-
               <ControlPanel
                 onDownload={handleDownload}
                 onShare={handleShare}

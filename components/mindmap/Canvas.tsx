@@ -1,164 +1,78 @@
 'use client'
 
+import React, { JSX } from 'react'
+import { Node as DBNode, MindMap } from '@/lib/generated/prisma'
+// props: { mindMap: MindMap; nodes: Node[] }
 
-import { Button } from "@/components/ui/button";
-import { ZoomIn, ZoomOut } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { Node } from '@/lib/generated/prisma'
 
-type CanvasProps = {
-  mindMapData: any;
-};
+interface TreeNode extends Node {
+  children?: TreeNode[]
+}
 
-const Canvas: React.FC<CanvasProps> = ({ mindMapData }) => {
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const canvasRef = useRef<HTMLDivElement>(null);
+function buildTree (nodes: Node[]): TreeNode[] {
+  const map = new Map<string, TreeNode>()
+  const roots: TreeNode[] = []
 
-  // Placeholder rendering function - in a real implementation, this would use 
-  // a proper mindmap visualization library like react-d3-tree or custom SVG
-  const renderNode = (node: any, level = 0, parentId = "") => {
-    const nodeId = parentId ? `${parentId}-${node.id || Math.random().toString(36).substr(2, 9)}` : (node.id || Math.random().toString(36).substr(2, 9));
-    
-    return (
-      <div 
-        key={nodeId}
-        className={`relative text-black ${level === 0 ? "mb-8" : "mt-4"}`}
-      >
-        <div 
-          className={`p-4 rounded-lg shadow-md bg-white border-2 ${level === 0 ? "border-neuro-primary" : "border-neuro-light"} max-w-sm`}
-        >
-          <div className="font-semibold">{node.text || node.name || "Node"}</div>
-          {node.description && <div className="text-sm text-gray-600 mt-1">{node.description}</div>}
-        </div>
-        
-        {node.children && node.children.length > 0 && (
-          <div className="pl-8 mt-2 border-l-2 border-neuro-light">
-            {node.children.map((child: any) => renderNode(child, level + 1, nodeId))}
-          </div>
-        )}
-      </div>
-    );
-  };
+  nodes.forEach(node => {
+    map.set(node.id, { ...node, children: [] })
+  })
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.button === 0) { // Left mouse button
-      setIsDragging(true);
-      setDragStart({ x: e.clientX, y: e.clientY });
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isDragging) {
-      const dx = e.clientX - dragStart.x;
-      const dy = e.clientY - dragStart.y;
-      setPosition({
-        x: position.x + dx,
-        y: position.y + dy
-      });
-      setDragStart({ x: e.clientX, y: e.clientY });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleZoomIn = () => {
-    setScale(prev => Math.min(prev + 0.1, 2));
-  };
-
-  const handleZoomOut = () => {
-    setScale(prev => Math.max(prev - 0.1, 0.5));
-  };
-
-  useEffect(() => {
-    const handleMouseLeave = () => {
-      setIsDragging(false);
-    };
-
-    const canvas = canvasRef.current;
-    if (canvas) {
-      canvas.addEventListener('mouseleave', handleMouseLeave);
-      return () => {
-        canvas.removeEventListener('mouseleave', handleMouseLeave);
-      };
-    }
-  }, [canvasRef]);
-
-  // Sample placeholder data structure for development
-  const placeholderData = mindMapData || {
-    text: "Main Concept",
-    children: [
-      {
-        text: "Sub Topic 1",
-        description: "Description for Sub Topic 1",
-        children: [
-          { text: "Detail 1.1" },
-          { text: "Detail 1.2" }
-        ]
-      },
-      {
-        text: "Sub Topic 2",
-        children: [
-          { text: "Detail 2.1" },
-          { text: "Detail 2.2", 
-            children: [
-              { text: "Sub-detail 2.2.1" }
-            ] 
-          }
-        ]
-      },
-      {
-        text: "Sub Topic 3"
+  map.forEach(node => {
+    if (node.parentId) {
+      const parent = map.get(node.parentId)
+      if (parent) {
+        parent.children!.push(node)
       }
-    ]
-  };
+    } else {
+      roots.push(node)
+    }
+  })
+
+  return roots
+}
+
+const renderNode = (node: TreeNode): JSX.Element => {
+  return (
+    <div key={node?.id} className='text-center p-2'>
+      <div className='p-4 border text-black border-gray-400 bg-white shadow rounded'>
+        <strong>{node?.content}</strong>
+      </div>
+      {node?.children && node?.children.length > 0 && (
+        <div className='mt-4 text-black space-y-4 pl-8 border-l-2 border-gray-300'>
+          {node?.children.map(child => renderNode(child))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function MindMapCanvas (props: {
+  mindMap: MindMap
+  nodes: Node[]
+}) {
+  const { mindMap, nodes } = props
+  const tree = buildTree(nodes)
+  console.log(mindMap , nodes)
+
+  if (!mindMap && !nodes) {
+    return (
+      <>
+        <div>Loading...</div>
+      </>
+    )
+  }
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-neuro-gradient-soft rounded-lg">
-      <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
-        <Button 
-          size="icon"
-          variant="secondary" 
-          onClick={handleZoomIn} 
-          className="bg-white"
-        >
-          <ZoomIn size={18} />
-        </Button>
-        <Button 
-          size="icon"
-          variant="secondary" 
-          onClick={handleZoomOut} 
-          className="bg-white"
-        >
-          <ZoomOut size={18} />
-        </Button>
+    <div className='w-full h-full p-8 overflow-auto bg-gray-50'>
+      <div className='text-2xl font-bold text-center mb-8'>
+        {mindMap?.title}
       </div>
-      
-      <div 
-        ref={canvasRef}
-        className={`absolute inset-0 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-      >
-        <div 
-          className="absolute p-8"
-          style={{
-            transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-            transformOrigin: 'center',
-            transition: isDragging ? 'none' : 'transform 0.1s ease-out'
-          }}
-        >
-          <div className="flex justify-center">
-            {renderNode(placeholderData)}
-          </div>
-        </div>
+      <div className='flex justify-center gap-16 flex-wrap'>
+        {tree?.map(node => (
+          <div key={node.id}>{renderNode(node)}</div>
+        ))}
       </div>
     </div>
-  );
-};
-
-export default Canvas;
+  )
+}
