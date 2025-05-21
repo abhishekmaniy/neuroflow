@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Chat {
+  id        String    @id
+  userId    String?
+  mindMapId String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  MindMap   MindMap   @relation(fields: [mindMapId], references: [id])
+  User      User?     @relation(fields: [userId], references: [id])
+  Message   Message[]
+}
+
+model Message {
+  id        String   @id
+  chatId    String
+  role      Role
+  content   String
+  createdAt DateTime @default(now())
+  Chat      Chat     @relation(fields: [chatId], references: [id])
+}
+
+model MindMap {
+  id          String      @id @default(uuid())
+  title       String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime
+  userId      String
+  isPublic    Boolean     @default(false)
+  generatedBy GeneratedBy
+  Chat        Chat[]
+  User        User        @relation(fields: [userId], references: [id])
+  Node        Node[]
+}
+
+model Node {
+  id         String    @id
+  mindMapId  String
+  parentId   String?
+  content    String
+  positionX  Float
+  positionY  Float
+  direction  Direction @default(RIGHT)
+  MindMap    MindMap   @relation(fields: [mindMapId], references: [id])
+  Node       Node?     @relation("NodeToNode", fields: [parentId], references: [id])
+  other_Node Node[]    @relation("NodeToNode")
+}
+
+model SubscriptionPlan {
+  id               String             @id
+  name             String
+  price            Float
+  currency         String
+  features         String[]
+  isDefault        Boolean            @default(false)
+  UserSubscription UserSubscription[]
+}
+
+model User {
+  id               String            @id
+  email            String            @unique
+  name             String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
+  Chat             Chat[]
+  MindMap          MindMap[]
+  UserSubscription UserSubscription?
+}
+
+model UserSubscription {
+  id                   String           @id
+  userId               String           @unique
+  planId               String
+  startedAt            DateTime         @default(now())
+  expiresAt            DateTime
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  SubscriptionPlan     SubscriptionPlan @relation(fields: [planId], references: [id])
+  User                 User             @relation(fields: [userId], references: [id])
+}
+
+enum Direction {
+  LEFT
+  RIGHT
+  TOP
+  DOWN
+}
+
+enum GeneratedBy {
+  MANUAL
+  AI
+}
+
+enum Role {
+  USER
+  ASSISTANT
+}

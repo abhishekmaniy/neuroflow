@@ -8,46 +8,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           String            @id @default(cuid())
-  email        String            @unique
-  name         String
-  mindmaps     MindMap[]
-  chats        Chat[]            @relation("UserChats")
-  subscription UserSubscription?
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @default(now()) @updatedAt
+model Chat {
+  id        String    @id
+  userId    String?
+  mindMapId String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  MindMap   MindMap   @relation(fields: [mindMapId], references: [id])
+  User      User?     @relation(fields: [userId], references: [id])
+  Message   Message[]
+}
+
+model Message {
+  id        String   @id
+  chatId    String
+  role      Role
+  content   String
+  createdAt DateTime @default(now())
+  Chat      Chat     @relation(fields: [chatId], references: [id])
 }
 
 model MindMap {
   id          String      @id @default(uuid())
   title       String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime
   userId      String
-  user        User        @relation(fields: [userId], references: [id])
-  nodes       Node[]
   isPublic    Boolean     @default(false)
   generatedBy GeneratedBy
-  chats       Chat[]      @relation("MindMapChats")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-}
-
-enum GeneratedBy {
-  MANUAL
-  AI
+  Chat        Chat[]
+  User        User        @relation(fields: [userId], references: [id])
+  Node        Node[]
 }
 
 model Node {
-  id        String    @id @default(uuid())
-  mindMapId String
-  mindMap   MindMap   @relation(fields: [mindMapId], references: [id])
-  parentId  String?
-  content   String
-  positionX Float
-  positionY Float
-  direction Direction @default(RIGHT)
-  children  Node[]    @relation("NodeChildren")
-  parent    Node?     @relation("NodeChildren", fields: [parentId], references: [id])
+  id         String    @id
+  mindMapId  String
+  parentId   String?
+  content    String
+  positionX  Float
+  positionY  Float
+  direction  Direction @default(RIGHT)
+  MindMap    MindMap   @relation(fields: [mindMapId], references: [id])
+  Node       Node?     @relation("NodeToNode", fields: [parentId], references: [id])
+  other_Node Node[]    @relation("NodeToNode")
+}
+
+model SubscriptionPlan {
+  id               String             @id
+  name             String
+  price            Float
+  currency         String
+  features         String[]
+  isDefault        Boolean            @default(false)
+  UserSubscription UserSubscription[]
+}
+
+model User {
+  id               String            @id
+  email            String            @unique
+  name             String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
+  Chat             Chat[]
+  MindMap          MindMap[]
+  UserSubscription UserSubscription?
+}
+
+model UserSubscription {
+  id                   String           @id
+  userId               String           @unique
+  planId               String
+  startedAt            DateTime         @default(now())
+  expiresAt            DateTime
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  SubscriptionPlan     SubscriptionPlan @relation(fields: [planId], references: [id])
+  User                 User             @relation(fields: [userId], references: [id])
 }
 
 enum Direction {
@@ -57,49 +94,12 @@ enum Direction {
   DOWN
 }
 
-model Chat {
-  id        String    @id @default(cuid())
-  userId    String?
-  user      User?     @relation("UserChats", fields: [userId], references: [id])
-  mindMapId String
-  mindMap   MindMap   @relation("MindMapChats", fields: [mindMapId], references: [id])
-  messages  Message[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
-
-model Message {
-  id        String   @id @default(cuid())
-  chatId    String
-  chat      Chat     @relation(fields: [chatId], references: [id])
-  role      Role
-  content   String
-  createdAt DateTime @default(now())
+enum GeneratedBy {
+  MANUAL
+  AI
 }
 
 enum Role {
   USER
   ASSISTANT
-}
-
-model SubscriptionPlan {
-  id            String             @id @default(uuid())
-  name          String // Free, Pro, Team
-  price         Float
-  currency      String // USD, INR, etc.
-  features      String[] // ["unlimited-maps", "ai-generation"]
-  isDefault     Boolean            @default(false)
-  subscriptions UserSubscription[]
-}
-
-model UserSubscription {
-  id                   String           @id @default(uuid())
-  userId               String           @unique
-  user                 User             @relation(fields: [userId], references: [id])
-  planId               String
-  plan                 SubscriptionPlan @relation(fields: [planId], references: [id])
-  startedAt            DateTime         @default(now())
-  expiresAt            DateTime
-  stripeCustomerId     String?
-  stripeSubscriptionId String?
 }

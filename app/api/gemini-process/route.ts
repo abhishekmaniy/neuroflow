@@ -65,9 +65,14 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     const mindMap = await db.mindMap.create({
       data: {
         title: mindMapJson.title,
-        generatedBy: GeneratedBy.AI,
-        isPublic: true,
-        userId
+        userId: userId,
+        isPublic: mindMapJson.isPublic ?? false,
+        generatedBy: 'AI',
+        Chat: {
+          create: []
+        },
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     })
 
@@ -83,7 +88,10 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
       children: GeminiNode[]
     }
 
-    const flattenedNodes: (Omit<GeminiNode, 'id'> & { tempId: string; tempParentId?: string | null })[] = []
+    const flattenedNodes: (Omit<GeminiNode, 'id'> & {
+      tempId: string
+      tempParentId?: string | null
+    })[] = []
 
     function flattenNodes (nodes: GeminiNode[], parentId: string | null = null) {
       for (const node of nodes) {
@@ -116,11 +124,13 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     for (const node of flattenedNodes) {
       const createdNode = await db.node.create({
         data: {
+          id: node.tempId, // Use the tempId as the id for now
           mindMapId: node.mindMapId,
           content: node.content,
           positionX: node.positionX,
           positionY: node.positionY,
           direction: node.direction
+          
           // parentId will be updated later
         }
       })
@@ -144,7 +154,7 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     // 5. Return the mindMap with nodes or just confirmation
     const mindMapWithNodes = await db.mindMap.findUnique({
       where: { id: mindMap.id },
-      include: { nodes: true }
+      include: { Node: true }
     })
 
     return NextResponse.json({ data: mindMapWithNodes })
