@@ -8,19 +8,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Chat {
-  id        String    @id
-  userId    String?
-  mindMapId String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime
-  MindMap   MindMap   @relation(fields: [mindMapId], references: [id])
-  User      User?     @relation(fields: [userId], references: [id])
-  Message   Message[]
-}
-
 model Message {
-  id        String   @id
+  id        String   @id @default(uuid())
   chatId    String
   role      Role
   content   String
@@ -36,9 +25,21 @@ model MindMap {
   userId      String
   isPublic    Boolean     @default(false)
   generatedBy GeneratedBy
-  Chat        Chat[]
+  chatId      String?     @unique
+  Chat        Chat?
   User        User        @relation(fields: [userId], references: [id])
   nodes       Node[]
+}
+
+model Chat {
+  id        String    @id @default(uuid())
+  userId    String?
+  mindMapId String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  User      User?     @relation(fields: [userId], references: [id])
+  mindMap   MindMap   @relation(fields: [mindMapId], references: [id])
+  Message   Message[]
 }
 
 model Node {

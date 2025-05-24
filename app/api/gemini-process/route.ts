@@ -1,5 +1,5 @@
 import { db } from '@/lib/db'
-import { GeneratedBy } from '@/lib/generated/prisma'
+import { Role } from '@/lib/generated/prisma'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -57,23 +57,44 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
 
     const result = await model.generateContent(fullPrompt)
     const response = result.response
-    const text = (await response.text()).trim()
+    const text = response.text().trim()
 
     const cleanText = text.replace(/```json|```/g, '')
     const mindMapJson = JSON.parse(cleanText)
 
+    // 1. Create the MindMap first (without Chat)
     const mindMap = await db.mindMap.create({
       data: {
         title: mindMapJson.title,
         userId: userId,
         isPublic: mindMapJson.isPublic ?? false,
         generatedBy: 'AI',
-        Chat: {
-          create: []
-        },
         createdAt: new Date(),
         updatedAt: new Date()
       }
+    })
+
+    // 2. Create the Chat for this MindMap
+    const chat = await db.chat.create({
+      data: {
+        userId,
+        mindMapId: mindMap.id,
+        Message: {
+          create: [
+            {
+              content:
+                "Hi there! I'm your AI assistant. How can I help with your mind map?",
+              role: Role.ASSISTANT
+            }
+          ]
+        }
+      }
+    })
+
+    // 3. Update the MindMap with the chatId
+    await db.mindMap.update({
+      where: { id: mindMap.id },
+      data: { chatId: chat.id }
     })
 
     // 2. Flatten the nodes tree to a list
@@ -159,8 +180,20 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     // 5. Return the mindMap with nodes or just confirmation
     const mindMapWithNodes = await db.mindMap.findUnique({
       where: { id: mindMap.id },
-      include: { nodes: true }
+      include: {
+        nodes: true,
+        Chat: {
+          include: {
+            Message: {
+              orderBy: { createdAt: 'asc' }
+            }
+          }
+        },
+        User: true
+      }
     })
+
+    console.log(mindMapWithNodes)
 
     return NextResponse.json({ data: mindMapWithNodes })
   } catch (e: any) {

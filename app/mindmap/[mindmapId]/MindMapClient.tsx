@@ -1,45 +1,37 @@
 // app/mindmap/MindMapClient.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useParams, useSearchParams } from 'next/navigation'
-import { useAuth } from '@clerk/nextjs'
-import axios from 'axios'
-import { Fullscreen } from 'lucide-react'
-import { toast } from 'sonner'
-
 import Navbar from '@/components/Navbar'
 import MindMapCanvas from '@/components/mindmap/Canvas'
 import ChatInterface from '@/components/mindmap/ChatInterface'
-import { Button } from '@/components/ui/button'
 import ControlPanel from '@/components/mindmap/ControlPannel'
-import { GeneratedBy, Node } from '@/lib/generated/prisma'
-
-type MindMap = {
-  id: string
-  title: string
-  userId: string
-  isPublic: boolean
-  generatedBy: string
-  createdAt: string
-  updatedAt: string
-  nodes: Node[]
-}
+import { Button } from '@/components/ui/button'
+import { toast } from '@/hooks/use-toast'
+import { GeneratedBy } from '@/lib/generated/prisma'
+import { useChatStore } from '@/store/chat-store'
+import { useMindMapStore } from '@/store/mindmap-store'
+import { MindMap, Node } from '@/types'
+import { useAuth } from '@clerk/nextjs'
+import axios from 'axios'
+import { Fullscreen } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const MindMapClient = () => {
-  const { mindmapId } = useParams()
-  console.log(mindmapId)
+  const params = useParams()
+  const { mindmapId } = params
 
-  const [mindMapData, setMindMapData] = useState<MindMap | null>(null)
+  const { mindMap, setMindMap } = useMindMapStore()
+  const { setChat } = useChatStore()
   const [nodes, setNodes] = useState<Node[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isFullScreen, setIsFullScreen] = useState(false)
   const { userId } = useAuth()
 
   const getMindMap = async (id: string) => {
+    setIsLoading(true)
     const response = await axios.get(`/api/mindmap/${id}`)
     const { data } = response
-    console.log(data)
     const mindmap: MindMap = {
       id: data.id,
       title: data.title,
@@ -48,20 +40,28 @@ const MindMapClient = () => {
       generatedBy: GeneratedBy.AI,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
-      nodes: data.nodes || []
+      nodes: data.nodes || [],
+      Chat: data.Chat || null,
+      User: data.User || null,
+      chatId: data.chatId
     }
-    
-    setMindMapData(mindmap)
+
+
+    setMindMap(mindmap)
     setNodes(data.nodes)
-    console.log(mindMapData)
-    toast.success('Mind map loaded successfully!')
+    if (mindmap.Chat || mindmap.Chat) {
+      setChat(mindmap.Chat ?? mindmap.Chat)
+    }
+    setIsLoading(false)
+    toast({
+      title: 'Mind map loaded successfully!'
+    })
     return data
   }
 
-useEffect(() => {
-    console.log('Updated mindMapData:', mindMapData)
-}, [mindMapData])
-
+  useEffect(() => {
+    console.log('Updated mindMapData:', mindMap)
+  }, [mindMap])
 
   useEffect(() => {
     if (userId && typeof mindmapId === 'string') {
@@ -74,7 +74,11 @@ useEffect(() => {
       document.documentElement
         .requestFullscreen()
         .then(() => setIsFullScreen(true))
-        .catch(err => toast.error('Error enabling fullscreen: ' + err.message))
+        .catch(err =>
+          toast({
+            title: `Error entering fullscreen: ${err.message}`
+          })
+        )
     } else {
       document.exitFullscreen().then(() => setIsFullScreen(false))
     }
@@ -83,15 +87,19 @@ useEffect(() => {
   const handleRegenerateMindMap = (message: string) => {
     setIsLoading(true)
     setTimeout(() => {
-      const updatedData = enhanceMindMap(mindMapData, message)
-      setMindMapData(updatedData)
+      const updatedData = enhanceMindMap(mindMap, message)
+      setMindMap(updatedData)
       setIsLoading(false)
-      toast.success('Mind map updated!')
+      toast({
+        title: 'Mind map updated!'
+      })
     }, 1000)
   }
 
   const handleDownload = (format: string) => {
-    toast.success(`Downloading mind map as ${format.toUpperCase()}`)
+    toast({
+      title: `Downloading mind map as ${format.toUpperCase()}`
+    })
   }
 
   const handleShare = () => {}
@@ -124,7 +132,7 @@ useEffect(() => {
       <main className='flex-1 container mx-auto px-4 py-8'>
         <div className='flex justify-between items-center mb-6'>
           <h1 className='text-3xl font-bold text-center md:text-left'>
-            Mind Map: {mindMapData?.title || 'Loading...'}
+            Mind Map: {mindMap?.title || 'Loading...'}
           </h1>
           <Button
             onClick={toggleFullScreen}
@@ -142,46 +150,37 @@ useEffect(() => {
           Explore, refine, and share your mind map
         </p>
 
-        {isLoading ? (
-          <div className='flex items-center justify-center h-[600px]'>
-            <div className='flex flex-col items-center'>
-              <div className='w-16 h-16 border-4 border-neuro-primary border-t-transparent rounded-full animate-spin mb-4'></div>
-              <p className='text-neuro-primary font-medium'>
-                Generating your mind map...
-              </p>
+        <div className='grid grid-cols-1 lg:grid-cols-4 gap-6'>
+          <div className='lg:col-span-3'>
+            <div className='bg-white dark:bg-gray-800 rounded-lg shadow h-[600px] overflow-auto flex items-center justify-center'>
+              {isLoading ? (
+                <div className='flex flex-col items-center w-full h-full justify-center'>
+                  <div className='w-16 h-16 border-4 border-neuro-primary border-t-transparent rounded-full animate-spin mb-4'></div>
+                  <p className='text-neuro-primary font-medium'>
+                    Generating your mind map...
+                  </p>
+                </div>
+              ) : mindMap && mindMap.nodes && mindMap.nodes.length > 0 ? (
+                <MindMapCanvas mindMap={mindMap} nodes={mindMap.nodes} />
+              ) : (
+                <div className='flex justify-center items-center h-full text-lg text-gray-500'>
+                  No data found
+                </div>
+              )}
             </div>
           </div>
-        ) : (
-          <div className='grid grid-cols-1 lg:grid-cols-4 gap-6'>
-            <div className='lg:col-span-3'>
-              <div className='bg-white dark:bg-gray-800 rounded-lg shadow h-[600px] overflow-auto'>
-                {mindMapData &&
-                mindMapData.nodes &&
-                mindMapData.nodes.length > 0 ? (
-                  <MindMapCanvas
-                    mindMap={mindMapData}
-                    nodes={mindMapData.nodes}
-                  />
-                ) : (
-                  <div className='flex justify-center items-center h-full text-lg text-gray-500'>
-                    No data found
-                  </div>
-                )}
-              </div>
-            </div>
 
-            <div className='flex flex-col gap-6'>
-              <div className='h-[450px]'>
-                <ChatInterface onRegenerateMap={handleRegenerateMindMap} />
-              </div>
-              <ControlPanel
-                onDownload={handleDownload}
-                onShare={handleShare}
-                onViewHistory={handleViewHistory}
-              />
+          <div className='flex flex-col gap-6'>
+            <div className='h-[450px]'>
+              <ChatInterface onRegenerateMap={handleRegenerateMindMap} />
             </div>
+            <ControlPanel
+              onDownload={handleDownload}
+              onShare={handleShare}
+              onViewHistory={handleViewHistory}
+            />
           </div>
-        )}
+        </div>
       </main>
     </div>
   )

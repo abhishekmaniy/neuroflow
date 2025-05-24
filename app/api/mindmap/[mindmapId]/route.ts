@@ -8,8 +8,21 @@ export const GET = async (
   const { mindmapId } = params
   const mindMap = await db.mindMap.findUnique({
     where: { id: mindmapId },
-    include: { nodes: true, Chat: true, User: true }
+    include: {
+      nodes: true,
+      Chat: {
+        include: {
+          Message: {
+            orderBy: { createdAt: 'asc' }
+          }
+        }
+      },
+      User: true
+    }
   })
+
+  console.log(mindMap)
+
   if (!mindMap)
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   return NextResponse.json(mindMap)
