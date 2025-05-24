@@ -63,6 +63,14 @@ export namespace $Enums {
 export type Direction = (typeof Direction)[keyof typeof Direction]
 
 
+export const NodeSource: {
+  AI: 'AI',
+  USER: 'USER'
+};
+
+export type NodeSource = (typeof NodeSource)[keyof typeof NodeSource]
+
+
 export const GeneratedBy: {
   MANUAL: 'MANUAL',
   AI: 'AI'
@@ -83,6 +91,10 @@ export type Role = (typeof Role)[keyof typeof Role]
 export type Direction = $Enums.Direction
 
 export const Direction: typeof $Enums.Direction
+
+export type NodeSource = $Enums.NodeSource
+
+export const NodeSource: typeof $Enums.NodeSource
 
 export type GeneratedBy = $Enums.GeneratedBy
 
@@ -1490,12 +1502,12 @@ export namespace Prisma {
 
   export type MindMapCountOutputType = {
     Chat: number
-    Node: number
+    nodes: number
   }
 
   export type MindMapCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | MindMapCountOutputTypeCountChatArgs
-    Node?: boolean | MindMapCountOutputTypeCountNodeArgs
+    nodes?: boolean | MindMapCountOutputTypeCountNodesArgs
   }
 
   // Custom InputTypes
@@ -1519,7 +1531,7 @@ export namespace Prisma {
   /**
    * MindMapCountOutputType without action
    */
-  export type MindMapCountOutputTypeCountNodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type MindMapCountOutputTypeCountNodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NodeWhereInput
   }
 
@@ -1529,11 +1541,11 @@ export namespace Prisma {
    */
 
   export type NodeCountOutputType = {
-    other_Node: number
+    children: number
   }
 
   export type NodeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    other_Node?: boolean | NodeCountOutputTypeCountOther_NodeArgs
+    children?: boolean | NodeCountOutputTypeCountChildrenArgs
   }
 
   // Custom InputTypes
@@ -1550,7 +1562,7 @@ export namespace Prisma {
   /**
    * NodeCountOutputType without action
    */
-  export type NodeCountOutputTypeCountOther_NodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type NodeCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NodeWhereInput
   }
 
@@ -3985,7 +3997,7 @@ export namespace Prisma {
     generatedBy?: boolean
     Chat?: boolean | MindMap$ChatArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
-    Node?: boolean | MindMap$NodeArgs<ExtArgs>
+    nodes?: boolean | MindMap$nodesArgs<ExtArgs>
     _count?: boolean | MindMapCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mindMap"]>
 
@@ -4025,7 +4037,7 @@ export namespace Prisma {
   export type MindMapInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | MindMap$ChatArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
-    Node?: boolean | MindMap$NodeArgs<ExtArgs>
+    nodes?: boolean | MindMap$nodesArgs<ExtArgs>
     _count?: boolean | MindMapCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MindMapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4040,7 +4052,7 @@ export namespace Prisma {
     objects: {
       Chat: Prisma.$ChatPayload<ExtArgs>[]
       User: Prisma.$UserPayload<ExtArgs>
-      Node: Prisma.$NodePayload<ExtArgs>[]
+      nodes: Prisma.$NodePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4446,7 +4458,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Chat<T extends MindMap$ChatArgs<ExtArgs> = {}>(args?: Subset<T, MindMap$ChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Node<T extends MindMap$NodeArgs<ExtArgs> = {}>(args?: Subset<T, MindMap$NodeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    nodes<T extends MindMap$nodesArgs<ExtArgs> = {}>(args?: Subset<T, MindMap$nodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4903,9 +4915,9 @@ export namespace Prisma {
   }
 
   /**
-   * MindMap.Node
+   * MindMap.nodes
    */
-  export type MindMap$NodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type MindMap$nodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Node
      */
@@ -4975,6 +4987,9 @@ export namespace Prisma {
     positionX: number | null
     positionY: number | null
     direction: $Enums.Direction | null
+    createdBy: $Enums.NodeSource | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type NodeMaxAggregateOutputType = {
@@ -4985,6 +5000,9 @@ export namespace Prisma {
     positionX: number | null
     positionY: number | null
     direction: $Enums.Direction | null
+    createdBy: $Enums.NodeSource | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type NodeCountAggregateOutputType = {
@@ -4995,6 +5013,9 @@ export namespace Prisma {
     positionX: number
     positionY: number
     direction: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -5017,6 +5038,9 @@ export namespace Prisma {
     positionX?: true
     positionY?: true
     direction?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type NodeMaxAggregateInputType = {
@@ -5027,6 +5051,9 @@ export namespace Prisma {
     positionX?: true
     positionY?: true
     direction?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type NodeCountAggregateInputType = {
@@ -5037,6 +5064,9 @@ export namespace Prisma {
     positionX?: true
     positionY?: true
     direction?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -5134,6 +5164,9 @@ export namespace Prisma {
     positionX: number
     positionY: number
     direction: $Enums.Direction
+    createdBy: $Enums.NodeSource
+    createdAt: Date
+    updatedAt: Date
     _count: NodeCountAggregateOutputType | null
     _avg: NodeAvgAggregateOutputType | null
     _sum: NodeSumAggregateOutputType | null
@@ -5163,9 +5196,12 @@ export namespace Prisma {
     positionX?: boolean
     positionY?: boolean
     direction?: boolean
-    MindMap?: boolean | MindMapDefaultArgs<ExtArgs>
-    Node?: boolean | Node$NodeArgs<ExtArgs>
-    other_Node?: boolean | Node$other_NodeArgs<ExtArgs>
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    mindMap?: boolean | MindMapDefaultArgs<ExtArgs>
+    parent?: boolean | Node$parentArgs<ExtArgs>
+    children?: boolean | Node$childrenArgs<ExtArgs>
     _count?: boolean | NodeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["node"]>
 
@@ -5177,8 +5213,11 @@ export namespace Prisma {
     positionX?: boolean
     positionY?: boolean
     direction?: boolean
-    MindMap?: boolean | MindMapDefaultArgs<ExtArgs>
-    Node?: boolean | Node$NodeArgs<ExtArgs>
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    mindMap?: boolean | MindMapDefaultArgs<ExtArgs>
+    parent?: boolean | Node$parentArgs<ExtArgs>
   }, ExtArgs["result"]["node"]>
 
   export type NodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5189,8 +5228,11 @@ export namespace Prisma {
     positionX?: boolean
     positionY?: boolean
     direction?: boolean
-    MindMap?: boolean | MindMapDefaultArgs<ExtArgs>
-    Node?: boolean | Node$NodeArgs<ExtArgs>
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    mindMap?: boolean | MindMapDefaultArgs<ExtArgs>
+    parent?: boolean | Node$parentArgs<ExtArgs>
   }, ExtArgs["result"]["node"]>
 
   export type NodeSelectScalar = {
@@ -5201,30 +5243,33 @@ export namespace Prisma {
     positionX?: boolean
     positionY?: boolean
     direction?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type NodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mindMapId" | "parentId" | "content" | "positionX" | "positionY" | "direction", ExtArgs["result"]["node"]>
+  export type NodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mindMapId" | "parentId" | "content" | "positionX" | "positionY" | "direction" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["node"]>
   export type NodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    MindMap?: boolean | MindMapDefaultArgs<ExtArgs>
-    Node?: boolean | Node$NodeArgs<ExtArgs>
-    other_Node?: boolean | Node$other_NodeArgs<ExtArgs>
+    mindMap?: boolean | MindMapDefaultArgs<ExtArgs>
+    parent?: boolean | Node$parentArgs<ExtArgs>
+    children?: boolean | Node$childrenArgs<ExtArgs>
     _count?: boolean | NodeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type NodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    MindMap?: boolean | MindMapDefaultArgs<ExtArgs>
-    Node?: boolean | Node$NodeArgs<ExtArgs>
+    mindMap?: boolean | MindMapDefaultArgs<ExtArgs>
+    parent?: boolean | Node$parentArgs<ExtArgs>
   }
   export type NodeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    MindMap?: boolean | MindMapDefaultArgs<ExtArgs>
-    Node?: boolean | Node$NodeArgs<ExtArgs>
+    mindMap?: boolean | MindMapDefaultArgs<ExtArgs>
+    parent?: boolean | Node$parentArgs<ExtArgs>
   }
 
   export type $NodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Node"
     objects: {
-      MindMap: Prisma.$MindMapPayload<ExtArgs>
-      Node: Prisma.$NodePayload<ExtArgs> | null
-      other_Node: Prisma.$NodePayload<ExtArgs>[]
+      mindMap: Prisma.$MindMapPayload<ExtArgs>
+      parent: Prisma.$NodePayload<ExtArgs> | null
+      children: Prisma.$NodePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5234,6 +5279,9 @@ export namespace Prisma {
       positionX: number
       positionY: number
       direction: $Enums.Direction
+      createdBy: $Enums.NodeSource
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["node"]>
     composites: {}
   }
@@ -5628,9 +5676,9 @@ export namespace Prisma {
    */
   export interface Prisma__NodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    MindMap<T extends MindMapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MindMapDefaultArgs<ExtArgs>>): Prisma__MindMapClient<$Result.GetResult<Prisma.$MindMapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    Node<T extends Node$NodeArgs<ExtArgs> = {}>(args?: Subset<T, Node$NodeArgs<ExtArgs>>): Prisma__NodeClient<$Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    other_Node<T extends Node$other_NodeArgs<ExtArgs> = {}>(args?: Subset<T, Node$other_NodeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mindMap<T extends MindMapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MindMapDefaultArgs<ExtArgs>>): Prisma__MindMapClient<$Result.GetResult<Prisma.$MindMapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parent<T extends Node$parentArgs<ExtArgs> = {}>(args?: Subset<T, Node$parentArgs<ExtArgs>>): Prisma__NodeClient<$Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    children<T extends Node$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Node$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5667,6 +5715,9 @@ export namespace Prisma {
     readonly positionX: FieldRef<"Node", 'Float'>
     readonly positionY: FieldRef<"Node", 'Float'>
     readonly direction: FieldRef<"Node", 'Direction'>
+    readonly createdBy: FieldRef<"Node", 'NodeSource'>
+    readonly createdAt: FieldRef<"Node", 'DateTime'>
+    readonly updatedAt: FieldRef<"Node", 'DateTime'>
   }
     
 
@@ -6063,9 +6114,9 @@ export namespace Prisma {
   }
 
   /**
-   * Node.Node
+   * Node.parent
    */
-  export type Node$NodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Node$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Node
      */
@@ -6082,9 +6133,9 @@ export namespace Prisma {
   }
 
   /**
-   * Node.other_Node
+   * Node.children
    */
-  export type Node$other_NodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Node$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Node
      */
@@ -9506,7 +9557,10 @@ export namespace Prisma {
     content: 'content',
     positionX: 'positionX',
     positionY: 'positionY',
-    direction: 'direction'
+    direction: 'direction',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type NodeScalarFieldEnum = (typeof NodeScalarFieldEnum)[keyof typeof NodeScalarFieldEnum]
@@ -9669,6 +9723,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'NodeSource'
+   */
+  export type EnumNodeSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeSource'>
+    
+
+
+  /**
+   * Reference to a field of type 'NodeSource[]'
+   */
+  export type ListEnumNodeSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NodeSource[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -9814,7 +9882,7 @@ export namespace Prisma {
     generatedBy?: EnumGeneratedByFilter<"MindMap"> | $Enums.GeneratedBy
     Chat?: ChatListRelationFilter
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Node?: NodeListRelationFilter
+    nodes?: NodeListRelationFilter
   }
 
   export type MindMapOrderByWithRelationInput = {
@@ -9827,7 +9895,7 @@ export namespace Prisma {
     generatedBy?: SortOrder
     Chat?: ChatOrderByRelationAggregateInput
     User?: UserOrderByWithRelationInput
-    Node?: NodeOrderByRelationAggregateInput
+    nodes?: NodeOrderByRelationAggregateInput
   }
 
   export type MindMapWhereUniqueInput = Prisma.AtLeast<{
@@ -9843,7 +9911,7 @@ export namespace Prisma {
     generatedBy?: EnumGeneratedByFilter<"MindMap"> | $Enums.GeneratedBy
     Chat?: ChatListRelationFilter
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
-    Node?: NodeListRelationFilter
+    nodes?: NodeListRelationFilter
   }, "id">
 
   export type MindMapOrderByWithAggregationInput = {
@@ -9883,9 +9951,12 @@ export namespace Prisma {
     positionX?: FloatFilter<"Node"> | number
     positionY?: FloatFilter<"Node"> | number
     direction?: EnumDirectionFilter<"Node"> | $Enums.Direction
-    MindMap?: XOR<MindMapScalarRelationFilter, MindMapWhereInput>
-    Node?: XOR<NodeNullableScalarRelationFilter, NodeWhereInput> | null
-    other_Node?: NodeListRelationFilter
+    createdBy?: EnumNodeSourceFilter<"Node"> | $Enums.NodeSource
+    createdAt?: DateTimeFilter<"Node"> | Date | string
+    updatedAt?: DateTimeFilter<"Node"> | Date | string
+    mindMap?: XOR<MindMapScalarRelationFilter, MindMapWhereInput>
+    parent?: XOR<NodeNullableScalarRelationFilter, NodeWhereInput> | null
+    children?: NodeListRelationFilter
   }
 
   export type NodeOrderByWithRelationInput = {
@@ -9896,9 +9967,12 @@ export namespace Prisma {
     positionX?: SortOrder
     positionY?: SortOrder
     direction?: SortOrder
-    MindMap?: MindMapOrderByWithRelationInput
-    Node?: NodeOrderByWithRelationInput
-    other_Node?: NodeOrderByRelationAggregateInput
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    mindMap?: MindMapOrderByWithRelationInput
+    parent?: NodeOrderByWithRelationInput
+    children?: NodeOrderByRelationAggregateInput
   }
 
   export type NodeWhereUniqueInput = Prisma.AtLeast<{
@@ -9912,9 +9986,12 @@ export namespace Prisma {
     positionX?: FloatFilter<"Node"> | number
     positionY?: FloatFilter<"Node"> | number
     direction?: EnumDirectionFilter<"Node"> | $Enums.Direction
-    MindMap?: XOR<MindMapScalarRelationFilter, MindMapWhereInput>
-    Node?: XOR<NodeNullableScalarRelationFilter, NodeWhereInput> | null
-    other_Node?: NodeListRelationFilter
+    createdBy?: EnumNodeSourceFilter<"Node"> | $Enums.NodeSource
+    createdAt?: DateTimeFilter<"Node"> | Date | string
+    updatedAt?: DateTimeFilter<"Node"> | Date | string
+    mindMap?: XOR<MindMapScalarRelationFilter, MindMapWhereInput>
+    parent?: XOR<NodeNullableScalarRelationFilter, NodeWhereInput> | null
+    children?: NodeListRelationFilter
   }, "id">
 
   export type NodeOrderByWithAggregationInput = {
@@ -9925,6 +10002,9 @@ export namespace Prisma {
     positionX?: SortOrder
     positionY?: SortOrder
     direction?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: NodeCountOrderByAggregateInput
     _avg?: NodeAvgOrderByAggregateInput
     _max?: NodeMaxOrderByAggregateInput
@@ -9943,6 +10023,9 @@ export namespace Prisma {
     positionX?: FloatWithAggregatesFilter<"Node"> | number
     positionY?: FloatWithAggregatesFilter<"Node"> | number
     direction?: EnumDirectionWithAggregatesFilter<"Node"> | $Enums.Direction
+    createdBy?: EnumNodeSourceWithAggregatesFilter<"Node"> | $Enums.NodeSource
+    createdAt?: DateTimeWithAggregatesFilter<"Node"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Node"> | Date | string
   }
 
   export type SubscriptionPlanWhereInput = {
@@ -10253,24 +10336,24 @@ export namespace Prisma {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     Chat?: ChatCreateNestedManyWithoutMindMapInput
     User: UserCreateNestedOneWithoutMindMapInput
-    Node?: NodeCreateNestedManyWithoutMindMapInput
+    nodes?: NodeCreateNestedManyWithoutMindMapInput
   }
 
   export type MindMapUncheckedCreateInput = {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     userId: string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     Chat?: ChatUncheckedCreateNestedManyWithoutMindMapInput
-    Node?: NodeUncheckedCreateNestedManyWithoutMindMapInput
+    nodes?: NodeUncheckedCreateNestedManyWithoutMindMapInput
   }
 
   export type MindMapUpdateInput = {
@@ -10282,7 +10365,7 @@ export namespace Prisma {
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     Chat?: ChatUpdateManyWithoutMindMapNestedInput
     User?: UserUpdateOneRequiredWithoutMindMapNestedInput
-    Node?: NodeUpdateManyWithoutMindMapNestedInput
+    nodes?: NodeUpdateManyWithoutMindMapNestedInput
   }
 
   export type MindMapUncheckedUpdateInput = {
@@ -10294,14 +10377,14 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     Chat?: ChatUncheckedUpdateManyWithoutMindMapNestedInput
-    Node?: NodeUncheckedUpdateManyWithoutMindMapNestedInput
+    nodes?: NodeUncheckedUpdateManyWithoutMindMapNestedInput
   }
 
   export type MindMapCreateManyInput = {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     userId: string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
@@ -10327,25 +10410,31 @@ export namespace Prisma {
   }
 
   export type NodeCreateInput = {
-    id: string
+    id?: string
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
-    MindMap: MindMapCreateNestedOneWithoutNodeInput
-    Node?: NodeCreateNestedOneWithoutOther_NodeInput
-    other_Node?: NodeCreateNestedManyWithoutNodeInput
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mindMap: MindMapCreateNestedOneWithoutNodesInput
+    parent?: NodeCreateNestedOneWithoutChildrenInput
+    children?: NodeCreateNestedManyWithoutParentInput
   }
 
   export type NodeUncheckedCreateInput = {
-    id: string
+    id?: string
     mindMapId: string
     parentId?: string | null
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
-    other_Node?: NodeUncheckedCreateNestedManyWithoutNodeInput
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: NodeUncheckedCreateNestedManyWithoutParentInput
   }
 
   export type NodeUpdateInput = {
@@ -10354,9 +10443,12 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
-    MindMap?: MindMapUpdateOneRequiredWithoutNodeNestedInput
-    Node?: NodeUpdateOneWithoutOther_NodeNestedInput
-    other_Node?: NodeUpdateManyWithoutNodeNestedInput
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mindMap?: MindMapUpdateOneRequiredWithoutNodesNestedInput
+    parent?: NodeUpdateOneWithoutChildrenNestedInput
+    children?: NodeUpdateManyWithoutParentNestedInput
   }
 
   export type NodeUncheckedUpdateInput = {
@@ -10367,17 +10459,23 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
-    other_Node?: NodeUncheckedUpdateManyWithoutNodeNestedInput
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: NodeUncheckedUpdateManyWithoutParentNestedInput
   }
 
   export type NodeCreateManyInput = {
-    id: string
+    id?: string
     mindMapId: string
     parentId?: string | null
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type NodeUpdateManyMutationInput = {
@@ -10386,6 +10484,9 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NodeUncheckedUpdateManyInput = {
@@ -10396,6 +10497,9 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscriptionPlanCreateInput = {
@@ -10890,6 +10994,13 @@ export namespace Prisma {
     not?: NestedEnumDirectionFilter<$PrismaModel> | $Enums.Direction
   }
 
+  export type EnumNodeSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeSource | EnumNodeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeSourceFilter<$PrismaModel> | $Enums.NodeSource
+  }
+
   export type NodeNullableScalarRelationFilter = {
     is?: NodeWhereInput | null
     isNot?: NodeWhereInput | null
@@ -10903,6 +11014,9 @@ export namespace Prisma {
     positionX?: SortOrder
     positionY?: SortOrder
     direction?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type NodeAvgOrderByAggregateInput = {
@@ -10918,6 +11032,9 @@ export namespace Prisma {
     positionX?: SortOrder
     positionY?: SortOrder
     direction?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type NodeMinOrderByAggregateInput = {
@@ -10928,6 +11045,9 @@ export namespace Prisma {
     positionX?: SortOrder
     positionY?: SortOrder
     direction?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type NodeSumOrderByAggregateInput = {
@@ -10959,6 +11079,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDirectionFilter<$PrismaModel>
     _max?: NestedEnumDirectionFilter<$PrismaModel>
+  }
+
+  export type EnumNodeSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeSource | EnumNodeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeSourceWithAggregatesFilter<$PrismaModel> | $Enums.NodeSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNodeSourceFilter<$PrismaModel>
+    _max?: NestedEnumNodeSourceFilter<$PrismaModel>
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -11294,29 +11424,29 @@ export namespace Prisma {
     deleteMany?: NodeScalarWhereInput | NodeScalarWhereInput[]
   }
 
-  export type MindMapCreateNestedOneWithoutNodeInput = {
-    create?: XOR<MindMapCreateWithoutNodeInput, MindMapUncheckedCreateWithoutNodeInput>
-    connectOrCreate?: MindMapCreateOrConnectWithoutNodeInput
+  export type MindMapCreateNestedOneWithoutNodesInput = {
+    create?: XOR<MindMapCreateWithoutNodesInput, MindMapUncheckedCreateWithoutNodesInput>
+    connectOrCreate?: MindMapCreateOrConnectWithoutNodesInput
     connect?: MindMapWhereUniqueInput
   }
 
-  export type NodeCreateNestedOneWithoutOther_NodeInput = {
-    create?: XOR<NodeCreateWithoutOther_NodeInput, NodeUncheckedCreateWithoutOther_NodeInput>
-    connectOrCreate?: NodeCreateOrConnectWithoutOther_NodeInput
+  export type NodeCreateNestedOneWithoutChildrenInput = {
+    create?: XOR<NodeCreateWithoutChildrenInput, NodeUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: NodeCreateOrConnectWithoutChildrenInput
     connect?: NodeWhereUniqueInput
   }
 
-  export type NodeCreateNestedManyWithoutNodeInput = {
-    create?: XOR<NodeCreateWithoutNodeInput, NodeUncheckedCreateWithoutNodeInput> | NodeCreateWithoutNodeInput[] | NodeUncheckedCreateWithoutNodeInput[]
-    connectOrCreate?: NodeCreateOrConnectWithoutNodeInput | NodeCreateOrConnectWithoutNodeInput[]
-    createMany?: NodeCreateManyNodeInputEnvelope
+  export type NodeCreateNestedManyWithoutParentInput = {
+    create?: XOR<NodeCreateWithoutParentInput, NodeUncheckedCreateWithoutParentInput> | NodeCreateWithoutParentInput[] | NodeUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: NodeCreateOrConnectWithoutParentInput | NodeCreateOrConnectWithoutParentInput[]
+    createMany?: NodeCreateManyParentInputEnvelope
     connect?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
   }
 
-  export type NodeUncheckedCreateNestedManyWithoutNodeInput = {
-    create?: XOR<NodeCreateWithoutNodeInput, NodeUncheckedCreateWithoutNodeInput> | NodeCreateWithoutNodeInput[] | NodeUncheckedCreateWithoutNodeInput[]
-    connectOrCreate?: NodeCreateOrConnectWithoutNodeInput | NodeCreateOrConnectWithoutNodeInput[]
-    createMany?: NodeCreateManyNodeInputEnvelope
+  export type NodeUncheckedCreateNestedManyWithoutParentInput = {
+    create?: XOR<NodeCreateWithoutParentInput, NodeUncheckedCreateWithoutParentInput> | NodeCreateWithoutParentInput[] | NodeUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: NodeCreateOrConnectWithoutParentInput | NodeCreateOrConnectWithoutParentInput[]
+    createMany?: NodeCreateManyParentInputEnvelope
     connect?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
   }
 
@@ -11332,49 +11462,53 @@ export namespace Prisma {
     set?: $Enums.Direction
   }
 
-  export type MindMapUpdateOneRequiredWithoutNodeNestedInput = {
-    create?: XOR<MindMapCreateWithoutNodeInput, MindMapUncheckedCreateWithoutNodeInput>
-    connectOrCreate?: MindMapCreateOrConnectWithoutNodeInput
-    upsert?: MindMapUpsertWithoutNodeInput
-    connect?: MindMapWhereUniqueInput
-    update?: XOR<XOR<MindMapUpdateToOneWithWhereWithoutNodeInput, MindMapUpdateWithoutNodeInput>, MindMapUncheckedUpdateWithoutNodeInput>
+  export type EnumNodeSourceFieldUpdateOperationsInput = {
+    set?: $Enums.NodeSource
   }
 
-  export type NodeUpdateOneWithoutOther_NodeNestedInput = {
-    create?: XOR<NodeCreateWithoutOther_NodeInput, NodeUncheckedCreateWithoutOther_NodeInput>
-    connectOrCreate?: NodeCreateOrConnectWithoutOther_NodeInput
-    upsert?: NodeUpsertWithoutOther_NodeInput
+  export type MindMapUpdateOneRequiredWithoutNodesNestedInput = {
+    create?: XOR<MindMapCreateWithoutNodesInput, MindMapUncheckedCreateWithoutNodesInput>
+    connectOrCreate?: MindMapCreateOrConnectWithoutNodesInput
+    upsert?: MindMapUpsertWithoutNodesInput
+    connect?: MindMapWhereUniqueInput
+    update?: XOR<XOR<MindMapUpdateToOneWithWhereWithoutNodesInput, MindMapUpdateWithoutNodesInput>, MindMapUncheckedUpdateWithoutNodesInput>
+  }
+
+  export type NodeUpdateOneWithoutChildrenNestedInput = {
+    create?: XOR<NodeCreateWithoutChildrenInput, NodeUncheckedCreateWithoutChildrenInput>
+    connectOrCreate?: NodeCreateOrConnectWithoutChildrenInput
+    upsert?: NodeUpsertWithoutChildrenInput
     disconnect?: NodeWhereInput | boolean
     delete?: NodeWhereInput | boolean
     connect?: NodeWhereUniqueInput
-    update?: XOR<XOR<NodeUpdateToOneWithWhereWithoutOther_NodeInput, NodeUpdateWithoutOther_NodeInput>, NodeUncheckedUpdateWithoutOther_NodeInput>
+    update?: XOR<XOR<NodeUpdateToOneWithWhereWithoutChildrenInput, NodeUpdateWithoutChildrenInput>, NodeUncheckedUpdateWithoutChildrenInput>
   }
 
-  export type NodeUpdateManyWithoutNodeNestedInput = {
-    create?: XOR<NodeCreateWithoutNodeInput, NodeUncheckedCreateWithoutNodeInput> | NodeCreateWithoutNodeInput[] | NodeUncheckedCreateWithoutNodeInput[]
-    connectOrCreate?: NodeCreateOrConnectWithoutNodeInput | NodeCreateOrConnectWithoutNodeInput[]
-    upsert?: NodeUpsertWithWhereUniqueWithoutNodeInput | NodeUpsertWithWhereUniqueWithoutNodeInput[]
-    createMany?: NodeCreateManyNodeInputEnvelope
+  export type NodeUpdateManyWithoutParentNestedInput = {
+    create?: XOR<NodeCreateWithoutParentInput, NodeUncheckedCreateWithoutParentInput> | NodeCreateWithoutParentInput[] | NodeUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: NodeCreateOrConnectWithoutParentInput | NodeCreateOrConnectWithoutParentInput[]
+    upsert?: NodeUpsertWithWhereUniqueWithoutParentInput | NodeUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: NodeCreateManyParentInputEnvelope
     set?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
     disconnect?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
     delete?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
     connect?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
-    update?: NodeUpdateWithWhereUniqueWithoutNodeInput | NodeUpdateWithWhereUniqueWithoutNodeInput[]
-    updateMany?: NodeUpdateManyWithWhereWithoutNodeInput | NodeUpdateManyWithWhereWithoutNodeInput[]
+    update?: NodeUpdateWithWhereUniqueWithoutParentInput | NodeUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: NodeUpdateManyWithWhereWithoutParentInput | NodeUpdateManyWithWhereWithoutParentInput[]
     deleteMany?: NodeScalarWhereInput | NodeScalarWhereInput[]
   }
 
-  export type NodeUncheckedUpdateManyWithoutNodeNestedInput = {
-    create?: XOR<NodeCreateWithoutNodeInput, NodeUncheckedCreateWithoutNodeInput> | NodeCreateWithoutNodeInput[] | NodeUncheckedCreateWithoutNodeInput[]
-    connectOrCreate?: NodeCreateOrConnectWithoutNodeInput | NodeCreateOrConnectWithoutNodeInput[]
-    upsert?: NodeUpsertWithWhereUniqueWithoutNodeInput | NodeUpsertWithWhereUniqueWithoutNodeInput[]
-    createMany?: NodeCreateManyNodeInputEnvelope
+  export type NodeUncheckedUpdateManyWithoutParentNestedInput = {
+    create?: XOR<NodeCreateWithoutParentInput, NodeUncheckedCreateWithoutParentInput> | NodeCreateWithoutParentInput[] | NodeUncheckedCreateWithoutParentInput[]
+    connectOrCreate?: NodeCreateOrConnectWithoutParentInput | NodeCreateOrConnectWithoutParentInput[]
+    upsert?: NodeUpsertWithWhereUniqueWithoutParentInput | NodeUpsertWithWhereUniqueWithoutParentInput[]
+    createMany?: NodeCreateManyParentInputEnvelope
     set?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
     disconnect?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
     delete?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
     connect?: NodeWhereUniqueInput | NodeWhereUniqueInput[]
-    update?: NodeUpdateWithWhereUniqueWithoutNodeInput | NodeUpdateWithWhereUniqueWithoutNodeInput[]
-    updateMany?: NodeUpdateManyWithWhereWithoutNodeInput | NodeUpdateManyWithWhereWithoutNodeInput[]
+    update?: NodeUpdateWithWhereUniqueWithoutParentInput | NodeUpdateWithWhereUniqueWithoutParentInput[]
+    updateMany?: NodeUpdateManyWithWhereWithoutParentInput | NodeUpdateManyWithWhereWithoutParentInput[]
     deleteMany?: NodeScalarWhereInput | NodeScalarWhereInput[]
   }
 
@@ -11747,6 +11881,13 @@ export namespace Prisma {
     not?: NestedEnumDirectionFilter<$PrismaModel> | $Enums.Direction
   }
 
+  export type NestedEnumNodeSourceFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeSource | EnumNodeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeSourceFilter<$PrismaModel> | $Enums.NodeSource
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -11773,26 +11914,36 @@ export namespace Prisma {
     _max?: NestedEnumDirectionFilter<$PrismaModel>
   }
 
+  export type NestedEnumNodeSourceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NodeSource | EnumNodeSourceFieldRefInput<$PrismaModel>
+    in?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NodeSource[] | ListEnumNodeSourceFieldRefInput<$PrismaModel>
+    not?: NestedEnumNodeSourceWithAggregatesFilter<$PrismaModel> | $Enums.NodeSource
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNodeSourceFilter<$PrismaModel>
+    _max?: NestedEnumNodeSourceFilter<$PrismaModel>
+  }
+
   export type MindMapCreateWithoutChatInput = {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     User: UserCreateNestedOneWithoutMindMapInput
-    Node?: NodeCreateNestedManyWithoutMindMapInput
+    nodes?: NodeCreateNestedManyWithoutMindMapInput
   }
 
   export type MindMapUncheckedCreateWithoutChatInput = {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     userId: string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
-    Node?: NodeUncheckedCreateNestedManyWithoutMindMapInput
+    nodes?: NodeUncheckedCreateNestedManyWithoutMindMapInput
   }
 
   export type MindMapCreateOrConnectWithoutChatInput = {
@@ -11868,7 +12019,7 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     User?: UserUpdateOneRequiredWithoutMindMapNestedInput
-    Node?: NodeUpdateManyWithoutMindMapNestedInput
+    nodes?: NodeUpdateManyWithoutMindMapNestedInput
   }
 
   export type MindMapUncheckedUpdateWithoutChatInput = {
@@ -11879,7 +12030,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
-    Node?: NodeUncheckedUpdateManyWithoutMindMapNestedInput
+    nodes?: NodeUncheckedUpdateManyWithoutMindMapNestedInput
   }
 
   export type UserUpsertWithoutChatInput = {
@@ -12040,23 +12191,29 @@ export namespace Prisma {
   }
 
   export type NodeCreateWithoutMindMapInput = {
-    id: string
+    id?: string
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
-    Node?: NodeCreateNestedOneWithoutOther_NodeInput
-    other_Node?: NodeCreateNestedManyWithoutNodeInput
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parent?: NodeCreateNestedOneWithoutChildrenInput
+    children?: NodeCreateNestedManyWithoutParentInput
   }
 
   export type NodeUncheckedCreateWithoutMindMapInput = {
-    id: string
+    id?: string
     parentId?: string | null
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
-    other_Node?: NodeUncheckedCreateNestedManyWithoutNodeInput
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: NodeUncheckedCreateNestedManyWithoutParentInput
   }
 
   export type NodeCreateOrConnectWithoutMindMapInput = {
@@ -12154,102 +12311,117 @@ export namespace Prisma {
     positionX?: FloatFilter<"Node"> | number
     positionY?: FloatFilter<"Node"> | number
     direction?: EnumDirectionFilter<"Node"> | $Enums.Direction
+    createdBy?: EnumNodeSourceFilter<"Node"> | $Enums.NodeSource
+    createdAt?: DateTimeFilter<"Node"> | Date | string
+    updatedAt?: DateTimeFilter<"Node"> | Date | string
   }
 
-  export type MindMapCreateWithoutNodeInput = {
+  export type MindMapCreateWithoutNodesInput = {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     Chat?: ChatCreateNestedManyWithoutMindMapInput
     User: UserCreateNestedOneWithoutMindMapInput
   }
 
-  export type MindMapUncheckedCreateWithoutNodeInput = {
+  export type MindMapUncheckedCreateWithoutNodesInput = {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     userId: string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     Chat?: ChatUncheckedCreateNestedManyWithoutMindMapInput
   }
 
-  export type MindMapCreateOrConnectWithoutNodeInput = {
+  export type MindMapCreateOrConnectWithoutNodesInput = {
     where: MindMapWhereUniqueInput
-    create: XOR<MindMapCreateWithoutNodeInput, MindMapUncheckedCreateWithoutNodeInput>
+    create: XOR<MindMapCreateWithoutNodesInput, MindMapUncheckedCreateWithoutNodesInput>
   }
 
-  export type NodeCreateWithoutOther_NodeInput = {
-    id: string
+  export type NodeCreateWithoutChildrenInput = {
+    id?: string
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
-    MindMap: MindMapCreateNestedOneWithoutNodeInput
-    Node?: NodeCreateNestedOneWithoutOther_NodeInput
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mindMap: MindMapCreateNestedOneWithoutNodesInput
+    parent?: NodeCreateNestedOneWithoutChildrenInput
   }
 
-  export type NodeUncheckedCreateWithoutOther_NodeInput = {
-    id: string
+  export type NodeUncheckedCreateWithoutChildrenInput = {
+    id?: string
     mindMapId: string
     parentId?: string | null
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type NodeCreateOrConnectWithoutOther_NodeInput = {
+  export type NodeCreateOrConnectWithoutChildrenInput = {
     where: NodeWhereUniqueInput
-    create: XOR<NodeCreateWithoutOther_NodeInput, NodeUncheckedCreateWithoutOther_NodeInput>
+    create: XOR<NodeCreateWithoutChildrenInput, NodeUncheckedCreateWithoutChildrenInput>
   }
 
-  export type NodeCreateWithoutNodeInput = {
-    id: string
+  export type NodeCreateWithoutParentInput = {
+    id?: string
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
-    MindMap: MindMapCreateNestedOneWithoutNodeInput
-    other_Node?: NodeCreateNestedManyWithoutNodeInput
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mindMap: MindMapCreateNestedOneWithoutNodesInput
+    children?: NodeCreateNestedManyWithoutParentInput
   }
 
-  export type NodeUncheckedCreateWithoutNodeInput = {
-    id: string
+  export type NodeUncheckedCreateWithoutParentInput = {
+    id?: string
     mindMapId: string
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
-    other_Node?: NodeUncheckedCreateNestedManyWithoutNodeInput
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: NodeUncheckedCreateNestedManyWithoutParentInput
   }
 
-  export type NodeCreateOrConnectWithoutNodeInput = {
+  export type NodeCreateOrConnectWithoutParentInput = {
     where: NodeWhereUniqueInput
-    create: XOR<NodeCreateWithoutNodeInput, NodeUncheckedCreateWithoutNodeInput>
+    create: XOR<NodeCreateWithoutParentInput, NodeUncheckedCreateWithoutParentInput>
   }
 
-  export type NodeCreateManyNodeInputEnvelope = {
-    data: NodeCreateManyNodeInput | NodeCreateManyNodeInput[]
+  export type NodeCreateManyParentInputEnvelope = {
+    data: NodeCreateManyParentInput | NodeCreateManyParentInput[]
     skipDuplicates?: boolean
   }
 
-  export type MindMapUpsertWithoutNodeInput = {
-    update: XOR<MindMapUpdateWithoutNodeInput, MindMapUncheckedUpdateWithoutNodeInput>
-    create: XOR<MindMapCreateWithoutNodeInput, MindMapUncheckedCreateWithoutNodeInput>
+  export type MindMapUpsertWithoutNodesInput = {
+    update: XOR<MindMapUpdateWithoutNodesInput, MindMapUncheckedUpdateWithoutNodesInput>
+    create: XOR<MindMapCreateWithoutNodesInput, MindMapUncheckedCreateWithoutNodesInput>
     where?: MindMapWhereInput
   }
 
-  export type MindMapUpdateToOneWithWhereWithoutNodeInput = {
+  export type MindMapUpdateToOneWithWhereWithoutNodesInput = {
     where?: MindMapWhereInput
-    data: XOR<MindMapUpdateWithoutNodeInput, MindMapUncheckedUpdateWithoutNodeInput>
+    data: XOR<MindMapUpdateWithoutNodesInput, MindMapUncheckedUpdateWithoutNodesInput>
   }
 
-  export type MindMapUpdateWithoutNodeInput = {
+  export type MindMapUpdateWithoutNodesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12260,7 +12432,7 @@ export namespace Prisma {
     User?: UserUpdateOneRequiredWithoutMindMapNestedInput
   }
 
-  export type MindMapUncheckedUpdateWithoutNodeInput = {
+  export type MindMapUncheckedUpdateWithoutNodesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12271,28 +12443,31 @@ export namespace Prisma {
     Chat?: ChatUncheckedUpdateManyWithoutMindMapNestedInput
   }
 
-  export type NodeUpsertWithoutOther_NodeInput = {
-    update: XOR<NodeUpdateWithoutOther_NodeInput, NodeUncheckedUpdateWithoutOther_NodeInput>
-    create: XOR<NodeCreateWithoutOther_NodeInput, NodeUncheckedCreateWithoutOther_NodeInput>
+  export type NodeUpsertWithoutChildrenInput = {
+    update: XOR<NodeUpdateWithoutChildrenInput, NodeUncheckedUpdateWithoutChildrenInput>
+    create: XOR<NodeCreateWithoutChildrenInput, NodeUncheckedCreateWithoutChildrenInput>
     where?: NodeWhereInput
   }
 
-  export type NodeUpdateToOneWithWhereWithoutOther_NodeInput = {
+  export type NodeUpdateToOneWithWhereWithoutChildrenInput = {
     where?: NodeWhereInput
-    data: XOR<NodeUpdateWithoutOther_NodeInput, NodeUncheckedUpdateWithoutOther_NodeInput>
+    data: XOR<NodeUpdateWithoutChildrenInput, NodeUncheckedUpdateWithoutChildrenInput>
   }
 
-  export type NodeUpdateWithoutOther_NodeInput = {
+  export type NodeUpdateWithoutChildrenInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
-    MindMap?: MindMapUpdateOneRequiredWithoutNodeNestedInput
-    Node?: NodeUpdateOneWithoutOther_NodeNestedInput
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mindMap?: MindMapUpdateOneRequiredWithoutNodesNestedInput
+    parent?: NodeUpdateOneWithoutChildrenNestedInput
   }
 
-  export type NodeUncheckedUpdateWithoutOther_NodeInput = {
+  export type NodeUncheckedUpdateWithoutChildrenInput = {
     id?: StringFieldUpdateOperationsInput | string
     mindMapId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12300,22 +12475,25 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NodeUpsertWithWhereUniqueWithoutNodeInput = {
+  export type NodeUpsertWithWhereUniqueWithoutParentInput = {
     where: NodeWhereUniqueInput
-    update: XOR<NodeUpdateWithoutNodeInput, NodeUncheckedUpdateWithoutNodeInput>
-    create: XOR<NodeCreateWithoutNodeInput, NodeUncheckedCreateWithoutNodeInput>
+    update: XOR<NodeUpdateWithoutParentInput, NodeUncheckedUpdateWithoutParentInput>
+    create: XOR<NodeCreateWithoutParentInput, NodeUncheckedCreateWithoutParentInput>
   }
 
-  export type NodeUpdateWithWhereUniqueWithoutNodeInput = {
+  export type NodeUpdateWithWhereUniqueWithoutParentInput = {
     where: NodeWhereUniqueInput
-    data: XOR<NodeUpdateWithoutNodeInput, NodeUncheckedUpdateWithoutNodeInput>
+    data: XOR<NodeUpdateWithoutParentInput, NodeUncheckedUpdateWithoutParentInput>
   }
 
-  export type NodeUpdateManyWithWhereWithoutNodeInput = {
+  export type NodeUpdateManyWithWhereWithoutParentInput = {
     where: NodeScalarWhereInput
-    data: XOR<NodeUpdateManyMutationInput, NodeUncheckedUpdateManyWithoutNodeInput>
+    data: XOR<NodeUpdateManyMutationInput, NodeUncheckedUpdateManyWithoutParentInput>
   }
 
   export type UserSubscriptionCreateWithoutSubscriptionPlanInput = {
@@ -12405,22 +12583,22 @@ export namespace Prisma {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     Chat?: ChatCreateNestedManyWithoutMindMapInput
-    Node?: NodeCreateNestedManyWithoutMindMapInput
+    nodes?: NodeCreateNestedManyWithoutMindMapInput
   }
 
   export type MindMapUncheckedCreateWithoutUserInput = {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     Chat?: ChatUncheckedCreateNestedManyWithoutMindMapInput
-    Node?: NodeUncheckedCreateNestedManyWithoutMindMapInput
+    nodes?: NodeUncheckedCreateNestedManyWithoutMindMapInput
   }
 
   export type MindMapCreateOrConnectWithoutUserInput = {
@@ -12674,12 +12852,15 @@ export namespace Prisma {
   }
 
   export type NodeCreateManyMindMapInput = {
-    id: string
+    id?: string
     parentId?: string | null
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChatUpdateWithoutMindMapInput = {
@@ -12711,8 +12892,11 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
-    Node?: NodeUpdateOneWithoutOther_NodeNestedInput
-    other_Node?: NodeUpdateManyWithoutNodeNestedInput
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: NodeUpdateOneWithoutChildrenNestedInput
+    children?: NodeUpdateManyWithoutParentNestedInput
   }
 
   export type NodeUncheckedUpdateWithoutMindMapInput = {
@@ -12722,7 +12906,10 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
-    other_Node?: NodeUncheckedUpdateManyWithoutNodeNestedInput
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: NodeUncheckedUpdateManyWithoutParentNestedInput
   }
 
   export type NodeUncheckedUpdateManyWithoutMindMapInput = {
@@ -12732,44 +12919,59 @@ export namespace Prisma {
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NodeCreateManyNodeInput = {
-    id: string
+  export type NodeCreateManyParentInput = {
+    id?: string
     mindMapId: string
     content: string
     positionX: number
     positionY: number
     direction?: $Enums.Direction
+    createdBy?: $Enums.NodeSource
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type NodeUpdateWithoutNodeInput = {
+  export type NodeUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
-    MindMap?: MindMapUpdateOneRequiredWithoutNodeNestedInput
-    other_Node?: NodeUpdateManyWithoutNodeNestedInput
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mindMap?: MindMapUpdateOneRequiredWithoutNodesNestedInput
+    children?: NodeUpdateManyWithoutParentNestedInput
   }
 
-  export type NodeUncheckedUpdateWithoutNodeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    mindMapId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    positionX?: FloatFieldUpdateOperationsInput | number
-    positionY?: FloatFieldUpdateOperationsInput | number
-    direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
-    other_Node?: NodeUncheckedUpdateManyWithoutNodeNestedInput
-  }
-
-  export type NodeUncheckedUpdateManyWithoutNodeInput = {
+  export type NodeUncheckedUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     mindMapId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     positionX?: FloatFieldUpdateOperationsInput | number
     positionY?: FloatFieldUpdateOperationsInput | number
     direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: NodeUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type NodeUncheckedUpdateManyWithoutParentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mindMapId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    positionX?: FloatFieldUpdateOperationsInput | number
+    positionY?: FloatFieldUpdateOperationsInput | number
+    direction?: EnumDirectionFieldUpdateOperationsInput | $Enums.Direction
+    createdBy?: EnumNodeSourceFieldUpdateOperationsInput | $Enums.NodeSource
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserSubscriptionCreateManySubscriptionPlanInput = {
@@ -12819,7 +13021,7 @@ export namespace Prisma {
     id?: string
     title: string
     createdAt?: Date | string
-    updatedAt: Date | string
+    updatedAt?: Date | string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
   }
@@ -12855,7 +13057,7 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     Chat?: ChatUpdateManyWithoutMindMapNestedInput
-    Node?: NodeUpdateManyWithoutMindMapNestedInput
+    nodes?: NodeUpdateManyWithoutMindMapNestedInput
   }
 
   export type MindMapUncheckedUpdateWithoutUserInput = {
@@ -12866,7 +13068,7 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     Chat?: ChatUncheckedUpdateManyWithoutMindMapNestedInput
-    Node?: NodeUncheckedUpdateManyWithoutMindMapNestedInput
+    nodes?: NodeUncheckedUpdateManyWithoutMindMapNestedInput
   }
 
   export type MindMapUncheckedUpdateManyWithoutUserInput = {

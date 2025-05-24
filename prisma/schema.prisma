@@ -32,26 +32,48 @@ model MindMap {
   id          String      @id @default(uuid())
   title       String
   createdAt   DateTime    @default(now())
-  updatedAt   DateTime
+  updatedAt   DateTime    @updatedAt
   userId      String
   isPublic    Boolean     @default(false)
   generatedBy GeneratedBy
   Chat        Chat[]
   User        User        @relation(fields: [userId], references: [id])
-  Node        Node[]
+  nodes       Node[] 
 }
 
 model Node {
-  id         String    @id
-  mindMapId  String
-  parentId   String?
-  content    String
-  positionX  Float
-  positionY  Float
-  direction  Direction @default(RIGHT)
-  MindMap    MindMap   @relation(fields: [mindMapId], references: [id])
-  Node       Node?     @relation("NodeToNode", fields: [parentId], references: [id])
-  other_Node Node[]    @relation("NodeToNode")
+  id        String     @id @default(uuid())
+  mindMapId String
+  parentId  String? 
+  content   String
+  positionX Float 
+  positionY Float 
+  direction Direction  @default(RIGHT) 
+  createdBy NodeSource @default(AI) 
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Relations
+  mindMap  MindMap @relation(fields: [mindMapId], references: [id])
+  parent   Node?   @relation("NodeToNode", fields: [parentId], references: [id])
+  children Node[]  @relation("NodeToNode")
+}
+
+enum Direction {
+  LEFT
+  RIGHT
+  TOP
+  DOWN
+}
+
+enum NodeSource {
+  AI
+  USER
+}
+
+enum GeneratedBy {
+  MANUAL
+  AI
 }
 
 model SubscriptionPlan {
@@ -85,18 +107,6 @@ model UserSubscription {
   stripeSubscriptionId String?
   SubscriptionPlan     SubscriptionPlan @relation(fields: [planId], references: [id])
   User                 User             @relation(fields: [userId], references: [id])
-}
-
-enum Direction {
-  LEFT
-  RIGHT
-  TOP
-  DOWN
-}
-
-enum GeneratedBy {
-  MANUAL
-  AI
 }
 
 enum Role {

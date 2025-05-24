@@ -42,12 +42,12 @@ Node {
 }
 
 Generate a complete JSON representing a mind map titled "${topic}" with the following constraints:
-- Depth limited to 2 levels
-- Each node must follow the structure of the Node model above
-- Ensure 'parentId' is 'null' for root nodes
-- Use placeholder values for UUIDs ("id", "mindMapId") and "userId", but keep them consistent
-- Include at least 3 root nodes with 2-3 children each
-- Use realistic content for each node related to "${topic}"
+- There must be **exactly one root node** (the center node, with parentId: null).
+- All other nodes must be children (direct or indirect) of this root node.
+- Each node must follow the structure of the Node model above.
+- Use placeholder values for UUIDs ("id", "mindMapId") and "userId", but keep them consistent.
+- The root node should have 3-5 children, each with 2-3 children of their own.
+- Use realistic content for each node related to "${topic}".
 - Return only the final JSON, no extra explanation.
 `
 
@@ -112,6 +112,13 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     }
 
     flattenNodes(mindMapJson.nodes)
+    const rootNodes = flattenedNodes.filter(n => n.tempParentId === null)
+    if (rootNodes.length !== 1) {
+      return NextResponse.json(
+        { error: 'Mind map must have exactly one root node.' },
+        { status: 400 }
+      )
+    }
 
     // 3. Insert all nodes **without parentId** (because we don't have DB ids yet)
     // Using transaction with multiple creates or createMany (but createMany doesn’t support parentId relationships)
@@ -124,13 +131,11 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     for (const node of flattenedNodes) {
       const createdNode = await db.node.create({
         data: {
-          id: node.tempId, // Use the tempId as the id for now
           mindMapId: node.mindMapId,
           content: node.content,
           positionX: node.positionX,
           positionY: node.positionY,
           direction: node.direction
-          
           // parentId will be updated later
         }
       })
@@ -154,7 +159,7 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     // 5. Return the mindMap with nodes or just confirmation
     const mindMapWithNodes = await db.mindMap.findUnique({
       where: { id: mindMap.id },
-      include: { Node: true }
+      include: { nodes: true }
     })
 
     return NextResponse.json({ data: mindMapWithNodes })

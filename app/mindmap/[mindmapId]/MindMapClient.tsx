@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { useAuth } from '@clerk/nextjs'
 import axios from 'axios'
 import { Fullscreen } from 'lucide-react'
@@ -13,60 +13,61 @@ import MindMapCanvas from '@/components/mindmap/Canvas'
 import ChatInterface from '@/components/mindmap/ChatInterface'
 import { Button } from '@/components/ui/button'
 import ControlPanel from '@/components/mindmap/ControlPannel'
-import { GeneratedBy, MindMap, Node } from '@/lib/generated/prisma'
+import { GeneratedBy, Node } from '@/lib/generated/prisma'
+
+type MindMap = {
+  id: string
+  title: string
+  userId: string
+  isPublic: boolean
+  generatedBy: string
+  createdAt: string
+  updatedAt: string
+  nodes: Node[]
+}
 
 const MindMapClient = () => {
-  const searchParams = useSearchParams()
-  const initialPrompt = searchParams.get('prompt') || ''
+  const { mindmapId } = useParams()
+  console.log(mindmapId)
 
   const [mindMapData, setMindMapData] = useState<MindMap | null>(null)
   const [nodes, setNodes] = useState<Node[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isFullScreen, setIsFullScreen] = useState(false)
-
   const { userId } = useAuth()
 
-  const getMindMapAndNodes = async () => {
-    setIsLoading(true)
-    try {
-      if (!userId || !initialPrompt) return
-      const mindMap = await generateMindMap(initialPrompt)
-      console.log('Generated MindMap:', mindMap)
-    } catch (error) {
-      toast.error('Failed to generate mind map')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const generateMindMap = async (prompt: string) => {
-    const response = await axios.post('/api/gemini-process', { prompt, userId })
-    const { data } = response.data
-
-    const generatedByEnum =
-      data.generatedBy === 'AI' ? GeneratedBy.AI : GeneratedBy.MANUAL
-
+  const getMindMap = async (id: string) => {
+    const response = await axios.get(`/api/mindmap/${id}`)
+    const { data } = response
+    console.log(data)
     const mindmap: MindMap = {
       id: data.id,
       title: data.title,
       userId: data.userId,
       isPublic: data.isPublic,
-      generatedBy: generatedByEnum,
+      generatedBy: GeneratedBy.AI,
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt
+      updatedAt: data.updatedAt,
+      nodes: data.nodes || []
     }
-
+    
     setMindMapData(mindmap)
     setNodes(data.nodes)
-    toast.success('Mind map generated successfully!')
-    return mindmap
+    console.log(mindMapData)
+    toast.success('Mind map loaded successfully!')
+    return data
   }
 
+useEffect(() => {
+    console.log('Updated mindMapData:', mindMapData)
+}, [mindMapData])
+
+
   useEffect(() => {
-    if (userId && initialPrompt) {
-      getMindMapAndNodes()
+    if (userId && typeof mindmapId === 'string') {
+      getMindMap(mindmapId)
     }
-  }, [userId, initialPrompt])
+  }, [userId, mindmapId])
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -123,7 +124,7 @@ const MindMapClient = () => {
       <main className='flex-1 container mx-auto px-4 py-8'>
         <div className='flex justify-between items-center mb-6'>
           <h1 className='text-3xl font-bold text-center md:text-left'>
-            Mind Map: {decodeURIComponent(initialPrompt)}
+            Mind Map: {mindMapData?.title || 'Loading...'}
           </h1>
           <Button
             onClick={toggleFullScreen}
@@ -153,9 +154,14 @@ const MindMapClient = () => {
         ) : (
           <div className='grid grid-cols-1 lg:grid-cols-4 gap-6'>
             <div className='lg:col-span-3'>
-              <div className='bg-white dark:bg-gray-800 rounded-lg shadow h-[600px]'>
-                {mindMapData && nodes ? (
-                  <MindMapCanvas mindMap={mindMapData} nodes={nodes} />
+              <div className='bg-white dark:bg-gray-800 rounded-lg shadow h-[600px] overflow-auto'>
+                {mindMapData &&
+                mindMapData.nodes &&
+                mindMapData.nodes.length > 0 ? (
+                  <MindMapCanvas
+                    mindMap={mindMapData}
+                    nodes={mindMapData.nodes}
+                  />
                 ) : (
                   <div className='flex justify-center items-center h-full text-lg text-gray-500'>
                     No data found
