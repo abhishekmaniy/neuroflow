@@ -1,11 +1,14 @@
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const GET = async (
-  req: NextRequest,
-  { params }: { params: { mindmapId: string } }
-) => {
-  const { mindmapId } = params
+export const GET = async (req: NextRequest) => {
+  const url = new URL(req.url)
+  const mindmapId = url.pathname.split('/').pop() // or use regex if needed
+
+  if (!mindmapId) {
+    return NextResponse.json({ error: 'Missing mindmapId' }, { status: 400 })
+  }
+
   const mindMap = await db.mindMap.findUnique({
     where: { id: mindmapId },
     include: {
@@ -20,8 +23,6 @@ export const GET = async (
       User: true
     }
   })
-
-  console.log(mindMap)
 
   if (!mindMap)
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
