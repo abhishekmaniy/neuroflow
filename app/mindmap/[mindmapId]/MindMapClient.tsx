@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import MindMapCanvas from '@/components/mindmap/Canvas'
 import ChatInterface from '@/components/mindmap/ChatInterface'
 import ControlPanel from '@/components/mindmap/ControlPannel'
-import { Button } from '@/components/ui/button'
+import ExportDialog from '@/components/mindmap/ExportDialog'
 import { toast } from '@/hooks/use-toast'
 import { GeneratedBy } from '@/lib/generated/prisma'
 import { useChatStore } from '@/store/chat-store'
@@ -13,7 +13,6 @@ import { useMindMapStore } from '@/store/mindmap-store'
 import { MindMap, Node } from '@/types'
 import { useAuth } from '@clerk/nextjs'
 import axios from 'axios'
-import { Fullscreen } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -45,7 +44,6 @@ const MindMapClient = () => {
       User: data.User || null,
       chatId: data.chatId
     }
-
 
     setMindMap(mindmap)
     setNodes(data.nodes)
@@ -134,16 +132,8 @@ const MindMapClient = () => {
           <h1 className='text-3xl font-bold text-center md:text-left'>
             Mind Map: {mindMap?.title || 'Loading...'}
           </h1>
-          <Button
-            onClick={toggleFullScreen}
-            variant='outline'
-            size='sm'
-            className='flex items-center gap-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
-            title="Press 'F' to toggle fullscreen"
-          >
-            <Fullscreen size={18} />
-            {isFullScreen ? 'Exit Fullscreen' : 'Fullscreen'}
-          </Button>
+
+          <ExportDialog />
         </div>
 
         <p className='text-gray-600 dark:text-gray-400 mb-6 text-center md:text-left'>

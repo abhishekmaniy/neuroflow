@@ -2,7 +2,6 @@
 
 import React, { useMemo, useRef, useState } from 'react'
 
-
 type Node = {
   id: string
   content: string
@@ -49,18 +48,80 @@ function wrapText (text: string, maxChars = 14) {
   return lines
 }
 
-// Calculate node radius based on text
-function getNodeRadius (text: string) {
+function getNodeRect (text: string) {
   const lines = wrapText(text)
-  const base = 60
-  const perLine = 12
-  const perChar = 1.5
-  const maxLine = Math.max(...lines.map(l => l.length), 0)
-  return (
-    base +
-    Math.max(0, lines.length - 2) * perLine +
-    Math.max(0, maxLine - 12) * perChar
+  const paddingX = 28 // horizontal padding
+  const paddingY = 18 // vertical padding per line
+  const fontSize = lines.length > 2 ? 14 : 18
+  const maxLineLength = Math.max(...lines.map(l => l.length), 0)
+  const width = Math.max(90, maxLineLength * (fontSize * 0.6) + paddingX)
+  const height = lines.length * fontSize + paddingY
+  return { width, height }
+}
+
+function getSubtreeHeight (node: TreeNode): number {
+  const { height } = getNodeRect(node.content)
+  if (!node.children || node.children.length === 0) return height
+  const gap = 32
+  const childrenHeights = node.children.map(getSubtreeHeight)
+  return Math.max(
+    height,
+    childrenHeights.reduce((a, b) => a + b, 0) +
+      gap * (node.children.length - 1)
   )
+}
+
+function getHorizontalPositions (
+  node: TreeNode,
+  x: number,
+  y: number,
+  parentX: number | null,
+  parentY: number | null,
+  colorIdx: number = 0
+): {
+  node: TreeNode
+  x: number
+  y: number
+  parentX: number | null
+  parentY: number | null
+  colorIdx: number
+  width: number
+  height: number
+}[] {
+  const { width, height } = getNodeRect(node.content)
+  const result: any[] = []
+  result.push({ node, x, y, parentX, parentY, colorIdx, width, height })
+
+  if (!node.children || node.children.length === 0) return result
+
+  // Calculate total height needed for all children
+  const gap = 32
+  const childrenHeights = node.children.map(getSubtreeHeight)
+  const totalChildrenHeight =
+    childrenHeights.reduce((a, b) => a + b, 0) +
+    gap * (node.children.length - 1)
+
+  // Start y so that children are vertically centered under their parent
+  let childY = y - totalChildrenHeight / 2
+  node.children.forEach((child, i) => {
+    const subtreeHeight = childrenHeights[i]
+    const childRect = getNodeRect(child.content)
+    const childX = x + width / 2 + 80 + childRect.width / 2 // 80px horizontal gap
+    const childCenterY = childY + subtreeHeight / 2
+
+    result.push(
+      ...getHorizontalPositions(
+        child,
+        childX,
+        childCenterY,
+        x + width / 2, // parent's right edge
+        y,
+        (colorIdx + 1) % COLORS.length
+      )
+    )
+    childY += subtreeHeight + gap
+  })
+  return result
 }
 
 function buildTree (nodes: Node[]): TreeNode | null {
@@ -98,24 +159,93 @@ function getNodePositions (
   parentX: number
   parentY: number
   colorIdx: number
-  nodeRadius: number
+  width: number
+  height: number
 }[] {
   const result: any[] = []
   const children = node.children || []
-  const nodeRadius = getNodeRadius(node.content)
-  result.push({ node, x, y, parentX: x, parentY: y, colorIdx: 0, nodeRadius })
+  const { width, height } = getNodeRect(node.content)
+  const nodeDiagonal = Math.sqrt(width * width + height * height) / 2
+  result.push({
+    node,
+    x,
+    y,
+    parentX: x,
+    parentY: y,
+    colorIdx: 0,
+    width,
+    height
+  })
   if (children.length === 0) return result
 
-  // Find max radius among children for spacing
-  const childRadii = children.map(child => getNodeRadius(child.content))
-  const maxChildRadius = Math.max(...childRadii, nodeRadius)
-  const branchRadius = Math.max(radius, maxChildRadius * 2.2)
+  // --- Improved: Use vertical layout for many children ---
+  const MIN_VERTICAL_LAYOUT_CHILDREN = 5
+  if (children.length >= MIN_VERTICAL_LAYOUT_CHILDREN) {
+    // Dynamically set vertical gap based on number of children
+    // More children = smaller gap, but never less than 12px, never more than 40px
+    const VERTICAL_GAP = Math.max(12, Math.min(40, 80 / children.length))
+
+    const childRects = children.map(child => getNodeRect(child.content))
+    const totalHeight = childRects.reduce(
+      (sum, r) => sum + r.height + VERTICAL_GAP,
+      -VERTICAL_GAP
+    )
+    let yOffset = y - totalHeight / 2
+    children.forEach((child, i) => {
+      const { width: childWidth, height: childHeight } = getNodeRect(
+        child.content
+      )
+      const childX = x + width / 2 + 120 + childWidth / 2 // 120px horizontal offset
+      const childY = yOffset + childHeight / 2
+      yOffset += childHeight + VERTICAL_GAP
+      result.push({
+        node: child,
+        x: childX,
+        y: childY,
+        parentX: x + width / 2,
+        parentY: y,
+        colorIdx: i % COLORS.length,
+        width: childWidth,
+        height: childHeight
+      })
+      result.push(
+        ...getNodePositions(
+          child,
+          childX,
+          childY,
+          radius * 0.8,
+          angleStart,
+          angleEnd
+        )
+      )
+    })
+    return result
+  }
+  // --- End vertical layout ---
+
+  // Radial layout for few children
+  const childRects = children.map(child => getNodeRect(child.content))
+  const maxChildDiagonal = Math.max(
+    ...childRects.map(
+      r => Math.sqrt(r.width * r.width + r.height * r.height) / 2
+    ),
+    nodeDiagonal
+  )
+  const branchRadius = Math.max(
+    radius,
+    maxChildDiagonal * (1.7 + children.length * 0.15) // reduced spacing
+  )
 
   const angleStep = (angleEnd - angleStart) / Math.max(children.length, 1)
   children.forEach((child, i) => {
     const angle = angleStart + i * angleStep
-    const childX = x + branchRadius * Math.cos(angle)
-    const childY = y + branchRadius * Math.sin(angle)
+    const { width: childWidth, height: childHeight } = getNodeRect(
+      child.content
+    )
+    const childDiagonal =
+      Math.sqrt(childWidth * childWidth + childHeight * childHeight) / 2
+    const childX = x + (branchRadius + childDiagonal) * Math.cos(angle)
+    const childY = y + (branchRadius + childDiagonal) * Math.sin(angle)
     result.push({
       node: child,
       x: childX,
@@ -123,7 +253,8 @@ function getNodePositions (
       parentX: x,
       parentY: y,
       colorIdx: i % COLORS.length,
-      nodeRadius: getNodeRadius(child.content)
+      width: childWidth,
+      height: childHeight
     })
     // Recursively add grandchildren
     result.push(
@@ -142,52 +273,36 @@ function getNodePositions (
 
 // Calculate bounding box for all nodes
 function getBoundingBox (
-  positions: { x: number; y: number; nodeRadius: number }[]
+  positions: { x: number; y: number; width: number; height: number }[]
 ) {
   let minX = Infinity,
     minY = Infinity,
     maxX = -Infinity,
     maxY = -Infinity
-  positions.forEach(({ x, y, nodeRadius }) => {
-    minX = Math.min(minX, x - nodeRadius)
-    maxX = Math.max(maxX, x + nodeRadius)
-    minY = Math.min(minY, y - nodeRadius)
-    maxY = Math.max(maxY, y + nodeRadius)
+  positions.forEach(({ x, y, width, height }) => {
+    minX = Math.min(minX, x - width / 2)
+    maxX = Math.max(maxX, x + width / 2)
+    minY = Math.min(minY, y - height / 2)
+    maxY = Math.max(maxY, y + height / 2)
   })
   return { minX, minY, maxX, maxY }
 }
 
-
-export default function MindMapCanvas(props: {
+export default function MindMapCanvas (props: {
   mindMap: MindMap
   nodes: Node[]
 }) {
   const { mindMap, nodes } = props
   const tree = useMemo(() => buildTree(nodes), [nodes])
 
-  // Layout
+  // Center root node
   const centerX = 0
   const centerY = 0
-  const baseRadius = 220
 
-  // Zoom and pan state
-  const [zoom, setZoom] = useState(1)
-  const [pan, setPan] = useState({ x: 0, y: 0 })
-  const [isPanning, setIsPanning] = useState(false)
-  const [panStart, setPanStart] = useState<{ x: number; y: number } | null>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
-
-  // Get all positioned nodes for rendering
+  // Layout
   const positionedNodes = useMemo(() => {
     if (!tree) return []
-    return getNodePositions(
-      tree,
-      centerX,
-      centerY,
-      baseRadius,
-      -Math.PI / 2,
-      1.5 * Math.PI
-    )
+    return getHorizontalPositions(tree, centerX, centerY, null, null)
   }, [tree])
 
   // Calculate bounding box and viewBox for auto-zoom
@@ -200,6 +315,15 @@ export default function MindMapCanvas(props: {
     bbox.maxY - bbox.minY + 2 * padding
   ].join(' ')
 
+  // Zoom and pan state
+  const [zoom, setZoom] = useState(1)
+  const [pan, setPan] = useState({ x: 0, y: 0 })
+  const [isPanning, setIsPanning] = useState(false)
+  const [panStart, setPanStart] = useState<{ x: number; y: number } | null>(
+    null
+  )
+  const svgRef = useRef<SVGSVGElement>(null)
+
   // Zoom handlers
   const handleZoomIn = () => setZoom(z => Math.min(z * 1.2, 5))
   const handleZoomOut = () => setZoom(z => Math.max(z / 1.2, 0.2))
@@ -208,7 +332,6 @@ export default function MindMapCanvas(props: {
   const handleDoubleClick = (e: React.MouseEvent) => {
     setIsPanning(true)
     setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y })
-    // Prevent text selection
     if (svgRef.current) svgRef.current.style.cursor = 'grab'
   }
 
@@ -227,7 +350,6 @@ export default function MindMapCanvas(props: {
     if (svgRef.current) svgRef.current.style.cursor = 'default'
   }
 
-  // Prevent scrollbars
   if (!mindMap || !nodes || !tree) {
     return <div className='text-center text-gray-500'>Loading...</div>
   }
@@ -241,23 +363,23 @@ export default function MindMapCanvas(props: {
       onMouseLeave={handleMouseUp}
     >
       {/* Zoom controls */}
-      <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
+      <div className='absolute top-6 left-6 z-10 flex flex-col gap-2'>
         <button
-          className="bg-white/80 dark:bg-gray-800/80 rounded-full shadow p-2 hover:bg-blue-100 dark:hover:bg-blue-900 transition"
+          className='bg-white/80 dark:bg-gray-800/80 rounded-full shadow p-2 hover:bg-blue-100 dark:hover:bg-blue-900 transition'
           onClick={handleZoomIn}
-          aria-label="Zoom in"
+          aria-label='Zoom in'
         >
-          <span className="text-2xl font-bold">+</span>
+          <span className='text-2xl font-bold'>+</span>
         </button>
         <button
-          className="bg-white/80 dark:bg-gray-800/80 rounded-full shadow p-2 hover:bg-blue-100 dark:hover:bg-blue-900 transition"
+          className='bg-white/80 dark:bg-gray-800/80 rounded-full shadow p-2 hover:bg-blue-100 dark:hover:bg-blue-900 transition'
           onClick={handleZoomOut}
-          aria-label="Zoom out"
+          aria-label='Zoom out'
         >
-          <span className="text-2xl font-bold">−</span>
+          <span className='text-2xl font-bold'>−</span>
         </button>
       </div>
-      <div className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white drop-shadow">
+      <div className='text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white drop-shadow'>
         {mindMap.title}
       </div>
       <svg
@@ -275,20 +397,20 @@ export default function MindMapCanvas(props: {
         onMouseLeave={handleMouseUp}
       >
         {/* Draw connectors */}
-        {positionedNodes.map(
-          ({ node, x, y, parentX, parentY, colorIdx }, idx) =>
-            node.parentId ? (
-              <line
-                key={`line-${node.id}-${idx}`}
-                x1={parentX}
-                y1={parentY}
-                x2={x}
-                y2={y}
-                stroke={`url(#gradient-${colorIdx})`}
-                strokeWidth={4}
-                opacity={0.7}
-              />
-            ) : null
+        {positionedNodes.map(({ node, x, y, parentX, parentY }, idx) =>
+          node.parentId && parentX !== null && parentY !== null ? (
+            <line
+              key={`line-${node.id}-${idx}`}
+              x1={parentX}
+              y1={parentY}
+              x2={x}
+              y2={y}
+              stroke='#bbb'
+              strokeWidth={3}
+              strokeLinecap='round'
+              style={{ pointerEvents: 'none' }}
+            />
+          ) : null
         )}
         {/* Gradients for branches */}
         <defs>
@@ -313,13 +435,17 @@ export default function MindMapCanvas(props: {
           ))}
         </defs>
         {/* Draw nodes */}
-        {positionedNodes.map(({ node, x, y, colorIdx, nodeRadius }, idx) => {
+        {positionedNodes.map(({ node, x, y, colorIdx, width, height }, idx) => {
           const lines = wrapText(node.content)
           const fontSize = lines.length > 2 ? 14 : 18
           return (
             <g key={`${node.id}-${idx}`} transform={`translate(${x},${y})`}>
-              <circle
-                r={nodeRadius}
+              <rect
+                x={-width / 2}
+                y={-height / 2}
+                width={width}
+                height={height}
+                rx={14}
                 fill={`url(#gradient-${colorIdx})`}
                 stroke='#fff'
                 strokeWidth={4}
@@ -359,8 +485,10 @@ export default function MindMapCanvas(props: {
           />
         </filter>
       </svg>
-      <div className="absolute left-1/2 bottom-4 -translate-x-1/2 text-xs text-gray-500 dark:text-gray-400 pointer-events-none">
-        <span>Double click and drag to move the mind map. Use +/− to zoom.</span>
+      <div className='absolute left-1/2 bottom-4 -translate-x-1/2 text-xs text-gray-500 dark:text-gray-400 pointer-events-none'>
+        <span>
+          Double click and drag to move the mind map. Use +/− to zoom.
+        </span>
       </div>
     </div>
   )

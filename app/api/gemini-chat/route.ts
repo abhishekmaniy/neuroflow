@@ -4,6 +4,18 @@ import { Node } from '@/types'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextRequest, NextResponse } from 'next/server'
 
+function extractFirstJsonObject (text: string): string | null {
+  const firstBrace = text.indexOf('{')
+  if (firstBrace === -1) return null
+  let open = 0
+  for (let i = firstBrace; i < text.length; i++) {
+    if (text[i] === '{') open++
+    if (text[i] === '}') open--
+    if (open === 0) return text.slice(firstBrace, i + 1)
+  }
+  return null
+}
+
 export const POST = async (req: NextRequest) => {
   const { chatId, content } = await req.json()
 
@@ -58,13 +70,13 @@ Current user message:
 ${content}
 
 Instructions:
-- You must ALWAYS reply with a single JSON object in this format:
+- You MUST ALWAYS reply with a single JSON object in this format:
   {
     "message": "Your assistant message.",
     "mindmapObject": { ...new or updated mind map object, or null if not applicable }
   }
-- Never reply with plain text or markdown. Only reply with a valid JSON object as described above.
-- If the user asks to generate a mind map on a new topic, set mindmapObject to the new mind map.
+- If you need to clarify or ask the user for more information, put your question or clarification inside the "message" field of the JSON object. NEVER reply with plain text or markdown, only with a valid JSON object as described above.
+- If the user asks to generate a mind map on a new topic, set mindmapObject to the new mind map object.
 - If the user asks to enhance or update, update mindmapObject based on the current mind map context above, but DO NOT change the topic/title unless the user explicitly requests a new topic.
 - The mindmapObject must strictly match:
   MindMap {
@@ -88,8 +100,47 @@ Instructions:
 - If not generating or enhancing a mind map, set mindmapObject to null.
 - Never invent or hallucinate fields. Use only the schema above.
 - Always ensure exactly one root node (parentId: null) in nodes.
+- **IMPORTANT:** If you reply with anything other than a valid JSON object as described above (including plain text, markdown, or explanations outside the JSON), it will be considered an error and your response will be rejected.
+- **NEVER** reply with plain text, markdown, or explanations outside the JSON object. Only reply with the JSON object as described above.
+- **IMPORTANT:** - You MUST ensure that the mind map contains **exactly one root node** (a node with "parentId": null). If there are zero or more than one root nodes, your response will be rejected.
+- **IMPORTANT:** - All other nodes must have a valid "parentId" that matches the "id" of another node in the nodes array.
 
-Reply ONLY with the JSON object.
+- **IMPORTANT:**- Each node's "content" field must represent only a single concept, topic, or value (e.g., "Node.js", "Python", "Java", "Languages", "Frontend").
+- **IMPORTANT:**- Do NOT group multiple values in a single node (e.g., do NOT use "Languages (Node.js, Python, Java)" as a node's content).
+- **IMPORTANT:**- If you want to represent a group, create a parent node (e.g., "Languages") and add each value as a separate child node (e.g., "Node.js", "Python", "Java").
+- **IMPORTANT:**- The "children" array of a node should contain only nodes with a single value in their "content" field.
+- **IMPORTANT:**- Never combine multiple concepts or items in one node's "content".
+
+Example valid response:(in case of a new mind map)
+{
+  "message": "Here is your mind map.",
+  "mindmapObject": {
+    "id": "123",
+    "title": "Sample",
+    "userId": "user_abc",
+    "isPublic": true,
+    "generatedBy": "AI",
+    "nodes": [
+      {
+        "id": "root",
+        "mindMapId": "123",
+        "content": "Root Node",
+        "positionX": 0,
+        "positionY": 0,
+        "direction": "TOP",
+        "children": []
+      }
+    ]
+  }
+}
+
+Example clarification:(in case the user needs to specify a topic or provide more details)
+{
+  "message": "Please specify the topic for your new mind map.",
+  "mindmapObject": null
+}
+
+
 `
 
   try {
@@ -124,10 +175,21 @@ Reply ONLY with the JSON object.
     const text = await response.text().trim()
     console.log('result', text)
 
+    // filepath: d:\neuroflow\app\api\gemini-chat\route.ts
     const cleanText = text.replace(/```json|```/g, '')
-    const mindMapJson = JSON.parse(cleanText)
+    const jsonString = extractFirstJsonObject(cleanText)
+    if (!jsonString) {
+      return NextResponse.json(
+        {
+          error: 'No valid JSON object found in AI response.',
+          aiResponse: text
+        },
+        { status: 500 }
+      )
+    }
+    const mindMapJson = JSON.parse(jsonString)
 
-    console.log(mindMapJson)
+    console.log('mindMapJson', mindMapJson)
 
     if (mindMapJson.mindmapObject) {
       const mm = mindMapJson.mindmapObject

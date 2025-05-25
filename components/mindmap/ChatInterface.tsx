@@ -21,41 +21,49 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onRegenerateMap }) => {
 
   console.log("chat" , chat)
 
-  const handleSendMessage = async () => {
-    const trimmed = input.trim()
-    if (!trimmed || !mindMap) return
+const handleSendMessage = async () => {
+  const trimmed = input.trim()
+  if (!trimmed || !mindMap) return
 
-    const tempMessage = {
-      id: `temp-${Date.now()}`,
-      chatId: mindMap.chatId,
-      role: Role.USER,
-      content: trimmed,
-      createdAt: new Date().toISOString()
-    }
-
-    // Optimistically add the user message
-    addMessage(tempMessage)
-
-    setInput('')
-    setIsSending(true)
-
-    try {
-      const res = await axios.post('/api/gemini-chat', {
-        content: trimmed,
-        chatId: mindMap.chatId
-      })
-      const data = await res.data
-
-      if (data.mindMapObject) {
-        setMindMap(data.mindMapObject)
-      }
-      setChat(data.chat)
-    } catch (error) {
-      console.error('Failed to send message', error)
-    } finally {
-      setIsSending(false)
-    }
+  const tempMessage = {
+    id: `temp-${Date.now()}`,
+    chatId: mindMap.chatId,
+    role: Role.USER,
+    content: trimmed,
+    createdAt: new Date().toISOString()
   }
+
+  // Optimistically add the user message
+  addMessage(tempMessage)
+
+  setInput('')
+  setIsSending(true)
+
+  try {
+    const res = await axios.post('/api/gemini-chat', {
+      content: trimmed,
+      chatId: mindMap.chatId
+    })
+    const data = await res.data
+
+    // If a new mind map is returned, update both stores
+    if (data.data?.mindmapObject) {
+      setMindMap(data.data.mindmapObject)
+      if (data.data.mindmapObject.chatId && data.data.chat) {
+        setChat(data.data.chat)
+      } else if (data.data.chat) {
+        setChat(data.data.chat)
+      }
+    } else if (data.chat) {
+      // If only chat is returned, update chat store
+      setChat(data.chat)
+    }
+  } catch (error) {
+    console.error('Failed to send message', error)
+  } finally {
+    setIsSending(false)
+  }
+}
 
   const lastMsgRole = chat?.Message?.length
     ? chat.Message[chat.Message.length - 1].role
