@@ -6,12 +6,11 @@ import { NextRequest, NextResponse } from 'next/server'
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!
 
 export const POST = async (req: NextRequest) => {
-  const { prompt: topic, userId } = await req.json()
+  const { prompt, userId, workspaceId } = await req.json()
 
-  console.log(userId)
-  console.log(topic)
+  console.log(userId, prompt, workspaceId)
 
-  if (!topic || !userId) {
+  if (!prompt || !userId) {
     return NextResponse.json(
       { error: 'Missing topic or userId' },
       { status: 400 }
@@ -41,13 +40,13 @@ Node {
   children: Node[]
 }
 
-Generate a complete JSON representing a mind map titled "${topic}" with the following constraints:
+Generate a complete JSON representing a mind map titled "${prompt}" with the following constraints:
 - There must be **exactly one root node** (the center node, with parentId: null).
 - All other nodes must be children (direct or indirect) of this root node.
 - Each node must follow the structure of the Node model above.
 - Use placeholder values for UUIDs ("id", "mindMapId") and "userId", but keep them consistent.
 - The root node should have 3-5 children, each with 2-3 children of their own.
-- Use realistic content for each node related to "${topic}".
+- Use realistic content for each node related to "${prompt}".
 - Return only the final JSON, no extra explanation.
 `
 
@@ -66,11 +65,12 @@ Generate a complete JSON representing a mind map titled "${topic}" with the foll
     const mindMap = await db.mindMap.create({
       data: {
         title: mindMapJson.title,
-        userId: userId,
         isPublic: mindMapJson.isPublic ?? false,
         generatedBy: 'AI',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        workspace: { connect: { id: workspaceId } },
+        User: { connect: { id: userId } }
       }
     })
 

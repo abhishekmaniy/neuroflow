@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server'
 export const POST = async (req: NextRequest) => {
   if (req.method === 'POST') {
     const { name, email, id } = await req.json()
-    
 
     const userExist = await db.user.findFirst({
       where: {

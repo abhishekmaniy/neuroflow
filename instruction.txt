@@ -1,0 +1,16 @@
+- for the canavs i want to use  library called @xyflow/react , and for thw whiteboard feature you this library tldraw 
+- user can create a mindmap , create flowcharts and create new whiteboard add a achems for adding new object 
+- also make my landing page ui match with my workspace ui , if you can make a theme file just we apply in the shacdn and ui the theme color all over the application
+- in the workspace route in the sidebar make like a hiraarchy workspace -> after selecting workspace another dropdown comes app of selecting teams after seelcting another three drodown of mindmaps , flowcharts and whiteboard 
+- after selecting a teams also show a three choice what you want to build like whitebaord , flowchart and mindmap 
+- after choosing the option then give two choices in the each feature like ai generated or bootstrap (completely clean) so when user choose ai geenrated show the input box and after getting input from user show a beautifull loading screen for each feature and in the backend call the gemini api to geenrate a response like our database schema and store into the database and then give back it to user 
+- if user choose the bootstrap then redirect directly to that feature route like flowchart mindmap or whitebaord 
+- make seprate route for each feature like maintain teams/id/mindmap/id teams/id/flowchart/id teams/id/whitebaord
+- in the each feature like there is canavs in the main content area and in the there is left side sidebar is there and i want to render a chat interface like to talk with ai too imrve more this flowchart mindmap and whitebaord in the right side of maincontent 
+- in the background of chat call the llm to made changes as per the user requirement i already implemented that but make it more robust and comprehensive for all the features
+- make all ui component like professional software which is help companies employee to build a mindmap flowchart or any whitebaord things very quickly in minutes using ai generation 
+- make it like a software tool which attracts user to use and also it helpfull to user like add proper mavigation add button create things add shortcuts to go anywhere in the software 
+- also add a feature to send a mail to email by nodemailer library when user invites any person to the team 
+- also add feature to add new person to the workspace also 
+- also add feature to role base access like admin can remove people , watch all the teams like make a restrictions for normal user and amdin user like role base access impleemtn it threw out the workspace
+- 

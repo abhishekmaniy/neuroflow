@@ -1,3 +1,4 @@
+// src/app/page.tsx or similar
 'use client'
 
 import CallToAction from '@/components/CallToAction'
@@ -8,9 +9,11 @@ import HowItWorks from '@/components/HowItWorks'
 import Navbar from '@/components/Navbar'
 import Pricing from '@/components/Pricing'
 import Testimonials from '@/components/Testimonials'
+import { useAuth } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export default function Home () {
+export default function Home() {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.hash) {
       const id = window.location.hash.replace('#', '')
@@ -21,40 +24,54 @@ export default function Home () {
     }
   }, [])
 
+  const { isSignedIn } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (isSignedIn) {
+      router.push('/workspace')
+    }
+  }, [isSignedIn, router])
+
   return (
-    <div className='min-h-screen flex flex-col bg-gradient-to-br from-purple-100 via-blue-50 to-pink-100 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900'>
+    <div className='min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans relative overflow-hidden'>
+      {/* Background grid and gradient overlay */}
+      <div className="absolute inset-0 z-0 opacity-20 dark:opacity-10">
+        <div className="absolute inset-0 bg-repeat [mask-image:radial-gradient(ellipse_at_center,white,transparent)]" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h20v20H0z\' fill=\'none\'/%3E%3Cpath fill=\'%23a0a0a0\' d=\'M10 0L0 10l10 10 10-10zM5 5l5 5 5-5z\'/%3E%3C/svg%3E")', backgroundSize: '20px 20px'}}></div>
+      </div>
+      <div className='absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-blue-500/10 dark:from-indigo-950/20 dark:via-purple-950/20 dark:to-blue-950/20 z-0'></div>
+
       <Navbar />
-      <main className='flex-1'>
-        <section className='relative'>
-          <div className='absolute inset-0 pointer-events-none z-0'>
-            <div className='absolute top-0 left-1/2 transform -translate-x-1/2 w-[80vw] h-[60vh] bg-gradient-to-tr from-purple-300 via-blue-200 to-pink-200 opacity-40 blur-3xl rounded-full'></div>
-            <div className='absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-200 via-blue-100 to-purple-200 opacity-30 blur-2xl rounded-full'></div>
-          </div>
-          <div className='relative z-10'>
-            <Hero />
-          </div>
+      <main className='flex-1 relative z-10'>
+        <section id="hero" className='relative'>
+          <Hero />
         </section>
-        <section className='relative py-16'>
+        
+        <section id="features" className='relative py-20 md:py-32'>
           <div className='container mx-auto px-4'>
             <Features />
           </div>
         </section>
-        <section className='relative py-16 bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl rounded-3xl mx-4 my-8 shadow-2xl border border-white/30 dark:border-gray-800/40'>
+        
+        <section id="how-it-works" className='relative py-20 md:py-32 bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl rounded-3xl mx-4 my-8 shadow-2xl border border-white/30 dark:border-gray-800/40'>
           <div className='container mx-auto px-4'>
             <HowItWorks />
           </div>
         </section>
-        <section className='relative py-16'>
+        
+        <section id="testimonials" className='relative py-20 md:py-32'>
           <div className='container mx-auto px-4'>
             <Testimonials />
           </div>
         </section>
-        <section className='relative py-16 bg-gradient-to-r from-neuro-primary via-neuro-blue to-neuro-secondary rounded-3xl mx-4 my-8 shadow-xl'>
+        
+        <section id="pricing" className='relative py-20 md:py-32 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-3xl mx-4 my-8 shadow-2xl'>
           <div className='container mx-auto px-4'>
             <Pricing />
           </div>
         </section>
-        <section className='relative py-16'>
+        
+        <section id="call-to-action" className='relative py-20 md:py-32'>
           <div className='container mx-auto px-4'>
             <CallToAction />
           </div>

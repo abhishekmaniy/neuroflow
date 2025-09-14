@@ -1,3 +1,4 @@
+// src/components/Navbar.tsx
 'use client'
 
 import { Button } from '@/components/ui/button'
@@ -32,7 +33,7 @@ const Navbar = () => {
   useEffect(() => {
     const syncUser = async () => {
       if (!isLoaded || !user || !isSignedIn) return
-
+      
       const userData: User = {
         name: `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim(),
         email: user.emailAddresses?.[0]?.emailAddress ?? '',
@@ -66,43 +67,51 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="w-full py-4 border-b border-blue-100 dark:border-blue-900/40 backdrop-blur-2xl bg-white/80 dark:bg-blue-950/80 sticky top-0 z-30 shadow-lg">
+    <nav className="w-full py-4 border-b border-white/20 dark:border-slate-800/40 backdrop-blur-3xl bg-white/70 dark:bg-slate-900/70 sticky top-0 z-30 shadow-md">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
           <Link href="/" className="flex items-center select-none">
-            <span className="text-2xl font-extrabold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent drop-shadow-lg tracking-tight">
+            <span className="text-2xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent drop-shadow-md tracking-tight">
               NeuroFlow
             </span>
           </Link>
         </div>
 
         <div className="hidden md:flex items-center space-x-8">
-          <Link
-            href="/"
-            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
-          >
-            Home
-          </Link>
-          <Link
-            href="/#features"
-            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
-            onClick={handleNavClick('features')}
-          >
-            Features
-          </Link>
-          <Link
-            href="/#pricing"
-            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
-            onClick={handleNavClick('pricing')}
-          >
-            Pricing
-          </Link>
-          <Link
-            href="/examples"
-            className="text-blue-800 dark:text-blue-200 hover:text-blue-500 dark:hover:text-blue-400 font-semibold transition-colors"
-          >
-            Examples
-          </Link>
+          {!isSignedIn ? (
+            <>
+              <Link
+                href="/#features"
+                className="text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors"
+                onClick={handleNavClick('features')}
+              >
+                Features
+              </Link>
+              <Link
+                href="/#pricing"
+                className="text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors"
+                onClick={handleNavClick('pricing')}
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/#testimonials"
+                className="text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors"
+                onClick={handleNavClick('testimonials')}
+              >
+                Testimonials
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/workspace"
+                className="text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold transition-colors"
+              >
+                Workspaces
+              </Link>
+            </>
+          )}
         </div>
 
         <div className="flex items-center space-x-4">
@@ -122,7 +131,7 @@ const Navbar = () => {
               <SignOutButton>
                 <Button
                   variant="outline"
-                  className="border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition"
+                  className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/30 transition"
                 >
                   Log out
                 </Button>
@@ -131,7 +140,7 @@ const Navbar = () => {
           ) : (
             <Button
               variant="outline"
-              className="border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition"
+              className="border-indigo-300 dark:border-indigo-600 text-indigo-600 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 font-semibold transition"
               onClick={() => router.push('/sign-in')}
             >
               Log in

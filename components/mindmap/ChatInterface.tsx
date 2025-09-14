@@ -6,28 +6,39 @@ import { Role } from '@/lib/generated/prisma'
 import axios from 'axios'
 import '@/styles/chat-animations.css'
 import { useChatStore } from '@/store/chat-store'
+import { useParams } from 'next/navigation'
 
 type ChatInterfaceProps = {
-  onRegenerateMap: (message: string) => void
+  mindmapId?: string
+  flowchartId?: string
+  whiteboardId?: string
+  teamId: string
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ onRegenerateMap }) => {
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({ mindmapId, flowchartId, whiteboardId, teamId }) => {
   const { mindMap, setMindMap } = useMindMapStore()
   const [isSending, setIsSending] = useState(false)
   const [input, setInput] = useState('')
   const [error, setError] = useState<string | null>(null)
   const endOfMessagesRef = useRef<HTMLDivElement>(null)
   const { chat, setChat, addMessage } = useChatStore()
+  
+  // Determine the feature type and ID
+  const featureType = mindmapId ? 'mindmap' : flowchartId ? 'flowchart' : 'whiteboard'
+  const featureId = mindmapId || flowchartId || whiteboardId
 
   console.log("chat" , chat)
 
 const handleSendMessage = async () => {
   const trimmed = input.trim()
-  if (!trimmed || !mindMap) return
+  if (!trimmed) return
+
+  // Create a temporary chat ID if we don't have one yet
+  const chatId = mindMap?.chatId || `temp-chat-${Date.now()}`
 
   const tempMessage = {
     id: `temp-${Date.now()}`,
-    chatId: mindMap.chatId,
+    chatId: chatId,
     role: Role.USER,
     content: trimmed,
     createdAt: new Date().toISOString()
@@ -42,12 +53,15 @@ const handleSendMessage = async () => {
   try {
     const res = await axios.post('/api/gemini-chat', {
       content: trimmed,
-      chatId: mindMap.chatId
+      chatId: chatId,
+      featureType: featureType,
+      featureId: featureId,
+      teamId: teamId
     })
     const data = await res.data
 
-    // If a new mind map is returned, update both stores
-    if (data.data?.mindmapObject) {
+    // Handle different feature types
+    if (featureType === 'mindmap' && data.data?.mindmapObject) {
       setMindMap(data.data.mindmapObject)
       if (data.data.mindmapObject.chatId && data.data.chat) {
         setChat(data.data.chat)
@@ -85,7 +99,7 @@ const handleSendMessage = async () => {
       <div className='px-4 py-3 border-b border-muted'>
         <h3 className='text-lg font-semibold text-foreground'>AI Assistant</h3>
         <p className='text-sm text-muted-foreground'>
-          Ask questions or suggest changes to your mind map
+          Ask questions or suggest changes to your {featureType}
         </p>
       </div>
 
@@ -150,7 +164,7 @@ const handleSendMessage = async () => {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder='Ask about your mind map...'
+            placeholder={`Ask about your ${featureType}...`}
             className='flex-1 px-3 py-2 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-neuro-light transition'
             aria-label='Type your message'
             disabled={isSending}
@@ -179,4 +193,4 @@ const handleSendMessage = async () => {
   )
 }
 
-export default ChatInterface
+// Export is already handled in the component declaration

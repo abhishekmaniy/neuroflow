@@ -57,6 +57,78 @@ const MindMapClient = () => {
     return data
   }
 
+  // Node management functions
+  const handleAddNode = async (parentId: string, content: string) => {
+    try {
+      const response = await axios.post(`/api/mindmap/${mindmapId}/nodes`, {
+        parentId,
+        content
+      })
+      
+      // Refresh the mindmap
+      if (typeof mindmapId === 'string') {
+        await getMindMap(mindmapId)
+      }
+      
+      toast({
+        title: 'Node added successfully!'
+      })
+    } catch (error) {
+      console.error('Error adding node:', error)
+      toast({
+        title: 'Failed to add node',
+        variant: 'destructive'
+      })
+    }
+  }
+
+  const handleEditNode = async (nodeId: string, content: string) => {
+    try {
+      await axios.put(`/api/mindmap/${mindmapId}/nodes`, {
+        nodeId,
+        content
+      })
+      
+      // Refresh the mindmap
+      if (typeof mindmapId === 'string') {
+        await getMindMap(mindmapId)
+      }
+      
+      toast({
+        title: 'Node updated successfully!'
+      })
+    } catch (error) {
+      console.error('Error updating node:', error)
+      toast({
+        title: 'Failed to update node',
+        variant: 'destructive'
+      })
+    }
+  }
+
+  const handleDeleteNode = async (nodeId: string) => {
+    try {
+      await axios.delete(`/api/mindmap/${mindmapId}/nodes`, {
+        data: { nodeId }
+      })
+      
+      // Refresh the mindmap
+      if (typeof mindmapId === 'string') {
+        await getMindMap(mindmapId)
+      }
+      
+      toast({
+        title: 'Node deleted successfully!'
+      })
+    } catch (error) {
+      console.error('Error deleting node:', error)
+      toast({
+        title: 'Failed to delete node',
+        variant: 'destructive'
+      })
+    }
+  }
+
   useEffect(() => {
     console.log('Updated mindMapData:', mindMap)
   }, [mindMap])
@@ -151,7 +223,13 @@ const MindMapClient = () => {
                   </p>
                 </div>
               ) : mindMap && mindMap.nodes && mindMap.nodes.length > 0 ? (
-                <MindMapCanvas mindMap={mindMap} nodes={mindMap.nodes} />
+                <MindMapCanvas 
+                  mindMap={mindMap} 
+                  nodes={mindMap.nodes}
+                  onAddNode={handleAddNode}
+                  onEditNode={handleEditNode}
+                  onDeleteNode={handleDeleteNode}
+                />
               ) : (
                 <div className='flex justify-center items-center h-full text-lg text-gray-500'>
                   No data found

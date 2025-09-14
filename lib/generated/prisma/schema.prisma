@@ -20,6 +20,7 @@ model Message {
 model MindMap {
   id          String      @id @default(uuid())
   title       String
+  workspaceId String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   userId      String
@@ -27,6 +28,7 @@ model MindMap {
   generatedBy GeneratedBy
   chatId      String?     @unique
   Chat        Chat?
+  workspace   Workspace   @relation(fields: [workspaceId], references: [id])
   User        User        @relation(fields: [userId], references: [id])
   nodes       Node[]
 }
@@ -40,6 +42,67 @@ model Chat {
   User      User?     @relation(fields: [userId], references: [id])
   mindMap   MindMap   @relation(fields: [mindMapId], references: [id])
   Message   Message[]
+}
+
+model Team {
+  id          String       @id @default(uuid())
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  members     TeamMember[]
+  workspaceId String
+  workspace   Workspace    @relation(fields: [workspaceId], references: [id])
+}
+
+model TeamMember {
+  id       String   @id @default(uuid())
+  userId   String
+  teamId   String
+  role     TeamRole @default(MEMBER)
+  joinedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id])
+  team     Team     @relation(fields: [teamId], references: [id])
+
+  @@unique([userId, teamId])
+}
+
+enum TeamRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model Workspace {
+  id          String       @id @default(uuid())
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  teams       Team[]
+  mindmaps    MindMap[]
+  flowcharts  Flowchart[]
+  whiteboards Whiteboard[]
+  User        User?        @relation(fields: [userId], references: [id])
+  userId      String?
+}
+
+model Flowchart {
+  id          String    @id @default(uuid())
+  title       String
+  workspaceId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  // ...other fields...
+}
+
+model Whiteboard {
+  id          String    @id @default(uuid())
+  title       String
+  workspaceId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  // ...other fields...
 }
 
 model Node {
@@ -91,11 +154,14 @@ model User {
   id               String            @id
   email            String            @unique
   name             String
+  isProfileSetup   Boolean           @default(false)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @default(now())
   Chat             Chat[]
   MindMap          MindMap[]
   UserSubscription UserSubscription?
+  TeamMember       TeamMember[]
+  workspace        Workspace[]
 }
 
 model UserSubscription {

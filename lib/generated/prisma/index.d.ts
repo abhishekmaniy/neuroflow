@@ -29,6 +29,31 @@ export type MindMap = $Result.DefaultSelection<Prisma.$MindMapPayload>
  */
 export type Chat = $Result.DefaultSelection<Prisma.$ChatPayload>
 /**
+ * Model Team
+ * 
+ */
+export type Team = $Result.DefaultSelection<Prisma.$TeamPayload>
+/**
+ * Model TeamMember
+ * 
+ */
+export type TeamMember = $Result.DefaultSelection<Prisma.$TeamMemberPayload>
+/**
+ * Model Workspace
+ * 
+ */
+export type Workspace = $Result.DefaultSelection<Prisma.$WorkspacePayload>
+/**
+ * Model Flowchart
+ * 
+ */
+export type Flowchart = $Result.DefaultSelection<Prisma.$FlowchartPayload>
+/**
+ * Model Whiteboard
+ * 
+ */
+export type Whiteboard = $Result.DefaultSelection<Prisma.$WhiteboardPayload>
+/**
  * Model Node
  * 
  */
@@ -53,7 +78,16 @@ export type UserSubscription = $Result.DefaultSelection<Prisma.$UserSubscription
  * Enums
  */
 export namespace $Enums {
-  export const Direction: {
+  export const TeamRole: {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+};
+
+export type TeamRole = (typeof TeamRole)[keyof typeof TeamRole]
+
+
+export const Direction: {
   LEFT: 'LEFT',
   RIGHT: 'RIGHT',
   TOP: 'TOP',
@@ -87,6 +121,10 @@ export const Role: {
 export type Role = (typeof Role)[keyof typeof Role]
 
 }
+
+export type TeamRole = $Enums.TeamRole
+
+export const TeamRole: typeof $Enums.TeamRole
 
 export type Direction = $Enums.Direction
 
@@ -258,6 +296,56 @@ export class PrismaClient<
     * ```
     */
   get chat(): Prisma.ChatDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.team`: Exposes CRUD operations for the **Team** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Teams
+    * const teams = await prisma.team.findMany()
+    * ```
+    */
+  get team(): Prisma.TeamDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.teamMember`: Exposes CRUD operations for the **TeamMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TeamMembers
+    * const teamMembers = await prisma.teamMember.findMany()
+    * ```
+    */
+  get teamMember(): Prisma.TeamMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.workspace`: Exposes CRUD operations for the **Workspace** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Workspaces
+    * const workspaces = await prisma.workspace.findMany()
+    * ```
+    */
+  get workspace(): Prisma.WorkspaceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.flowchart`: Exposes CRUD operations for the **Flowchart** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Flowcharts
+    * const flowcharts = await prisma.flowchart.findMany()
+    * ```
+    */
+  get flowchart(): Prisma.FlowchartDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.whiteboard`: Exposes CRUD operations for the **Whiteboard** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Whiteboards
+    * const whiteboards = await prisma.whiteboard.findMany()
+    * ```
+    */
+  get whiteboard(): Prisma.WhiteboardDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.node`: Exposes CRUD operations for the **Node** model.
@@ -741,6 +829,11 @@ export namespace Prisma {
     Message: 'Message',
     MindMap: 'MindMap',
     Chat: 'Chat',
+    Team: 'Team',
+    TeamMember: 'TeamMember',
+    Workspace: 'Workspace',
+    Flowchart: 'Flowchart',
+    Whiteboard: 'Whiteboard',
     Node: 'Node',
     SubscriptionPlan: 'SubscriptionPlan',
     User: 'User',
@@ -763,7 +856,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "message" | "mindMap" | "chat" | "node" | "subscriptionPlan" | "user" | "userSubscription"
+      modelProps: "message" | "mindMap" | "chat" | "team" | "teamMember" | "workspace" | "flowchart" | "whiteboard" | "node" | "subscriptionPlan" | "user" | "userSubscription"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -986,6 +1079,376 @@ export namespace Prisma {
           count: {
             args: Prisma.ChatCountArgs<ExtArgs>
             result: $Utils.Optional<ChatCountAggregateOutputType> | number
+          }
+        }
+      }
+      Team: {
+        payload: Prisma.$TeamPayload<ExtArgs>
+        fields: Prisma.TeamFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeamFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeamFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          findFirst: {
+            args: Prisma.TeamFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeamFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          findMany: {
+            args: Prisma.TeamFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>[]
+          }
+          create: {
+            args: Prisma.TeamCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          createMany: {
+            args: Prisma.TeamCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeamCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>[]
+          }
+          delete: {
+            args: Prisma.TeamDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          update: {
+            args: Prisma.TeamUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeamDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeamUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeamUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeamUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamPayload>
+          }
+          aggregate: {
+            args: Prisma.TeamAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeam>
+          }
+          groupBy: {
+            args: Prisma.TeamGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeamGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeamCountArgs<ExtArgs>
+            result: $Utils.Optional<TeamCountAggregateOutputType> | number
+          }
+        }
+      }
+      TeamMember: {
+        payload: Prisma.$TeamMemberPayload<ExtArgs>
+        fields: Prisma.TeamMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TeamMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TeamMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.TeamMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TeamMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          findMany: {
+            args: Prisma.TeamMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
+          }
+          create: {
+            args: Prisma.TeamMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          createMany: {
+            args: Prisma.TeamMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TeamMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.TeamMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          update: {
+            args: Prisma.TeamMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.TeamMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TeamMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TeamMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.TeamMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TeamMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.TeamMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTeamMember>
+          }
+          groupBy: {
+            args: Prisma.TeamMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TeamMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TeamMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<TeamMemberCountAggregateOutputType> | number
+          }
+        }
+      }
+      Workspace: {
+        payload: Prisma.$WorkspacePayload<ExtArgs>
+        fields: Prisma.WorkspaceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WorkspaceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WorkspaceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>
+          }
+          findFirst: {
+            args: Prisma.WorkspaceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WorkspaceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>
+          }
+          findMany: {
+            args: Prisma.WorkspaceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>[]
+          }
+          create: {
+            args: Prisma.WorkspaceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>
+          }
+          createMany: {
+            args: Prisma.WorkspaceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WorkspaceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>[]
+          }
+          delete: {
+            args: Prisma.WorkspaceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>
+          }
+          update: {
+            args: Prisma.WorkspaceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>
+          }
+          deleteMany: {
+            args: Prisma.WorkspaceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WorkspaceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WorkspaceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>[]
+          }
+          upsert: {
+            args: Prisma.WorkspaceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WorkspacePayload>
+          }
+          aggregate: {
+            args: Prisma.WorkspaceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWorkspace>
+          }
+          groupBy: {
+            args: Prisma.WorkspaceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WorkspaceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WorkspaceCountArgs<ExtArgs>
+            result: $Utils.Optional<WorkspaceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Flowchart: {
+        payload: Prisma.$FlowchartPayload<ExtArgs>
+        fields: Prisma.FlowchartFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FlowchartFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FlowchartFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>
+          }
+          findFirst: {
+            args: Prisma.FlowchartFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FlowchartFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>
+          }
+          findMany: {
+            args: Prisma.FlowchartFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>[]
+          }
+          create: {
+            args: Prisma.FlowchartCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>
+          }
+          createMany: {
+            args: Prisma.FlowchartCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FlowchartCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>[]
+          }
+          delete: {
+            args: Prisma.FlowchartDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>
+          }
+          update: {
+            args: Prisma.FlowchartUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>
+          }
+          deleteMany: {
+            args: Prisma.FlowchartDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FlowchartUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FlowchartUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>[]
+          }
+          upsert: {
+            args: Prisma.FlowchartUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FlowchartPayload>
+          }
+          aggregate: {
+            args: Prisma.FlowchartAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFlowchart>
+          }
+          groupBy: {
+            args: Prisma.FlowchartGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FlowchartGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FlowchartCountArgs<ExtArgs>
+            result: $Utils.Optional<FlowchartCountAggregateOutputType> | number
+          }
+        }
+      }
+      Whiteboard: {
+        payload: Prisma.$WhiteboardPayload<ExtArgs>
+        fields: Prisma.WhiteboardFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WhiteboardFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WhiteboardFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>
+          }
+          findFirst: {
+            args: Prisma.WhiteboardFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WhiteboardFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>
+          }
+          findMany: {
+            args: Prisma.WhiteboardFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>[]
+          }
+          create: {
+            args: Prisma.WhiteboardCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>
+          }
+          createMany: {
+            args: Prisma.WhiteboardCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WhiteboardCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>[]
+          }
+          delete: {
+            args: Prisma.WhiteboardDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>
+          }
+          update: {
+            args: Prisma.WhiteboardUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>
+          }
+          deleteMany: {
+            args: Prisma.WhiteboardDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WhiteboardUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WhiteboardUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>[]
+          }
+          upsert: {
+            args: Prisma.WhiteboardUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WhiteboardPayload>
+          }
+          aggregate: {
+            args: Prisma.WhiteboardAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWhiteboard>
+          }
+          groupBy: {
+            args: Prisma.WhiteboardGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WhiteboardGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WhiteboardCountArgs<ExtArgs>
+            result: $Utils.Optional<WhiteboardCountAggregateOutputType> | number
           }
         }
       }
@@ -1372,6 +1835,11 @@ export namespace Prisma {
     message?: MessageOmit
     mindMap?: MindMapOmit
     chat?: ChatOmit
+    team?: TeamOmit
+    teamMember?: TeamMemberOmit
+    workspace?: WorkspaceOmit
+    flowchart?: FlowchartOmit
+    whiteboard?: WhiteboardOmit
     node?: NodeOmit
     subscriptionPlan?: SubscriptionPlanOmit
     user?: UserOmit
@@ -1528,6 +1996,95 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TeamCountOutputType
+   */
+
+  export type TeamCountOutputType = {
+    members: number
+  }
+
+  export type TeamCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | TeamCountOutputTypeCountMembersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamCountOutputType
+     */
+    select?: TeamCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TeamCountOutputType without action
+   */
+  export type TeamCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMemberWhereInput
+  }
+
+
+  /**
+   * Count Type WorkspaceCountOutputType
+   */
+
+  export type WorkspaceCountOutputType = {
+    teams: number
+    mindmaps: number
+    flowcharts: number
+    whiteboards: number
+  }
+
+  export type WorkspaceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teams?: boolean | WorkspaceCountOutputTypeCountTeamsArgs
+    mindmaps?: boolean | WorkspaceCountOutputTypeCountMindmapsArgs
+    flowcharts?: boolean | WorkspaceCountOutputTypeCountFlowchartsArgs
+    whiteboards?: boolean | WorkspaceCountOutputTypeCountWhiteboardsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * WorkspaceCountOutputType without action
+   */
+  export type WorkspaceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WorkspaceCountOutputType
+     */
+    select?: WorkspaceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * WorkspaceCountOutputType without action
+   */
+  export type WorkspaceCountOutputTypeCountTeamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamWhereInput
+  }
+
+  /**
+   * WorkspaceCountOutputType without action
+   */
+  export type WorkspaceCountOutputTypeCountMindmapsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MindMapWhereInput
+  }
+
+  /**
+   * WorkspaceCountOutputType without action
+   */
+  export type WorkspaceCountOutputTypeCountFlowchartsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowchartWhereInput
+  }
+
+  /**
+   * WorkspaceCountOutputType without action
+   */
+  export type WorkspaceCountOutputTypeCountWhiteboardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhiteboardWhereInput
+  }
+
+
+  /**
    * Count Type NodeCountOutputType
    */
 
@@ -1596,11 +2153,15 @@ export namespace Prisma {
   export type UserCountOutputType = {
     Chat: number
     MindMap: number
+    TeamMember: number
+    workspace: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | UserCountOutputTypeCountChatArgs
     MindMap?: boolean | UserCountOutputTypeCountMindMapArgs
+    TeamMember?: boolean | UserCountOutputTypeCountTeamMemberArgs
+    workspace?: boolean | UserCountOutputTypeCountWorkspaceArgs
   }
 
   // Custom InputTypes
@@ -1626,6 +2187,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMindMapArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MindMapWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTeamMemberArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWorkspaceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkspaceWhereInput
   }
 
 
@@ -2704,6 +3279,7 @@ export namespace Prisma {
   export type MindMapMinAggregateOutputType = {
     id: string | null
     title: string | null
+    workspaceId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -2715,6 +3291,7 @@ export namespace Prisma {
   export type MindMapMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    workspaceId: string | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -2726,6 +3303,7 @@ export namespace Prisma {
   export type MindMapCountAggregateOutputType = {
     id: number
     title: number
+    workspaceId: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -2739,6 +3317,7 @@ export namespace Prisma {
   export type MindMapMinAggregateInputType = {
     id?: true
     title?: true
+    workspaceId?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -2750,6 +3329,7 @@ export namespace Prisma {
   export type MindMapMaxAggregateInputType = {
     id?: true
     title?: true
+    workspaceId?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -2761,6 +3341,7 @@ export namespace Prisma {
   export type MindMapCountAggregateInputType = {
     id?: true
     title?: true
+    workspaceId?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -2845,6 +3426,7 @@ export namespace Prisma {
   export type MindMapGroupByOutputType = {
     id: string
     title: string
+    workspaceId: string
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -2873,6 +3455,7 @@ export namespace Prisma {
   export type MindMapSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -2880,6 +3463,7 @@ export namespace Prisma {
     generatedBy?: boolean
     chatId?: boolean
     Chat?: boolean | MindMap$ChatArgs<ExtArgs>
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
     nodes?: boolean | MindMap$nodesArgs<ExtArgs>
     _count?: boolean | MindMapCountOutputTypeDefaultArgs<ExtArgs>
@@ -2888,30 +3472,35 @@ export namespace Prisma {
   export type MindMapSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     isPublic?: boolean
     generatedBy?: boolean
     chatId?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mindMap"]>
 
   export type MindMapSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     isPublic?: boolean
     generatedBy?: boolean
     chatId?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mindMap"]>
 
   export type MindMapSelectScalar = {
     id?: boolean
     title?: boolean
+    workspaceId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
@@ -2920,17 +3509,20 @@ export namespace Prisma {
     chatId?: boolean
   }
 
-  export type MindMapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "createdAt" | "updatedAt" | "userId" | "isPublic" | "generatedBy" | "chatId", ExtArgs["result"]["mindMap"]>
+  export type MindMapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "workspaceId" | "createdAt" | "updatedAt" | "userId" | "isPublic" | "generatedBy" | "chatId", ExtArgs["result"]["mindMap"]>
   export type MindMapInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | MindMap$ChatArgs<ExtArgs>
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
     nodes?: boolean | MindMap$nodesArgs<ExtArgs>
     _count?: boolean | MindMapCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MindMapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type MindMapIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -2938,12 +3530,14 @@ export namespace Prisma {
     name: "MindMap"
     objects: {
       Chat: Prisma.$ChatPayload<ExtArgs> | null
+      workspace: Prisma.$WorkspacePayload<ExtArgs>
       User: Prisma.$UserPayload<ExtArgs>
       nodes: Prisma.$NodePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
+      workspaceId: string
       createdAt: Date
       updatedAt: Date
       userId: string
@@ -3345,6 +3939,7 @@ export namespace Prisma {
   export interface Prisma__MindMapClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Chat<T extends MindMap$ChatArgs<ExtArgs> = {}>(args?: Subset<T, MindMap$ChatArgs<ExtArgs>>): Prisma__ChatClient<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     nodes<T extends MindMap$nodesArgs<ExtArgs> = {}>(args?: Subset<T, MindMap$nodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3378,6 +3973,7 @@ export namespace Prisma {
   interface MindMapFieldRefs {
     readonly id: FieldRef<"MindMap", 'String'>
     readonly title: FieldRef<"MindMap", 'String'>
+    readonly workspaceId: FieldRef<"MindMap", 'String'>
     readonly createdAt: FieldRef<"MindMap", 'DateTime'>
     readonly updatedAt: FieldRef<"MindMap", 'DateTime'>
     readonly userId: FieldRef<"MindMap", 'String'>
@@ -4953,6 +5549,5467 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ChatInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Team
+   */
+
+  export type AggregateTeam = {
+    _count: TeamCountAggregateOutputType | null
+    _min: TeamMinAggregateOutputType | null
+    _max: TeamMaxAggregateOutputType | null
+  }
+
+  export type TeamMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    workspaceId: string | null
+  }
+
+  export type TeamMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    workspaceId: string | null
+  }
+
+  export type TeamCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    workspaceId: number
+    _all: number
+  }
+
+
+  export type TeamMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    workspaceId?: true
+  }
+
+  export type TeamMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    workspaceId?: true
+  }
+
+  export type TeamCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    workspaceId?: true
+    _all?: true
+  }
+
+  export type TeamAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Team to aggregate.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Teams
+    **/
+    _count?: true | TeamCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeamMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeamMaxAggregateInputType
+  }
+
+  export type GetTeamAggregateType<T extends TeamAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeam]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeam[P]>
+      : GetScalarType<T[P], AggregateTeam[P]>
+  }
+
+
+
+
+  export type TeamGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamWhereInput
+    orderBy?: TeamOrderByWithAggregationInput | TeamOrderByWithAggregationInput[]
+    by: TeamScalarFieldEnum[] | TeamScalarFieldEnum
+    having?: TeamScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeamCountAggregateInputType | true
+    _min?: TeamMinAggregateInputType
+    _max?: TeamMaxAggregateInputType
+  }
+
+  export type TeamGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    workspaceId: string
+    _count: TeamCountAggregateOutputType | null
+    _min: TeamMinAggregateOutputType | null
+    _max: TeamMaxAggregateOutputType | null
+  }
+
+  type GetTeamGroupByPayload<T extends TeamGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeamGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeamGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeamGroupByOutputType[P]>
+            : GetScalarType<T[P], TeamGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeamSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspaceId?: boolean
+    members?: boolean | Team$membersArgs<ExtArgs>
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["team"]>
+
+  export type TeamSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspaceId?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["team"]>
+
+  export type TeamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspaceId?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["team"]>
+
+  export type TeamSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspaceId?: boolean
+  }
+
+  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "workspaceId", ExtArgs["result"]["team"]>
+  export type TeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | Team$membersArgs<ExtArgs>
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+  export type TeamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+
+  export type $TeamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Team"
+    objects: {
+      members: Prisma.$TeamMemberPayload<ExtArgs>[]
+      workspace: Prisma.$WorkspacePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+      workspaceId: string
+    }, ExtArgs["result"]["team"]>
+    composites: {}
+  }
+
+  type TeamGetPayload<S extends boolean | null | undefined | TeamDefaultArgs> = $Result.GetResult<Prisma.$TeamPayload, S>
+
+  type TeamCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeamFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeamCountAggregateInputType | true
+    }
+
+  export interface TeamDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Team'], meta: { name: 'Team' } }
+    /**
+     * Find zero or one Team that matches the filter.
+     * @param {TeamFindUniqueArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeamFindUniqueArgs>(args: SelectSubset<T, TeamFindUniqueArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Team that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeamFindUniqueOrThrowArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeamFindUniqueOrThrowArgs>(args: SelectSubset<T, TeamFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Team that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamFindFirstArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeamFindFirstArgs>(args?: SelectSubset<T, TeamFindFirstArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Team that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamFindFirstOrThrowArgs} args - Arguments to find a Team
+     * @example
+     * // Get one Team
+     * const team = await prisma.team.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeamFindFirstOrThrowArgs>(args?: SelectSubset<T, TeamFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Teams that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Teams
+     * const teams = await prisma.team.findMany()
+     * 
+     * // Get first 10 Teams
+     * const teams = await prisma.team.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const teamWithIdOnly = await prisma.team.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TeamFindManyArgs>(args?: SelectSubset<T, TeamFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Team.
+     * @param {TeamCreateArgs} args - Arguments to create a Team.
+     * @example
+     * // Create one Team
+     * const Team = await prisma.team.create({
+     *   data: {
+     *     // ... data to create a Team
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeamCreateArgs>(args: SelectSubset<T, TeamCreateArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Teams.
+     * @param {TeamCreateManyArgs} args - Arguments to create many Teams.
+     * @example
+     * // Create many Teams
+     * const team = await prisma.team.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeamCreateManyArgs>(args?: SelectSubset<T, TeamCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Teams and returns the data saved in the database.
+     * @param {TeamCreateManyAndReturnArgs} args - Arguments to create many Teams.
+     * @example
+     * // Create many Teams
+     * const team = await prisma.team.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Teams and only return the `id`
+     * const teamWithIdOnly = await prisma.team.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeamCreateManyAndReturnArgs>(args?: SelectSubset<T, TeamCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Team.
+     * @param {TeamDeleteArgs} args - Arguments to delete one Team.
+     * @example
+     * // Delete one Team
+     * const Team = await prisma.team.delete({
+     *   where: {
+     *     // ... filter to delete one Team
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeamDeleteArgs>(args: SelectSubset<T, TeamDeleteArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Team.
+     * @param {TeamUpdateArgs} args - Arguments to update one Team.
+     * @example
+     * // Update one Team
+     * const team = await prisma.team.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeamUpdateArgs>(args: SelectSubset<T, TeamUpdateArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Teams.
+     * @param {TeamDeleteManyArgs} args - Arguments to filter Teams to delete.
+     * @example
+     * // Delete a few Teams
+     * const { count } = await prisma.team.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeamDeleteManyArgs>(args?: SelectSubset<T, TeamDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Teams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Teams
+     * const team = await prisma.team.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeamUpdateManyArgs>(args: SelectSubset<T, TeamUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Teams and returns the data updated in the database.
+     * @param {TeamUpdateManyAndReturnArgs} args - Arguments to update many Teams.
+     * @example
+     * // Update many Teams
+     * const team = await prisma.team.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Teams and only return the `id`
+     * const teamWithIdOnly = await prisma.team.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeamUpdateManyAndReturnArgs>(args: SelectSubset<T, TeamUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Team.
+     * @param {TeamUpsertArgs} args - Arguments to update or create a Team.
+     * @example
+     * // Update or create a Team
+     * const team = await prisma.team.upsert({
+     *   create: {
+     *     // ... data to create a Team
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Team we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeamUpsertArgs>(args: SelectSubset<T, TeamUpsertArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Teams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamCountArgs} args - Arguments to filter Teams to count.
+     * @example
+     * // Count the number of Teams
+     * const count = await prisma.team.count({
+     *   where: {
+     *     // ... the filter for the Teams we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeamCountArgs>(
+      args?: Subset<T, TeamCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeamCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Team.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeamAggregateArgs>(args: Subset<T, TeamAggregateArgs>): Prisma.PrismaPromise<GetTeamAggregateType<T>>
+
+    /**
+     * Group by Team.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeamGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeamGroupByArgs['orderBy'] }
+        : { orderBy?: TeamGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeamGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeamGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Team model
+   */
+  readonly fields: TeamFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Team.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    members<T extends Team$membersArgs<ExtArgs> = {}>(args?: Subset<T, Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Team model
+   */
+  interface TeamFieldRefs {
+    readonly id: FieldRef<"Team", 'String'>
+    readonly name: FieldRef<"Team", 'String'>
+    readonly createdAt: FieldRef<"Team", 'DateTime'>
+    readonly updatedAt: FieldRef<"Team", 'DateTime'>
+    readonly workspaceId: FieldRef<"Team", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Team findUnique
+   */
+  export type TeamFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team findUniqueOrThrow
+   */
+  export type TeamFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team findFirst
+   */
+  export type TeamFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Teams.
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Teams.
+     */
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Team findFirstOrThrow
+   */
+  export type TeamFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Team to fetch.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Teams.
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Teams.
+     */
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Team findMany
+   */
+  export type TeamFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter, which Teams to fetch.
+     */
+    where?: TeamWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Teams to fetch.
+     */
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Teams.
+     */
+    cursor?: TeamWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Teams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Teams.
+     */
+    skip?: number
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Team create
+   */
+  export type TeamCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Team.
+     */
+    data: XOR<TeamCreateInput, TeamUncheckedCreateInput>
+  }
+
+  /**
+   * Team createMany
+   */
+  export type TeamCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Teams.
+     */
+    data: TeamCreateManyInput | TeamCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Team createManyAndReturn
+   */
+  export type TeamCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * The data used to create many Teams.
+     */
+    data: TeamCreateManyInput | TeamCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Team update
+   */
+  export type TeamUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Team.
+     */
+    data: XOR<TeamUpdateInput, TeamUncheckedUpdateInput>
+    /**
+     * Choose, which Team to update.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team updateMany
+   */
+  export type TeamUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Teams.
+     */
+    data: XOR<TeamUpdateManyMutationInput, TeamUncheckedUpdateManyInput>
+    /**
+     * Filter which Teams to update
+     */
+    where?: TeamWhereInput
+    /**
+     * Limit how many Teams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Team updateManyAndReturn
+   */
+  export type TeamUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * The data used to update Teams.
+     */
+    data: XOR<TeamUpdateManyMutationInput, TeamUncheckedUpdateManyInput>
+    /**
+     * Filter which Teams to update
+     */
+    where?: TeamWhereInput
+    /**
+     * Limit how many Teams to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Team upsert
+   */
+  export type TeamUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Team to update in case it exists.
+     */
+    where: TeamWhereUniqueInput
+    /**
+     * In case the Team found by the `where` argument doesn't exist, create a new Team with this data.
+     */
+    create: XOR<TeamCreateInput, TeamUncheckedCreateInput>
+    /**
+     * In case the Team was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeamUpdateInput, TeamUncheckedUpdateInput>
+  }
+
+  /**
+   * Team delete
+   */
+  export type TeamDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    /**
+     * Filter which Team to delete.
+     */
+    where: TeamWhereUniqueInput
+  }
+
+  /**
+   * Team deleteMany
+   */
+  export type TeamDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Teams to delete
+     */
+    where?: TeamWhereInput
+    /**
+     * Limit how many Teams to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Team.members
+   */
+  export type Team$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    where?: TeamMemberWhereInput
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    cursor?: TeamMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * Team without action
+   */
+  export type TeamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TeamMember
+   */
+
+  export type AggregateTeamMember = {
+    _count: TeamMemberCountAggregateOutputType | null
+    _min: TeamMemberMinAggregateOutputType | null
+    _max: TeamMemberMaxAggregateOutputType | null
+  }
+
+  export type TeamMemberMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    teamId: string | null
+    role: $Enums.TeamRole | null
+    joinedAt: Date | null
+  }
+
+  export type TeamMemberMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    teamId: string | null
+    role: $Enums.TeamRole | null
+    joinedAt: Date | null
+  }
+
+  export type TeamMemberCountAggregateOutputType = {
+    id: number
+    userId: number
+    teamId: number
+    role: number
+    joinedAt: number
+    _all: number
+  }
+
+
+  export type TeamMemberMinAggregateInputType = {
+    id?: true
+    userId?: true
+    teamId?: true
+    role?: true
+    joinedAt?: true
+  }
+
+  export type TeamMemberMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    teamId?: true
+    role?: true
+    joinedAt?: true
+  }
+
+  export type TeamMemberCountAggregateInputType = {
+    id?: true
+    userId?: true
+    teamId?: true
+    role?: true
+    joinedAt?: true
+    _all?: true
+  }
+
+  export type TeamMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeamMember to aggregate.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TeamMembers
+    **/
+    _count?: true | TeamMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TeamMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TeamMemberMaxAggregateInputType
+  }
+
+  export type GetTeamMemberAggregateType<T extends TeamMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateTeamMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTeamMember[P]>
+      : GetScalarType<T[P], AggregateTeamMember[P]>
+  }
+
+
+
+
+  export type TeamMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamMemberWhereInput
+    orderBy?: TeamMemberOrderByWithAggregationInput | TeamMemberOrderByWithAggregationInput[]
+    by: TeamMemberScalarFieldEnum[] | TeamMemberScalarFieldEnum
+    having?: TeamMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TeamMemberCountAggregateInputType | true
+    _min?: TeamMemberMinAggregateInputType
+    _max?: TeamMemberMaxAggregateInputType
+  }
+
+  export type TeamMemberGroupByOutputType = {
+    id: string
+    userId: string
+    teamId: string
+    role: $Enums.TeamRole
+    joinedAt: Date
+    _count: TeamMemberCountAggregateOutputType | null
+    _min: TeamMemberMinAggregateOutputType | null
+    _max: TeamMemberMaxAggregateOutputType | null
+  }
+
+  type GetTeamMemberGroupByPayload<T extends TeamMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TeamMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TeamMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TeamMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], TeamMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TeamMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    teamId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMember"]>
+
+  export type TeamMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    teamId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMember"]>
+
+  export type TeamMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    teamId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["teamMember"]>
+
+  export type TeamMemberSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    teamId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+  }
+
+  export type TeamMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "teamId" | "role" | "joinedAt", ExtArgs["result"]["teamMember"]>
+  export type TeamMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+  export type TeamMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+  export type TeamMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    team?: boolean | TeamDefaultArgs<ExtArgs>
+  }
+
+  export type $TeamMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TeamMember"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      team: Prisma.$TeamPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      teamId: string
+      role: $Enums.TeamRole
+      joinedAt: Date
+    }, ExtArgs["result"]["teamMember"]>
+    composites: {}
+  }
+
+  type TeamMemberGetPayload<S extends boolean | null | undefined | TeamMemberDefaultArgs> = $Result.GetResult<Prisma.$TeamMemberPayload, S>
+
+  type TeamMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TeamMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TeamMemberCountAggregateInputType | true
+    }
+
+  export interface TeamMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TeamMember'], meta: { name: 'TeamMember' } }
+    /**
+     * Find zero or one TeamMember that matches the filter.
+     * @param {TeamMemberFindUniqueArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TeamMemberFindUniqueArgs>(args: SelectSubset<T, TeamMemberFindUniqueArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TeamMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TeamMemberFindUniqueOrThrowArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TeamMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, TeamMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeamMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberFindFirstArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TeamMemberFindFirstArgs>(args?: SelectSubset<T, TeamMemberFindFirstArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TeamMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberFindFirstOrThrowArgs} args - Arguments to find a TeamMember
+     * @example
+     * // Get one TeamMember
+     * const teamMember = await prisma.teamMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TeamMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, TeamMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TeamMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TeamMembers
+     * const teamMembers = await prisma.teamMember.findMany()
+     * 
+     * // Get first 10 TeamMembers
+     * const teamMembers = await prisma.teamMember.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const teamMemberWithIdOnly = await prisma.teamMember.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TeamMemberFindManyArgs>(args?: SelectSubset<T, TeamMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TeamMember.
+     * @param {TeamMemberCreateArgs} args - Arguments to create a TeamMember.
+     * @example
+     * // Create one TeamMember
+     * const TeamMember = await prisma.teamMember.create({
+     *   data: {
+     *     // ... data to create a TeamMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends TeamMemberCreateArgs>(args: SelectSubset<T, TeamMemberCreateArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TeamMembers.
+     * @param {TeamMemberCreateManyArgs} args - Arguments to create many TeamMembers.
+     * @example
+     * // Create many TeamMembers
+     * const teamMember = await prisma.teamMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TeamMemberCreateManyArgs>(args?: SelectSubset<T, TeamMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TeamMembers and returns the data saved in the database.
+     * @param {TeamMemberCreateManyAndReturnArgs} args - Arguments to create many TeamMembers.
+     * @example
+     * // Create many TeamMembers
+     * const teamMember = await prisma.teamMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TeamMembers and only return the `id`
+     * const teamMemberWithIdOnly = await prisma.teamMember.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TeamMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, TeamMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TeamMember.
+     * @param {TeamMemberDeleteArgs} args - Arguments to delete one TeamMember.
+     * @example
+     * // Delete one TeamMember
+     * const TeamMember = await prisma.teamMember.delete({
+     *   where: {
+     *     // ... filter to delete one TeamMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TeamMemberDeleteArgs>(args: SelectSubset<T, TeamMemberDeleteArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TeamMember.
+     * @param {TeamMemberUpdateArgs} args - Arguments to update one TeamMember.
+     * @example
+     * // Update one TeamMember
+     * const teamMember = await prisma.teamMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TeamMemberUpdateArgs>(args: SelectSubset<T, TeamMemberUpdateArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TeamMembers.
+     * @param {TeamMemberDeleteManyArgs} args - Arguments to filter TeamMembers to delete.
+     * @example
+     * // Delete a few TeamMembers
+     * const { count } = await prisma.teamMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TeamMemberDeleteManyArgs>(args?: SelectSubset<T, TeamMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeamMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TeamMembers
+     * const teamMember = await prisma.teamMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TeamMemberUpdateManyArgs>(args: SelectSubset<T, TeamMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TeamMembers and returns the data updated in the database.
+     * @param {TeamMemberUpdateManyAndReturnArgs} args - Arguments to update many TeamMembers.
+     * @example
+     * // Update many TeamMembers
+     * const teamMember = await prisma.teamMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TeamMembers and only return the `id`
+     * const teamMemberWithIdOnly = await prisma.teamMember.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TeamMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, TeamMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TeamMember.
+     * @param {TeamMemberUpsertArgs} args - Arguments to update or create a TeamMember.
+     * @example
+     * // Update or create a TeamMember
+     * const teamMember = await prisma.teamMember.upsert({
+     *   create: {
+     *     // ... data to create a TeamMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TeamMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TeamMemberUpsertArgs>(args: SelectSubset<T, TeamMemberUpsertArgs<ExtArgs>>): Prisma__TeamMemberClient<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TeamMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberCountArgs} args - Arguments to filter TeamMembers to count.
+     * @example
+     * // Count the number of TeamMembers
+     * const count = await prisma.teamMember.count({
+     *   where: {
+     *     // ... the filter for the TeamMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends TeamMemberCountArgs>(
+      args?: Subset<T, TeamMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TeamMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TeamMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TeamMemberAggregateArgs>(args: Subset<T, TeamMemberAggregateArgs>): Prisma.PrismaPromise<GetTeamMemberAggregateType<T>>
+
+    /**
+     * Group by TeamMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TeamMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TeamMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TeamMemberGroupByArgs['orderBy'] }
+        : { orderBy?: TeamMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TeamMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTeamMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TeamMember model
+   */
+  readonly fields: TeamMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TeamMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TeamMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    team<T extends TeamDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TeamDefaultArgs<ExtArgs>>): Prisma__TeamClient<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TeamMember model
+   */
+  interface TeamMemberFieldRefs {
+    readonly id: FieldRef<"TeamMember", 'String'>
+    readonly userId: FieldRef<"TeamMember", 'String'>
+    readonly teamId: FieldRef<"TeamMember", 'String'>
+    readonly role: FieldRef<"TeamMember", 'TeamRole'>
+    readonly joinedAt: FieldRef<"TeamMember", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TeamMember findUnique
+   */
+  export type TeamMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember findUniqueOrThrow
+   */
+  export type TeamMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember findFirst
+   */
+  export type TeamMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeamMembers.
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMembers.
+     */
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMember findFirstOrThrow
+   */
+  export type TeamMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMember to fetch.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TeamMembers.
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TeamMembers.
+     */
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMember findMany
+   */
+  export type TeamMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which TeamMembers to fetch.
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TeamMembers to fetch.
+     */
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TeamMembers.
+     */
+    cursor?: TeamMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TeamMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TeamMembers.
+     */
+    skip?: number
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * TeamMember create
+   */
+  export type TeamMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TeamMember.
+     */
+    data: XOR<TeamMemberCreateInput, TeamMemberUncheckedCreateInput>
+  }
+
+  /**
+   * TeamMember createMany
+   */
+  export type TeamMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TeamMembers.
+     */
+    data: TeamMemberCreateManyInput | TeamMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TeamMember createManyAndReturn
+   */
+  export type TeamMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many TeamMembers.
+     */
+    data: TeamMemberCreateManyInput | TeamMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeamMember update
+   */
+  export type TeamMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TeamMember.
+     */
+    data: XOR<TeamMemberUpdateInput, TeamMemberUncheckedUpdateInput>
+    /**
+     * Choose, which TeamMember to update.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember updateMany
+   */
+  export type TeamMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TeamMembers.
+     */
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which TeamMembers to update
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * Limit how many TeamMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeamMember updateManyAndReturn
+   */
+  export type TeamMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update TeamMembers.
+     */
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which TeamMembers to update
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * Limit how many TeamMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TeamMember upsert
+   */
+  export type TeamMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TeamMember to update in case it exists.
+     */
+    where: TeamMemberWhereUniqueInput
+    /**
+     * In case the TeamMember found by the `where` argument doesn't exist, create a new TeamMember with this data.
+     */
+    create: XOR<TeamMemberCreateInput, TeamMemberUncheckedCreateInput>
+    /**
+     * In case the TeamMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TeamMemberUpdateInput, TeamMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * TeamMember delete
+   */
+  export type TeamMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    /**
+     * Filter which TeamMember to delete.
+     */
+    where: TeamMemberWhereUniqueInput
+  }
+
+  /**
+   * TeamMember deleteMany
+   */
+  export type TeamMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TeamMembers to delete
+     */
+    where?: TeamMemberWhereInput
+    /**
+     * Limit how many TeamMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TeamMember without action
+   */
+  export type TeamMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Workspace
+   */
+
+  export type AggregateWorkspace = {
+    _count: WorkspaceCountAggregateOutputType | null
+    _min: WorkspaceMinAggregateOutputType | null
+    _max: WorkspaceMaxAggregateOutputType | null
+  }
+
+  export type WorkspaceMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type WorkspaceMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type WorkspaceCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type WorkspaceMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type WorkspaceMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type WorkspaceCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type WorkspaceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Workspace to aggregate.
+     */
+    where?: WorkspaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workspaces to fetch.
+     */
+    orderBy?: WorkspaceOrderByWithRelationInput | WorkspaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WorkspaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workspaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workspaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Workspaces
+    **/
+    _count?: true | WorkspaceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WorkspaceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WorkspaceMaxAggregateInputType
+  }
+
+  export type GetWorkspaceAggregateType<T extends WorkspaceAggregateArgs> = {
+        [P in keyof T & keyof AggregateWorkspace]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWorkspace[P]>
+      : GetScalarType<T[P], AggregateWorkspace[P]>
+  }
+
+
+
+
+  export type WorkspaceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WorkspaceWhereInput
+    orderBy?: WorkspaceOrderByWithAggregationInput | WorkspaceOrderByWithAggregationInput[]
+    by: WorkspaceScalarFieldEnum[] | WorkspaceScalarFieldEnum
+    having?: WorkspaceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WorkspaceCountAggregateInputType | true
+    _min?: WorkspaceMinAggregateInputType
+    _max?: WorkspaceMaxAggregateInputType
+  }
+
+  export type WorkspaceGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string | null
+    _count: WorkspaceCountAggregateOutputType | null
+    _min: WorkspaceMinAggregateOutputType | null
+    _max: WorkspaceMaxAggregateOutputType | null
+  }
+
+  type GetWorkspaceGroupByPayload<T extends WorkspaceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WorkspaceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WorkspaceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WorkspaceGroupByOutputType[P]>
+            : GetScalarType<T[P], WorkspaceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WorkspaceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    teams?: boolean | Workspace$teamsArgs<ExtArgs>
+    mindmaps?: boolean | Workspace$mindmapsArgs<ExtArgs>
+    flowcharts?: boolean | Workspace$flowchartsArgs<ExtArgs>
+    whiteboards?: boolean | Workspace$whiteboardsArgs<ExtArgs>
+    User?: boolean | Workspace$UserArgs<ExtArgs>
+    _count?: boolean | WorkspaceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["workspace"]>
+
+  export type WorkspaceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    User?: boolean | Workspace$UserArgs<ExtArgs>
+  }, ExtArgs["result"]["workspace"]>
+
+  export type WorkspaceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    User?: boolean | Workspace$UserArgs<ExtArgs>
+  }, ExtArgs["result"]["workspace"]>
+
+  export type WorkspaceSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+  }
+
+  export type WorkspaceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["workspace"]>
+  export type WorkspaceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    teams?: boolean | Workspace$teamsArgs<ExtArgs>
+    mindmaps?: boolean | Workspace$mindmapsArgs<ExtArgs>
+    flowcharts?: boolean | Workspace$flowchartsArgs<ExtArgs>
+    whiteboards?: boolean | Workspace$whiteboardsArgs<ExtArgs>
+    User?: boolean | Workspace$UserArgs<ExtArgs>
+    _count?: boolean | WorkspaceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type WorkspaceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | Workspace$UserArgs<ExtArgs>
+  }
+  export type WorkspaceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | Workspace$UserArgs<ExtArgs>
+  }
+
+  export type $WorkspacePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Workspace"
+    objects: {
+      teams: Prisma.$TeamPayload<ExtArgs>[]
+      mindmaps: Prisma.$MindMapPayload<ExtArgs>[]
+      flowcharts: Prisma.$FlowchartPayload<ExtArgs>[]
+      whiteboards: Prisma.$WhiteboardPayload<ExtArgs>[]
+      User: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+      userId: string | null
+    }, ExtArgs["result"]["workspace"]>
+    composites: {}
+  }
+
+  type WorkspaceGetPayload<S extends boolean | null | undefined | WorkspaceDefaultArgs> = $Result.GetResult<Prisma.$WorkspacePayload, S>
+
+  type WorkspaceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WorkspaceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WorkspaceCountAggregateInputType | true
+    }
+
+  export interface WorkspaceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Workspace'], meta: { name: 'Workspace' } }
+    /**
+     * Find zero or one Workspace that matches the filter.
+     * @param {WorkspaceFindUniqueArgs} args - Arguments to find a Workspace
+     * @example
+     * // Get one Workspace
+     * const workspace = await prisma.workspace.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WorkspaceFindUniqueArgs>(args: SelectSubset<T, WorkspaceFindUniqueArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Workspace that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WorkspaceFindUniqueOrThrowArgs} args - Arguments to find a Workspace
+     * @example
+     * // Get one Workspace
+     * const workspace = await prisma.workspace.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WorkspaceFindUniqueOrThrowArgs>(args: SelectSubset<T, WorkspaceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Workspace that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkspaceFindFirstArgs} args - Arguments to find a Workspace
+     * @example
+     * // Get one Workspace
+     * const workspace = await prisma.workspace.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WorkspaceFindFirstArgs>(args?: SelectSubset<T, WorkspaceFindFirstArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Workspace that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkspaceFindFirstOrThrowArgs} args - Arguments to find a Workspace
+     * @example
+     * // Get one Workspace
+     * const workspace = await prisma.workspace.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WorkspaceFindFirstOrThrowArgs>(args?: SelectSubset<T, WorkspaceFindFirstOrThrowArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Workspaces that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkspaceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Workspaces
+     * const workspaces = await prisma.workspace.findMany()
+     * 
+     * // Get first 10 Workspaces
+     * const workspaces = await prisma.workspace.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const workspaceWithIdOnly = await prisma.workspace.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WorkspaceFindManyArgs>(args?: SelectSubset<T, WorkspaceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Workspace.
+     * @param {WorkspaceCreateArgs} args - Arguments to create a Workspace.
+     * @example
+     * // Create one Workspace
+     * const Workspace = await prisma.workspace.create({
+     *   data: {
+     *     // ... data to create a Workspace
+     *   }
+     * })
+     * 
+     */
+    create<T extends WorkspaceCreateArgs>(args: SelectSubset<T, WorkspaceCreateArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Workspaces.
+     * @param {WorkspaceCreateManyArgs} args - Arguments to create many Workspaces.
+     * @example
+     * // Create many Workspaces
+     * const workspace = await prisma.workspace.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WorkspaceCreateManyArgs>(args?: SelectSubset<T, WorkspaceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Workspaces and returns the data saved in the database.
+     * @param {WorkspaceCreateManyAndReturnArgs} args - Arguments to create many Workspaces.
+     * @example
+     * // Create many Workspaces
+     * const workspace = await prisma.workspace.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Workspaces and only return the `id`
+     * const workspaceWithIdOnly = await prisma.workspace.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WorkspaceCreateManyAndReturnArgs>(args?: SelectSubset<T, WorkspaceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Workspace.
+     * @param {WorkspaceDeleteArgs} args - Arguments to delete one Workspace.
+     * @example
+     * // Delete one Workspace
+     * const Workspace = await prisma.workspace.delete({
+     *   where: {
+     *     // ... filter to delete one Workspace
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WorkspaceDeleteArgs>(args: SelectSubset<T, WorkspaceDeleteArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Workspace.
+     * @param {WorkspaceUpdateArgs} args - Arguments to update one Workspace.
+     * @example
+     * // Update one Workspace
+     * const workspace = await prisma.workspace.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WorkspaceUpdateArgs>(args: SelectSubset<T, WorkspaceUpdateArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Workspaces.
+     * @param {WorkspaceDeleteManyArgs} args - Arguments to filter Workspaces to delete.
+     * @example
+     * // Delete a few Workspaces
+     * const { count } = await prisma.workspace.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WorkspaceDeleteManyArgs>(args?: SelectSubset<T, WorkspaceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Workspaces.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkspaceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Workspaces
+     * const workspace = await prisma.workspace.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WorkspaceUpdateManyArgs>(args: SelectSubset<T, WorkspaceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Workspaces and returns the data updated in the database.
+     * @param {WorkspaceUpdateManyAndReturnArgs} args - Arguments to update many Workspaces.
+     * @example
+     * // Update many Workspaces
+     * const workspace = await prisma.workspace.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Workspaces and only return the `id`
+     * const workspaceWithIdOnly = await prisma.workspace.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WorkspaceUpdateManyAndReturnArgs>(args: SelectSubset<T, WorkspaceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Workspace.
+     * @param {WorkspaceUpsertArgs} args - Arguments to update or create a Workspace.
+     * @example
+     * // Update or create a Workspace
+     * const workspace = await prisma.workspace.upsert({
+     *   create: {
+     *     // ... data to create a Workspace
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Workspace we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WorkspaceUpsertArgs>(args: SelectSubset<T, WorkspaceUpsertArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Workspaces.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkspaceCountArgs} args - Arguments to filter Workspaces to count.
+     * @example
+     * // Count the number of Workspaces
+     * const count = await prisma.workspace.count({
+     *   where: {
+     *     // ... the filter for the Workspaces we want to count
+     *   }
+     * })
+    **/
+    count<T extends WorkspaceCountArgs>(
+      args?: Subset<T, WorkspaceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WorkspaceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Workspace.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkspaceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WorkspaceAggregateArgs>(args: Subset<T, WorkspaceAggregateArgs>): Prisma.PrismaPromise<GetWorkspaceAggregateType<T>>
+
+    /**
+     * Group by Workspace.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WorkspaceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WorkspaceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WorkspaceGroupByArgs['orderBy'] }
+        : { orderBy?: WorkspaceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WorkspaceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWorkspaceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Workspace model
+   */
+  readonly fields: WorkspaceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Workspace.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WorkspaceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    teams<T extends Workspace$teamsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$teamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mindmaps<T extends Workspace$mindmapsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$mindmapsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MindMapPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    flowcharts<T extends Workspace$flowchartsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$flowchartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    whiteboards<T extends Workspace$whiteboardsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$whiteboardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    User<T extends Workspace$UserArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Workspace model
+   */
+  interface WorkspaceFieldRefs {
+    readonly id: FieldRef<"Workspace", 'String'>
+    readonly name: FieldRef<"Workspace", 'String'>
+    readonly createdAt: FieldRef<"Workspace", 'DateTime'>
+    readonly updatedAt: FieldRef<"Workspace", 'DateTime'>
+    readonly userId: FieldRef<"Workspace", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Workspace findUnique
+   */
+  export type WorkspaceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Workspace to fetch.
+     */
+    where: WorkspaceWhereUniqueInput
+  }
+
+  /**
+   * Workspace findUniqueOrThrow
+   */
+  export type WorkspaceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Workspace to fetch.
+     */
+    where: WorkspaceWhereUniqueInput
+  }
+
+  /**
+   * Workspace findFirst
+   */
+  export type WorkspaceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Workspace to fetch.
+     */
+    where?: WorkspaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workspaces to fetch.
+     */
+    orderBy?: WorkspaceOrderByWithRelationInput | WorkspaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Workspaces.
+     */
+    cursor?: WorkspaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workspaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workspaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workspaces.
+     */
+    distinct?: WorkspaceScalarFieldEnum | WorkspaceScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace findFirstOrThrow
+   */
+  export type WorkspaceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Workspace to fetch.
+     */
+    where?: WorkspaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workspaces to fetch.
+     */
+    orderBy?: WorkspaceOrderByWithRelationInput | WorkspaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Workspaces.
+     */
+    cursor?: WorkspaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workspaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workspaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Workspaces.
+     */
+    distinct?: WorkspaceScalarFieldEnum | WorkspaceScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace findMany
+   */
+  export type WorkspaceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Workspaces to fetch.
+     */
+    where?: WorkspaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Workspaces to fetch.
+     */
+    orderBy?: WorkspaceOrderByWithRelationInput | WorkspaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Workspaces.
+     */
+    cursor?: WorkspaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Workspaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Workspaces.
+     */
+    skip?: number
+    distinct?: WorkspaceScalarFieldEnum | WorkspaceScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace create
+   */
+  export type WorkspaceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Workspace.
+     */
+    data: XOR<WorkspaceCreateInput, WorkspaceUncheckedCreateInput>
+  }
+
+  /**
+   * Workspace createMany
+   */
+  export type WorkspaceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Workspaces.
+     */
+    data: WorkspaceCreateManyInput | WorkspaceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Workspace createManyAndReturn
+   */
+  export type WorkspaceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Workspaces.
+     */
+    data: WorkspaceCreateManyInput | WorkspaceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Workspace update
+   */
+  export type WorkspaceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Workspace.
+     */
+    data: XOR<WorkspaceUpdateInput, WorkspaceUncheckedUpdateInput>
+    /**
+     * Choose, which Workspace to update.
+     */
+    where: WorkspaceWhereUniqueInput
+  }
+
+  /**
+   * Workspace updateMany
+   */
+  export type WorkspaceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Workspaces.
+     */
+    data: XOR<WorkspaceUpdateManyMutationInput, WorkspaceUncheckedUpdateManyInput>
+    /**
+     * Filter which Workspaces to update
+     */
+    where?: WorkspaceWhereInput
+    /**
+     * Limit how many Workspaces to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workspace updateManyAndReturn
+   */
+  export type WorkspaceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * The data used to update Workspaces.
+     */
+    data: XOR<WorkspaceUpdateManyMutationInput, WorkspaceUncheckedUpdateManyInput>
+    /**
+     * Filter which Workspaces to update
+     */
+    where?: WorkspaceWhereInput
+    /**
+     * Limit how many Workspaces to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Workspace upsert
+   */
+  export type WorkspaceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Workspace to update in case it exists.
+     */
+    where: WorkspaceWhereUniqueInput
+    /**
+     * In case the Workspace found by the `where` argument doesn't exist, create a new Workspace with this data.
+     */
+    create: XOR<WorkspaceCreateInput, WorkspaceUncheckedCreateInput>
+    /**
+     * In case the Workspace was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WorkspaceUpdateInput, WorkspaceUncheckedUpdateInput>
+  }
+
+  /**
+   * Workspace delete
+   */
+  export type WorkspaceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    /**
+     * Filter which Workspace to delete.
+     */
+    where: WorkspaceWhereUniqueInput
+  }
+
+  /**
+   * Workspace deleteMany
+   */
+  export type WorkspaceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Workspaces to delete
+     */
+    where?: WorkspaceWhereInput
+    /**
+     * Limit how many Workspaces to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Workspace.teams
+   */
+  export type Workspace$teamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    where?: TeamWhereInput
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    cursor?: TeamWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace.mindmaps
+   */
+  export type Workspace$mindmapsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MindMap
+     */
+    select?: MindMapSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MindMap
+     */
+    omit?: MindMapOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MindMapInclude<ExtArgs> | null
+    where?: MindMapWhereInput
+    orderBy?: MindMapOrderByWithRelationInput | MindMapOrderByWithRelationInput[]
+    cursor?: MindMapWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MindMapScalarFieldEnum | MindMapScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace.flowcharts
+   */
+  export type Workspace$flowchartsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    where?: FlowchartWhereInput
+    orderBy?: FlowchartOrderByWithRelationInput | FlowchartOrderByWithRelationInput[]
+    cursor?: FlowchartWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FlowchartScalarFieldEnum | FlowchartScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace.whiteboards
+   */
+  export type Workspace$whiteboardsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    where?: WhiteboardWhereInput
+    orderBy?: WhiteboardOrderByWithRelationInput | WhiteboardOrderByWithRelationInput[]
+    cursor?: WhiteboardWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WhiteboardScalarFieldEnum | WhiteboardScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace.User
+   */
+  export type Workspace$UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Workspace without action
+   */
+  export type WorkspaceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Flowchart
+   */
+
+  export type AggregateFlowchart = {
+    _count: FlowchartCountAggregateOutputType | null
+    _min: FlowchartMinAggregateOutputType | null
+    _max: FlowchartMaxAggregateOutputType | null
+  }
+
+  export type FlowchartMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    workspaceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FlowchartMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    workspaceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FlowchartCountAggregateOutputType = {
+    id: number
+    title: number
+    workspaceId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FlowchartMinAggregateInputType = {
+    id?: true
+    title?: true
+    workspaceId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FlowchartMaxAggregateInputType = {
+    id?: true
+    title?: true
+    workspaceId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FlowchartCountAggregateInputType = {
+    id?: true
+    title?: true
+    workspaceId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FlowchartAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Flowchart to aggregate.
+     */
+    where?: FlowchartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Flowcharts to fetch.
+     */
+    orderBy?: FlowchartOrderByWithRelationInput | FlowchartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FlowchartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Flowcharts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Flowcharts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Flowcharts
+    **/
+    _count?: true | FlowchartCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FlowchartMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FlowchartMaxAggregateInputType
+  }
+
+  export type GetFlowchartAggregateType<T extends FlowchartAggregateArgs> = {
+        [P in keyof T & keyof AggregateFlowchart]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFlowchart[P]>
+      : GetScalarType<T[P], AggregateFlowchart[P]>
+  }
+
+
+
+
+  export type FlowchartGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FlowchartWhereInput
+    orderBy?: FlowchartOrderByWithAggregationInput | FlowchartOrderByWithAggregationInput[]
+    by: FlowchartScalarFieldEnum[] | FlowchartScalarFieldEnum
+    having?: FlowchartScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FlowchartCountAggregateInputType | true
+    _min?: FlowchartMinAggregateInputType
+    _max?: FlowchartMaxAggregateInputType
+  }
+
+  export type FlowchartGroupByOutputType = {
+    id: string
+    title: string
+    workspaceId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: FlowchartCountAggregateOutputType | null
+    _min: FlowchartMinAggregateOutputType | null
+    _max: FlowchartMaxAggregateOutputType | null
+  }
+
+  type GetFlowchartGroupByPayload<T extends FlowchartGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FlowchartGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FlowchartGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FlowchartGroupByOutputType[P]>
+            : GetScalarType<T[P], FlowchartGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FlowchartSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["flowchart"]>
+
+  export type FlowchartSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["flowchart"]>
+
+  export type FlowchartSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["flowchart"]>
+
+  export type FlowchartSelectScalar = {
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FlowchartOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "workspaceId" | "createdAt" | "updatedAt", ExtArgs["result"]["flowchart"]>
+  export type FlowchartInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+  export type FlowchartIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+  export type FlowchartIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+
+  export type $FlowchartPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Flowchart"
+    objects: {
+      workspace: Prisma.$WorkspacePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      workspaceId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["flowchart"]>
+    composites: {}
+  }
+
+  type FlowchartGetPayload<S extends boolean | null | undefined | FlowchartDefaultArgs> = $Result.GetResult<Prisma.$FlowchartPayload, S>
+
+  type FlowchartCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FlowchartFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FlowchartCountAggregateInputType | true
+    }
+
+  export interface FlowchartDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Flowchart'], meta: { name: 'Flowchart' } }
+    /**
+     * Find zero or one Flowchart that matches the filter.
+     * @param {FlowchartFindUniqueArgs} args - Arguments to find a Flowchart
+     * @example
+     * // Get one Flowchart
+     * const flowchart = await prisma.flowchart.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FlowchartFindUniqueArgs>(args: SelectSubset<T, FlowchartFindUniqueArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Flowchart that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FlowchartFindUniqueOrThrowArgs} args - Arguments to find a Flowchart
+     * @example
+     * // Get one Flowchart
+     * const flowchart = await prisma.flowchart.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FlowchartFindUniqueOrThrowArgs>(args: SelectSubset<T, FlowchartFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Flowchart that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowchartFindFirstArgs} args - Arguments to find a Flowchart
+     * @example
+     * // Get one Flowchart
+     * const flowchart = await prisma.flowchart.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FlowchartFindFirstArgs>(args?: SelectSubset<T, FlowchartFindFirstArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Flowchart that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowchartFindFirstOrThrowArgs} args - Arguments to find a Flowchart
+     * @example
+     * // Get one Flowchart
+     * const flowchart = await prisma.flowchart.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FlowchartFindFirstOrThrowArgs>(args?: SelectSubset<T, FlowchartFindFirstOrThrowArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Flowcharts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowchartFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Flowcharts
+     * const flowcharts = await prisma.flowchart.findMany()
+     * 
+     * // Get first 10 Flowcharts
+     * const flowcharts = await prisma.flowchart.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const flowchartWithIdOnly = await prisma.flowchart.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FlowchartFindManyArgs>(args?: SelectSubset<T, FlowchartFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Flowchart.
+     * @param {FlowchartCreateArgs} args - Arguments to create a Flowchart.
+     * @example
+     * // Create one Flowchart
+     * const Flowchart = await prisma.flowchart.create({
+     *   data: {
+     *     // ... data to create a Flowchart
+     *   }
+     * })
+     * 
+     */
+    create<T extends FlowchartCreateArgs>(args: SelectSubset<T, FlowchartCreateArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Flowcharts.
+     * @param {FlowchartCreateManyArgs} args - Arguments to create many Flowcharts.
+     * @example
+     * // Create many Flowcharts
+     * const flowchart = await prisma.flowchart.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FlowchartCreateManyArgs>(args?: SelectSubset<T, FlowchartCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Flowcharts and returns the data saved in the database.
+     * @param {FlowchartCreateManyAndReturnArgs} args - Arguments to create many Flowcharts.
+     * @example
+     * // Create many Flowcharts
+     * const flowchart = await prisma.flowchart.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Flowcharts and only return the `id`
+     * const flowchartWithIdOnly = await prisma.flowchart.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FlowchartCreateManyAndReturnArgs>(args?: SelectSubset<T, FlowchartCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Flowchart.
+     * @param {FlowchartDeleteArgs} args - Arguments to delete one Flowchart.
+     * @example
+     * // Delete one Flowchart
+     * const Flowchart = await prisma.flowchart.delete({
+     *   where: {
+     *     // ... filter to delete one Flowchart
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FlowchartDeleteArgs>(args: SelectSubset<T, FlowchartDeleteArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Flowchart.
+     * @param {FlowchartUpdateArgs} args - Arguments to update one Flowchart.
+     * @example
+     * // Update one Flowchart
+     * const flowchart = await prisma.flowchart.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FlowchartUpdateArgs>(args: SelectSubset<T, FlowchartUpdateArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Flowcharts.
+     * @param {FlowchartDeleteManyArgs} args - Arguments to filter Flowcharts to delete.
+     * @example
+     * // Delete a few Flowcharts
+     * const { count } = await prisma.flowchart.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FlowchartDeleteManyArgs>(args?: SelectSubset<T, FlowchartDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Flowcharts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowchartUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Flowcharts
+     * const flowchart = await prisma.flowchart.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FlowchartUpdateManyArgs>(args: SelectSubset<T, FlowchartUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Flowcharts and returns the data updated in the database.
+     * @param {FlowchartUpdateManyAndReturnArgs} args - Arguments to update many Flowcharts.
+     * @example
+     * // Update many Flowcharts
+     * const flowchart = await prisma.flowchart.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Flowcharts and only return the `id`
+     * const flowchartWithIdOnly = await prisma.flowchart.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FlowchartUpdateManyAndReturnArgs>(args: SelectSubset<T, FlowchartUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Flowchart.
+     * @param {FlowchartUpsertArgs} args - Arguments to update or create a Flowchart.
+     * @example
+     * // Update or create a Flowchart
+     * const flowchart = await prisma.flowchart.upsert({
+     *   create: {
+     *     // ... data to create a Flowchart
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Flowchart we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FlowchartUpsertArgs>(args: SelectSubset<T, FlowchartUpsertArgs<ExtArgs>>): Prisma__FlowchartClient<$Result.GetResult<Prisma.$FlowchartPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Flowcharts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowchartCountArgs} args - Arguments to filter Flowcharts to count.
+     * @example
+     * // Count the number of Flowcharts
+     * const count = await prisma.flowchart.count({
+     *   where: {
+     *     // ... the filter for the Flowcharts we want to count
+     *   }
+     * })
+    **/
+    count<T extends FlowchartCountArgs>(
+      args?: Subset<T, FlowchartCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FlowchartCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Flowchart.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowchartAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FlowchartAggregateArgs>(args: Subset<T, FlowchartAggregateArgs>): Prisma.PrismaPromise<GetFlowchartAggregateType<T>>
+
+    /**
+     * Group by Flowchart.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FlowchartGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FlowchartGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FlowchartGroupByArgs['orderBy'] }
+        : { orderBy?: FlowchartGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FlowchartGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFlowchartGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Flowchart model
+   */
+  readonly fields: FlowchartFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Flowchart.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FlowchartClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Flowchart model
+   */
+  interface FlowchartFieldRefs {
+    readonly id: FieldRef<"Flowchart", 'String'>
+    readonly title: FieldRef<"Flowchart", 'String'>
+    readonly workspaceId: FieldRef<"Flowchart", 'String'>
+    readonly createdAt: FieldRef<"Flowchart", 'DateTime'>
+    readonly updatedAt: FieldRef<"Flowchart", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Flowchart findUnique
+   */
+  export type FlowchartFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * Filter, which Flowchart to fetch.
+     */
+    where: FlowchartWhereUniqueInput
+  }
+
+  /**
+   * Flowchart findUniqueOrThrow
+   */
+  export type FlowchartFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * Filter, which Flowchart to fetch.
+     */
+    where: FlowchartWhereUniqueInput
+  }
+
+  /**
+   * Flowchart findFirst
+   */
+  export type FlowchartFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * Filter, which Flowchart to fetch.
+     */
+    where?: FlowchartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Flowcharts to fetch.
+     */
+    orderBy?: FlowchartOrderByWithRelationInput | FlowchartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Flowcharts.
+     */
+    cursor?: FlowchartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Flowcharts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Flowcharts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Flowcharts.
+     */
+    distinct?: FlowchartScalarFieldEnum | FlowchartScalarFieldEnum[]
+  }
+
+  /**
+   * Flowchart findFirstOrThrow
+   */
+  export type FlowchartFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * Filter, which Flowchart to fetch.
+     */
+    where?: FlowchartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Flowcharts to fetch.
+     */
+    orderBy?: FlowchartOrderByWithRelationInput | FlowchartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Flowcharts.
+     */
+    cursor?: FlowchartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Flowcharts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Flowcharts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Flowcharts.
+     */
+    distinct?: FlowchartScalarFieldEnum | FlowchartScalarFieldEnum[]
+  }
+
+  /**
+   * Flowchart findMany
+   */
+  export type FlowchartFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * Filter, which Flowcharts to fetch.
+     */
+    where?: FlowchartWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Flowcharts to fetch.
+     */
+    orderBy?: FlowchartOrderByWithRelationInput | FlowchartOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Flowcharts.
+     */
+    cursor?: FlowchartWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Flowcharts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Flowcharts.
+     */
+    skip?: number
+    distinct?: FlowchartScalarFieldEnum | FlowchartScalarFieldEnum[]
+  }
+
+  /**
+   * Flowchart create
+   */
+  export type FlowchartCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Flowchart.
+     */
+    data: XOR<FlowchartCreateInput, FlowchartUncheckedCreateInput>
+  }
+
+  /**
+   * Flowchart createMany
+   */
+  export type FlowchartCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Flowcharts.
+     */
+    data: FlowchartCreateManyInput | FlowchartCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Flowchart createManyAndReturn
+   */
+  export type FlowchartCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * The data used to create many Flowcharts.
+     */
+    data: FlowchartCreateManyInput | FlowchartCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Flowchart update
+   */
+  export type FlowchartUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Flowchart.
+     */
+    data: XOR<FlowchartUpdateInput, FlowchartUncheckedUpdateInput>
+    /**
+     * Choose, which Flowchart to update.
+     */
+    where: FlowchartWhereUniqueInput
+  }
+
+  /**
+   * Flowchart updateMany
+   */
+  export type FlowchartUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Flowcharts.
+     */
+    data: XOR<FlowchartUpdateManyMutationInput, FlowchartUncheckedUpdateManyInput>
+    /**
+     * Filter which Flowcharts to update
+     */
+    where?: FlowchartWhereInput
+    /**
+     * Limit how many Flowcharts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Flowchart updateManyAndReturn
+   */
+  export type FlowchartUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * The data used to update Flowcharts.
+     */
+    data: XOR<FlowchartUpdateManyMutationInput, FlowchartUncheckedUpdateManyInput>
+    /**
+     * Filter which Flowcharts to update
+     */
+    where?: FlowchartWhereInput
+    /**
+     * Limit how many Flowcharts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Flowchart upsert
+   */
+  export type FlowchartUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Flowchart to update in case it exists.
+     */
+    where: FlowchartWhereUniqueInput
+    /**
+     * In case the Flowchart found by the `where` argument doesn't exist, create a new Flowchart with this data.
+     */
+    create: XOR<FlowchartCreateInput, FlowchartUncheckedCreateInput>
+    /**
+     * In case the Flowchart was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FlowchartUpdateInput, FlowchartUncheckedUpdateInput>
+  }
+
+  /**
+   * Flowchart delete
+   */
+  export type FlowchartDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+    /**
+     * Filter which Flowchart to delete.
+     */
+    where: FlowchartWhereUniqueInput
+  }
+
+  /**
+   * Flowchart deleteMany
+   */
+  export type FlowchartDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Flowcharts to delete
+     */
+    where?: FlowchartWhereInput
+    /**
+     * Limit how many Flowcharts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Flowchart without action
+   */
+  export type FlowchartDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Flowchart
+     */
+    select?: FlowchartSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Flowchart
+     */
+    omit?: FlowchartOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FlowchartInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Whiteboard
+   */
+
+  export type AggregateWhiteboard = {
+    _count: WhiteboardCountAggregateOutputType | null
+    _min: WhiteboardMinAggregateOutputType | null
+    _max: WhiteboardMaxAggregateOutputType | null
+  }
+
+  export type WhiteboardMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    workspaceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WhiteboardMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    workspaceId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WhiteboardCountAggregateOutputType = {
+    id: number
+    title: number
+    workspaceId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WhiteboardMinAggregateInputType = {
+    id?: true
+    title?: true
+    workspaceId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WhiteboardMaxAggregateInputType = {
+    id?: true
+    title?: true
+    workspaceId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WhiteboardCountAggregateInputType = {
+    id?: true
+    title?: true
+    workspaceId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WhiteboardAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Whiteboard to aggregate.
+     */
+    where?: WhiteboardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Whiteboards to fetch.
+     */
+    orderBy?: WhiteboardOrderByWithRelationInput | WhiteboardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WhiteboardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Whiteboards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Whiteboards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Whiteboards
+    **/
+    _count?: true | WhiteboardCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WhiteboardMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WhiteboardMaxAggregateInputType
+  }
+
+  export type GetWhiteboardAggregateType<T extends WhiteboardAggregateArgs> = {
+        [P in keyof T & keyof AggregateWhiteboard]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWhiteboard[P]>
+      : GetScalarType<T[P], AggregateWhiteboard[P]>
+  }
+
+
+
+
+  export type WhiteboardGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WhiteboardWhereInput
+    orderBy?: WhiteboardOrderByWithAggregationInput | WhiteboardOrderByWithAggregationInput[]
+    by: WhiteboardScalarFieldEnum[] | WhiteboardScalarFieldEnum
+    having?: WhiteboardScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WhiteboardCountAggregateInputType | true
+    _min?: WhiteboardMinAggregateInputType
+    _max?: WhiteboardMaxAggregateInputType
+  }
+
+  export type WhiteboardGroupByOutputType = {
+    id: string
+    title: string
+    workspaceId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: WhiteboardCountAggregateOutputType | null
+    _min: WhiteboardMinAggregateOutputType | null
+    _max: WhiteboardMaxAggregateOutputType | null
+  }
+
+  type GetWhiteboardGroupByPayload<T extends WhiteboardGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WhiteboardGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WhiteboardGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WhiteboardGroupByOutputType[P]>
+            : GetScalarType<T[P], WhiteboardGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WhiteboardSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["whiteboard"]>
+
+  export type WhiteboardSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["whiteboard"]>
+
+  export type WhiteboardSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["whiteboard"]>
+
+  export type WhiteboardSelectScalar = {
+    id?: boolean
+    title?: boolean
+    workspaceId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WhiteboardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "workspaceId" | "createdAt" | "updatedAt", ExtArgs["result"]["whiteboard"]>
+  export type WhiteboardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+  export type WhiteboardIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+  export type WhiteboardIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+  }
+
+  export type $WhiteboardPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Whiteboard"
+    objects: {
+      workspace: Prisma.$WorkspacePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      workspaceId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["whiteboard"]>
+    composites: {}
+  }
+
+  type WhiteboardGetPayload<S extends boolean | null | undefined | WhiteboardDefaultArgs> = $Result.GetResult<Prisma.$WhiteboardPayload, S>
+
+  type WhiteboardCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WhiteboardFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WhiteboardCountAggregateInputType | true
+    }
+
+  export interface WhiteboardDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Whiteboard'], meta: { name: 'Whiteboard' } }
+    /**
+     * Find zero or one Whiteboard that matches the filter.
+     * @param {WhiteboardFindUniqueArgs} args - Arguments to find a Whiteboard
+     * @example
+     * // Get one Whiteboard
+     * const whiteboard = await prisma.whiteboard.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WhiteboardFindUniqueArgs>(args: SelectSubset<T, WhiteboardFindUniqueArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Whiteboard that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WhiteboardFindUniqueOrThrowArgs} args - Arguments to find a Whiteboard
+     * @example
+     * // Get one Whiteboard
+     * const whiteboard = await prisma.whiteboard.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WhiteboardFindUniqueOrThrowArgs>(args: SelectSubset<T, WhiteboardFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Whiteboard that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardFindFirstArgs} args - Arguments to find a Whiteboard
+     * @example
+     * // Get one Whiteboard
+     * const whiteboard = await prisma.whiteboard.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WhiteboardFindFirstArgs>(args?: SelectSubset<T, WhiteboardFindFirstArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Whiteboard that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardFindFirstOrThrowArgs} args - Arguments to find a Whiteboard
+     * @example
+     * // Get one Whiteboard
+     * const whiteboard = await prisma.whiteboard.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WhiteboardFindFirstOrThrowArgs>(args?: SelectSubset<T, WhiteboardFindFirstOrThrowArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Whiteboards that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Whiteboards
+     * const whiteboards = await prisma.whiteboard.findMany()
+     * 
+     * // Get first 10 Whiteboards
+     * const whiteboards = await prisma.whiteboard.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const whiteboardWithIdOnly = await prisma.whiteboard.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WhiteboardFindManyArgs>(args?: SelectSubset<T, WhiteboardFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Whiteboard.
+     * @param {WhiteboardCreateArgs} args - Arguments to create a Whiteboard.
+     * @example
+     * // Create one Whiteboard
+     * const Whiteboard = await prisma.whiteboard.create({
+     *   data: {
+     *     // ... data to create a Whiteboard
+     *   }
+     * })
+     * 
+     */
+    create<T extends WhiteboardCreateArgs>(args: SelectSubset<T, WhiteboardCreateArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Whiteboards.
+     * @param {WhiteboardCreateManyArgs} args - Arguments to create many Whiteboards.
+     * @example
+     * // Create many Whiteboards
+     * const whiteboard = await prisma.whiteboard.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WhiteboardCreateManyArgs>(args?: SelectSubset<T, WhiteboardCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Whiteboards and returns the data saved in the database.
+     * @param {WhiteboardCreateManyAndReturnArgs} args - Arguments to create many Whiteboards.
+     * @example
+     * // Create many Whiteboards
+     * const whiteboard = await prisma.whiteboard.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Whiteboards and only return the `id`
+     * const whiteboardWithIdOnly = await prisma.whiteboard.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WhiteboardCreateManyAndReturnArgs>(args?: SelectSubset<T, WhiteboardCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Whiteboard.
+     * @param {WhiteboardDeleteArgs} args - Arguments to delete one Whiteboard.
+     * @example
+     * // Delete one Whiteboard
+     * const Whiteboard = await prisma.whiteboard.delete({
+     *   where: {
+     *     // ... filter to delete one Whiteboard
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WhiteboardDeleteArgs>(args: SelectSubset<T, WhiteboardDeleteArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Whiteboard.
+     * @param {WhiteboardUpdateArgs} args - Arguments to update one Whiteboard.
+     * @example
+     * // Update one Whiteboard
+     * const whiteboard = await prisma.whiteboard.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WhiteboardUpdateArgs>(args: SelectSubset<T, WhiteboardUpdateArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Whiteboards.
+     * @param {WhiteboardDeleteManyArgs} args - Arguments to filter Whiteboards to delete.
+     * @example
+     * // Delete a few Whiteboards
+     * const { count } = await prisma.whiteboard.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WhiteboardDeleteManyArgs>(args?: SelectSubset<T, WhiteboardDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Whiteboards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Whiteboards
+     * const whiteboard = await prisma.whiteboard.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WhiteboardUpdateManyArgs>(args: SelectSubset<T, WhiteboardUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Whiteboards and returns the data updated in the database.
+     * @param {WhiteboardUpdateManyAndReturnArgs} args - Arguments to update many Whiteboards.
+     * @example
+     * // Update many Whiteboards
+     * const whiteboard = await prisma.whiteboard.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Whiteboards and only return the `id`
+     * const whiteboardWithIdOnly = await prisma.whiteboard.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WhiteboardUpdateManyAndReturnArgs>(args: SelectSubset<T, WhiteboardUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Whiteboard.
+     * @param {WhiteboardUpsertArgs} args - Arguments to update or create a Whiteboard.
+     * @example
+     * // Update or create a Whiteboard
+     * const whiteboard = await prisma.whiteboard.upsert({
+     *   create: {
+     *     // ... data to create a Whiteboard
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Whiteboard we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WhiteboardUpsertArgs>(args: SelectSubset<T, WhiteboardUpsertArgs<ExtArgs>>): Prisma__WhiteboardClient<$Result.GetResult<Prisma.$WhiteboardPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Whiteboards.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardCountArgs} args - Arguments to filter Whiteboards to count.
+     * @example
+     * // Count the number of Whiteboards
+     * const count = await prisma.whiteboard.count({
+     *   where: {
+     *     // ... the filter for the Whiteboards we want to count
+     *   }
+     * })
+    **/
+    count<T extends WhiteboardCountArgs>(
+      args?: Subset<T, WhiteboardCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WhiteboardCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Whiteboard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WhiteboardAggregateArgs>(args: Subset<T, WhiteboardAggregateArgs>): Prisma.PrismaPromise<GetWhiteboardAggregateType<T>>
+
+    /**
+     * Group by Whiteboard.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WhiteboardGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WhiteboardGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WhiteboardGroupByArgs['orderBy'] }
+        : { orderBy?: WhiteboardGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WhiteboardGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWhiteboardGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Whiteboard model
+   */
+  readonly fields: WhiteboardFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Whiteboard.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WhiteboardClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Whiteboard model
+   */
+  interface WhiteboardFieldRefs {
+    readonly id: FieldRef<"Whiteboard", 'String'>
+    readonly title: FieldRef<"Whiteboard", 'String'>
+    readonly workspaceId: FieldRef<"Whiteboard", 'String'>
+    readonly createdAt: FieldRef<"Whiteboard", 'DateTime'>
+    readonly updatedAt: FieldRef<"Whiteboard", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Whiteboard findUnique
+   */
+  export type WhiteboardFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * Filter, which Whiteboard to fetch.
+     */
+    where: WhiteboardWhereUniqueInput
+  }
+
+  /**
+   * Whiteboard findUniqueOrThrow
+   */
+  export type WhiteboardFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * Filter, which Whiteboard to fetch.
+     */
+    where: WhiteboardWhereUniqueInput
+  }
+
+  /**
+   * Whiteboard findFirst
+   */
+  export type WhiteboardFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * Filter, which Whiteboard to fetch.
+     */
+    where?: WhiteboardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Whiteboards to fetch.
+     */
+    orderBy?: WhiteboardOrderByWithRelationInput | WhiteboardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Whiteboards.
+     */
+    cursor?: WhiteboardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Whiteboards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Whiteboards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Whiteboards.
+     */
+    distinct?: WhiteboardScalarFieldEnum | WhiteboardScalarFieldEnum[]
+  }
+
+  /**
+   * Whiteboard findFirstOrThrow
+   */
+  export type WhiteboardFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * Filter, which Whiteboard to fetch.
+     */
+    where?: WhiteboardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Whiteboards to fetch.
+     */
+    orderBy?: WhiteboardOrderByWithRelationInput | WhiteboardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Whiteboards.
+     */
+    cursor?: WhiteboardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Whiteboards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Whiteboards.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Whiteboards.
+     */
+    distinct?: WhiteboardScalarFieldEnum | WhiteboardScalarFieldEnum[]
+  }
+
+  /**
+   * Whiteboard findMany
+   */
+  export type WhiteboardFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * Filter, which Whiteboards to fetch.
+     */
+    where?: WhiteboardWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Whiteboards to fetch.
+     */
+    orderBy?: WhiteboardOrderByWithRelationInput | WhiteboardOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Whiteboards.
+     */
+    cursor?: WhiteboardWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Whiteboards from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Whiteboards.
+     */
+    skip?: number
+    distinct?: WhiteboardScalarFieldEnum | WhiteboardScalarFieldEnum[]
+  }
+
+  /**
+   * Whiteboard create
+   */
+  export type WhiteboardCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Whiteboard.
+     */
+    data: XOR<WhiteboardCreateInput, WhiteboardUncheckedCreateInput>
+  }
+
+  /**
+   * Whiteboard createMany
+   */
+  export type WhiteboardCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Whiteboards.
+     */
+    data: WhiteboardCreateManyInput | WhiteboardCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Whiteboard createManyAndReturn
+   */
+  export type WhiteboardCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * The data used to create many Whiteboards.
+     */
+    data: WhiteboardCreateManyInput | WhiteboardCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Whiteboard update
+   */
+  export type WhiteboardUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Whiteboard.
+     */
+    data: XOR<WhiteboardUpdateInput, WhiteboardUncheckedUpdateInput>
+    /**
+     * Choose, which Whiteboard to update.
+     */
+    where: WhiteboardWhereUniqueInput
+  }
+
+  /**
+   * Whiteboard updateMany
+   */
+  export type WhiteboardUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Whiteboards.
+     */
+    data: XOR<WhiteboardUpdateManyMutationInput, WhiteboardUncheckedUpdateManyInput>
+    /**
+     * Filter which Whiteboards to update
+     */
+    where?: WhiteboardWhereInput
+    /**
+     * Limit how many Whiteboards to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Whiteboard updateManyAndReturn
+   */
+  export type WhiteboardUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * The data used to update Whiteboards.
+     */
+    data: XOR<WhiteboardUpdateManyMutationInput, WhiteboardUncheckedUpdateManyInput>
+    /**
+     * Filter which Whiteboards to update
+     */
+    where?: WhiteboardWhereInput
+    /**
+     * Limit how many Whiteboards to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Whiteboard upsert
+   */
+  export type WhiteboardUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Whiteboard to update in case it exists.
+     */
+    where: WhiteboardWhereUniqueInput
+    /**
+     * In case the Whiteboard found by the `where` argument doesn't exist, create a new Whiteboard with this data.
+     */
+    create: XOR<WhiteboardCreateInput, WhiteboardUncheckedCreateInput>
+    /**
+     * In case the Whiteboard was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WhiteboardUpdateInput, WhiteboardUncheckedUpdateInput>
+  }
+
+  /**
+   * Whiteboard delete
+   */
+  export type WhiteboardDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
+    /**
+     * Filter which Whiteboard to delete.
+     */
+    where: WhiteboardWhereUniqueInput
+  }
+
+  /**
+   * Whiteboard deleteMany
+   */
+  export type WhiteboardDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Whiteboards to delete
+     */
+    where?: WhiteboardWhereInput
+    /**
+     * Limit how many Whiteboards to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Whiteboard without action
+   */
+  export type WhiteboardDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Whiteboard
+     */
+    select?: WhiteboardSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Whiteboard
+     */
+    omit?: WhiteboardOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WhiteboardInclude<ExtArgs> | null
   }
 
 
@@ -7301,6 +13358,7 @@ export namespace Prisma {
     id: string | null
     email: string | null
     name: string | null
+    isProfileSetup: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7309,6 +13367,7 @@ export namespace Prisma {
     id: string | null
     email: string | null
     name: string | null
+    isProfileSetup: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7317,6 +13376,7 @@ export namespace Prisma {
     id: number
     email: number
     name: number
+    isProfileSetup: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7327,6 +13387,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    isProfileSetup?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7335,6 +13396,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    isProfileSetup?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7343,6 +13405,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    isProfileSetup?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7424,6 +13487,7 @@ export namespace Prisma {
     id: string
     email: string
     name: string
+    isProfileSetup: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -7449,11 +13513,14 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isProfileSetup?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     Chat?: boolean | User$ChatArgs<ExtArgs>
     MindMap?: boolean | User$MindMapArgs<ExtArgs>
     UserSubscription?: boolean | User$UserSubscriptionArgs<ExtArgs>
+    TeamMember?: boolean | User$TeamMemberArgs<ExtArgs>
+    workspace?: boolean | User$workspaceArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -7461,6 +13528,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isProfileSetup?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -7469,6 +13537,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isProfileSetup?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -7477,15 +13546,18 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isProfileSetup?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "isProfileSetup" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Chat?: boolean | User$ChatArgs<ExtArgs>
     MindMap?: boolean | User$MindMapArgs<ExtArgs>
     UserSubscription?: boolean | User$UserSubscriptionArgs<ExtArgs>
+    TeamMember?: boolean | User$TeamMemberArgs<ExtArgs>
+    workspace?: boolean | User$workspaceArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7497,11 +13569,14 @@ export namespace Prisma {
       Chat: Prisma.$ChatPayload<ExtArgs>[]
       MindMap: Prisma.$MindMapPayload<ExtArgs>[]
       UserSubscription: Prisma.$UserSubscriptionPayload<ExtArgs> | null
+      TeamMember: Prisma.$TeamMemberPayload<ExtArgs>[]
+      workspace: Prisma.$WorkspacePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string
       name: string
+      isProfileSetup: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -7901,6 +13976,8 @@ export namespace Prisma {
     Chat<T extends User$ChatArgs<ExtArgs> = {}>(args?: Subset<T, User$ChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     MindMap<T extends User$MindMapArgs<ExtArgs> = {}>(args?: Subset<T, User$MindMapArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MindMapPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     UserSubscription<T extends User$UserSubscriptionArgs<ExtArgs> = {}>(args?: Subset<T, User$UserSubscriptionArgs<ExtArgs>>): Prisma__UserSubscriptionClient<$Result.GetResult<Prisma.$UserSubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    TeamMember<T extends User$TeamMemberArgs<ExtArgs> = {}>(args?: Subset<T, User$TeamMemberArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    workspace<T extends User$workspaceArgs<ExtArgs> = {}>(args?: Subset<T, User$workspaceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7933,6 +14010,7 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly isProfileSetup: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -8387,6 +14465,54 @@ export namespace Prisma {
      */
     include?: UserSubscriptionInclude<ExtArgs> | null
     where?: UserSubscriptionWhereInput
+  }
+
+  /**
+   * User.TeamMember
+   */
+  export type User$TeamMemberArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TeamMember
+     */
+    select?: TeamMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TeamMember
+     */
+    omit?: TeamMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamMemberInclude<ExtArgs> | null
+    where?: TeamMemberWhereInput
+    orderBy?: TeamMemberOrderByWithRelationInput | TeamMemberOrderByWithRelationInput[]
+    cursor?: TeamMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamMemberScalarFieldEnum | TeamMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.workspace
+   */
+  export type User$workspaceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Workspace
+     */
+    select?: WorkspaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Workspace
+     */
+    omit?: WorkspaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WorkspaceInclude<ExtArgs> | null
+    where?: WorkspaceWhereInput
+    orderBy?: WorkspaceOrderByWithRelationInput | WorkspaceOrderByWithRelationInput[]
+    cursor?: WorkspaceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WorkspaceScalarFieldEnum | WorkspaceScalarFieldEnum[]
   }
 
   /**
@@ -9528,6 +15654,7 @@ export namespace Prisma {
   export const MindMapScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    workspaceId: 'workspaceId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
@@ -9548,6 +15675,61 @@ export namespace Prisma {
   };
 
   export type ChatScalarFieldEnum = (typeof ChatScalarFieldEnum)[keyof typeof ChatScalarFieldEnum]
+
+
+  export const TeamScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    workspaceId: 'workspaceId'
+  };
+
+  export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
+
+
+  export const TeamMemberScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    teamId: 'teamId',
+    role: 'role',
+    joinedAt: 'joinedAt'
+  };
+
+  export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
+
+
+  export const WorkspaceScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId'
+  };
+
+  export type WorkspaceScalarFieldEnum = (typeof WorkspaceScalarFieldEnum)[keyof typeof WorkspaceScalarFieldEnum]
+
+
+  export const FlowchartScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    workspaceId: 'workspaceId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FlowchartScalarFieldEnum = (typeof FlowchartScalarFieldEnum)[keyof typeof FlowchartScalarFieldEnum]
+
+
+  export const WhiteboardScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    workspaceId: 'workspaceId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WhiteboardScalarFieldEnum = (typeof WhiteboardScalarFieldEnum)[keyof typeof WhiteboardScalarFieldEnum]
 
 
   export const NodeScalarFieldEnum: {
@@ -9582,6 +15764,7 @@ export namespace Prisma {
     id: 'id',
     email: 'email',
     name: 'name',
+    isProfileSetup: 'isProfileSetup',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9691,6 +15874,20 @@ export namespace Prisma {
    * Reference to a field of type 'GeneratedBy[]'
    */
   export type ListEnumGeneratedByFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GeneratedBy[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TeamRole'
+   */
+  export type EnumTeamRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TeamRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'TeamRole[]'
+   */
+  export type ListEnumTeamRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TeamRole[]'>
     
 
 
@@ -9814,6 +16011,7 @@ export namespace Prisma {
     NOT?: MindMapWhereInput | MindMapWhereInput[]
     id?: StringFilter<"MindMap"> | string
     title?: StringFilter<"MindMap"> | string
+    workspaceId?: StringFilter<"MindMap"> | string
     createdAt?: DateTimeFilter<"MindMap"> | Date | string
     updatedAt?: DateTimeFilter<"MindMap"> | Date | string
     userId?: StringFilter<"MindMap"> | string
@@ -9821,6 +16019,7 @@ export namespace Prisma {
     generatedBy?: EnumGeneratedByFilter<"MindMap"> | $Enums.GeneratedBy
     chatId?: StringNullableFilter<"MindMap"> | string | null
     Chat?: XOR<ChatNullableScalarRelationFilter, ChatWhereInput> | null
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     nodes?: NodeListRelationFilter
   }
@@ -9828,6 +16027,7 @@ export namespace Prisma {
   export type MindMapOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
+    workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -9835,6 +16035,7 @@ export namespace Prisma {
     generatedBy?: SortOrder
     chatId?: SortOrderInput | SortOrder
     Chat?: ChatOrderByWithRelationInput
+    workspace?: WorkspaceOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
     nodes?: NodeOrderByRelationAggregateInput
   }
@@ -9846,12 +16047,14 @@ export namespace Prisma {
     OR?: MindMapWhereInput[]
     NOT?: MindMapWhereInput | MindMapWhereInput[]
     title?: StringFilter<"MindMap"> | string
+    workspaceId?: StringFilter<"MindMap"> | string
     createdAt?: DateTimeFilter<"MindMap"> | Date | string
     updatedAt?: DateTimeFilter<"MindMap"> | Date | string
     userId?: StringFilter<"MindMap"> | string
     isPublic?: BoolFilter<"MindMap"> | boolean
     generatedBy?: EnumGeneratedByFilter<"MindMap"> | $Enums.GeneratedBy
     Chat?: XOR<ChatNullableScalarRelationFilter, ChatWhereInput> | null
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
     User?: XOR<UserScalarRelationFilter, UserWhereInput>
     nodes?: NodeListRelationFilter
   }, "id" | "chatId">
@@ -9859,6 +16062,7 @@ export namespace Prisma {
   export type MindMapOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -9876,6 +16080,7 @@ export namespace Prisma {
     NOT?: MindMapScalarWhereWithAggregatesInput | MindMapScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"MindMap"> | string
     title?: StringWithAggregatesFilter<"MindMap"> | string
+    workspaceId?: StringWithAggregatesFilter<"MindMap"> | string
     createdAt?: DateTimeWithAggregatesFilter<"MindMap"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MindMap"> | Date | string
     userId?: StringWithAggregatesFilter<"MindMap"> | string
@@ -9943,6 +16148,300 @@ export namespace Prisma {
     mindMapId?: StringWithAggregatesFilter<"Chat"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Chat"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Chat"> | Date | string
+  }
+
+  export type TeamWhereInput = {
+    AND?: TeamWhereInput | TeamWhereInput[]
+    OR?: TeamWhereInput[]
+    NOT?: TeamWhereInput | TeamWhereInput[]
+    id?: StringFilter<"Team"> | string
+    name?: StringFilter<"Team"> | string
+    createdAt?: DateTimeFilter<"Team"> | Date | string
+    updatedAt?: DateTimeFilter<"Team"> | Date | string
+    workspaceId?: StringFilter<"Team"> | string
+    members?: TeamMemberListRelationFilter
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+  }
+
+  export type TeamOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workspaceId?: SortOrder
+    members?: TeamMemberOrderByRelationAggregateInput
+    workspace?: WorkspaceOrderByWithRelationInput
+  }
+
+  export type TeamWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TeamWhereInput | TeamWhereInput[]
+    OR?: TeamWhereInput[]
+    NOT?: TeamWhereInput | TeamWhereInput[]
+    name?: StringFilter<"Team"> | string
+    createdAt?: DateTimeFilter<"Team"> | Date | string
+    updatedAt?: DateTimeFilter<"Team"> | Date | string
+    workspaceId?: StringFilter<"Team"> | string
+    members?: TeamMemberListRelationFilter
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+  }, "id">
+
+  export type TeamOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workspaceId?: SortOrder
+    _count?: TeamCountOrderByAggregateInput
+    _max?: TeamMaxOrderByAggregateInput
+    _min?: TeamMinOrderByAggregateInput
+  }
+
+  export type TeamScalarWhereWithAggregatesInput = {
+    AND?: TeamScalarWhereWithAggregatesInput | TeamScalarWhereWithAggregatesInput[]
+    OR?: TeamScalarWhereWithAggregatesInput[]
+    NOT?: TeamScalarWhereWithAggregatesInput | TeamScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Team"> | string
+    name?: StringWithAggregatesFilter<"Team"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Team"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Team"> | Date | string
+    workspaceId?: StringWithAggregatesFilter<"Team"> | string
+  }
+
+  export type TeamMemberWhereInput = {
+    AND?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    OR?: TeamMemberWhereInput[]
+    NOT?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    id?: StringFilter<"TeamMember"> | string
+    userId?: StringFilter<"TeamMember"> | string
+    teamId?: StringFilter<"TeamMember"> | string
+    role?: EnumTeamRoleFilter<"TeamMember"> | $Enums.TeamRole
+    joinedAt?: DateTimeFilter<"TeamMember"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+  }
+
+  export type TeamMemberOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    teamId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    team?: TeamOrderByWithRelationInput
+  }
+
+  export type TeamMemberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_teamId?: TeamMemberUserIdTeamIdCompoundUniqueInput
+    AND?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    OR?: TeamMemberWhereInput[]
+    NOT?: TeamMemberWhereInput | TeamMemberWhereInput[]
+    userId?: StringFilter<"TeamMember"> | string
+    teamId?: StringFilter<"TeamMember"> | string
+    role?: EnumTeamRoleFilter<"TeamMember"> | $Enums.TeamRole
+    joinedAt?: DateTimeFilter<"TeamMember"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    team?: XOR<TeamScalarRelationFilter, TeamWhereInput>
+  }, "id" | "userId_teamId">
+
+  export type TeamMemberOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    teamId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+    _count?: TeamMemberCountOrderByAggregateInput
+    _max?: TeamMemberMaxOrderByAggregateInput
+    _min?: TeamMemberMinOrderByAggregateInput
+  }
+
+  export type TeamMemberScalarWhereWithAggregatesInput = {
+    AND?: TeamMemberScalarWhereWithAggregatesInput | TeamMemberScalarWhereWithAggregatesInput[]
+    OR?: TeamMemberScalarWhereWithAggregatesInput[]
+    NOT?: TeamMemberScalarWhereWithAggregatesInput | TeamMemberScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TeamMember"> | string
+    userId?: StringWithAggregatesFilter<"TeamMember"> | string
+    teamId?: StringWithAggregatesFilter<"TeamMember"> | string
+    role?: EnumTeamRoleWithAggregatesFilter<"TeamMember"> | $Enums.TeamRole
+    joinedAt?: DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
+  }
+
+  export type WorkspaceWhereInput = {
+    AND?: WorkspaceWhereInput | WorkspaceWhereInput[]
+    OR?: WorkspaceWhereInput[]
+    NOT?: WorkspaceWhereInput | WorkspaceWhereInput[]
+    id?: StringFilter<"Workspace"> | string
+    name?: StringFilter<"Workspace"> | string
+    createdAt?: DateTimeFilter<"Workspace"> | Date | string
+    updatedAt?: DateTimeFilter<"Workspace"> | Date | string
+    userId?: StringNullableFilter<"Workspace"> | string | null
+    teams?: TeamListRelationFilter
+    mindmaps?: MindMapListRelationFilter
+    flowcharts?: FlowchartListRelationFilter
+    whiteboards?: WhiteboardListRelationFilter
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type WorkspaceOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    teams?: TeamOrderByRelationAggregateInput
+    mindmaps?: MindMapOrderByRelationAggregateInput
+    flowcharts?: FlowchartOrderByRelationAggregateInput
+    whiteboards?: WhiteboardOrderByRelationAggregateInput
+    User?: UserOrderByWithRelationInput
+  }
+
+  export type WorkspaceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WorkspaceWhereInput | WorkspaceWhereInput[]
+    OR?: WorkspaceWhereInput[]
+    NOT?: WorkspaceWhereInput | WorkspaceWhereInput[]
+    name?: StringFilter<"Workspace"> | string
+    createdAt?: DateTimeFilter<"Workspace"> | Date | string
+    updatedAt?: DateTimeFilter<"Workspace"> | Date | string
+    userId?: StringNullableFilter<"Workspace"> | string | null
+    teams?: TeamListRelationFilter
+    mindmaps?: MindMapListRelationFilter
+    flowcharts?: FlowchartListRelationFilter
+    whiteboards?: WhiteboardListRelationFilter
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type WorkspaceOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    _count?: WorkspaceCountOrderByAggregateInput
+    _max?: WorkspaceMaxOrderByAggregateInput
+    _min?: WorkspaceMinOrderByAggregateInput
+  }
+
+  export type WorkspaceScalarWhereWithAggregatesInput = {
+    AND?: WorkspaceScalarWhereWithAggregatesInput | WorkspaceScalarWhereWithAggregatesInput[]
+    OR?: WorkspaceScalarWhereWithAggregatesInput[]
+    NOT?: WorkspaceScalarWhereWithAggregatesInput | WorkspaceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Workspace"> | string
+    name?: StringWithAggregatesFilter<"Workspace"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Workspace"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Workspace"> | Date | string
+    userId?: StringNullableWithAggregatesFilter<"Workspace"> | string | null
+  }
+
+  export type FlowchartWhereInput = {
+    AND?: FlowchartWhereInput | FlowchartWhereInput[]
+    OR?: FlowchartWhereInput[]
+    NOT?: FlowchartWhereInput | FlowchartWhereInput[]
+    id?: StringFilter<"Flowchart"> | string
+    title?: StringFilter<"Flowchart"> | string
+    workspaceId?: StringFilter<"Flowchart"> | string
+    createdAt?: DateTimeFilter<"Flowchart"> | Date | string
+    updatedAt?: DateTimeFilter<"Flowchart"> | Date | string
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+  }
+
+  export type FlowchartOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workspace?: WorkspaceOrderByWithRelationInput
+  }
+
+  export type FlowchartWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: FlowchartWhereInput | FlowchartWhereInput[]
+    OR?: FlowchartWhereInput[]
+    NOT?: FlowchartWhereInput | FlowchartWhereInput[]
+    title?: StringFilter<"Flowchart"> | string
+    workspaceId?: StringFilter<"Flowchart"> | string
+    createdAt?: DateTimeFilter<"Flowchart"> | Date | string
+    updatedAt?: DateTimeFilter<"Flowchart"> | Date | string
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+  }, "id">
+
+  export type FlowchartOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FlowchartCountOrderByAggregateInput
+    _max?: FlowchartMaxOrderByAggregateInput
+    _min?: FlowchartMinOrderByAggregateInput
+  }
+
+  export type FlowchartScalarWhereWithAggregatesInput = {
+    AND?: FlowchartScalarWhereWithAggregatesInput | FlowchartScalarWhereWithAggregatesInput[]
+    OR?: FlowchartScalarWhereWithAggregatesInput[]
+    NOT?: FlowchartScalarWhereWithAggregatesInput | FlowchartScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Flowchart"> | string
+    title?: StringWithAggregatesFilter<"Flowchart"> | string
+    workspaceId?: StringWithAggregatesFilter<"Flowchart"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Flowchart"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Flowchart"> | Date | string
+  }
+
+  export type WhiteboardWhereInput = {
+    AND?: WhiteboardWhereInput | WhiteboardWhereInput[]
+    OR?: WhiteboardWhereInput[]
+    NOT?: WhiteboardWhereInput | WhiteboardWhereInput[]
+    id?: StringFilter<"Whiteboard"> | string
+    title?: StringFilter<"Whiteboard"> | string
+    workspaceId?: StringFilter<"Whiteboard"> | string
+    createdAt?: DateTimeFilter<"Whiteboard"> | Date | string
+    updatedAt?: DateTimeFilter<"Whiteboard"> | Date | string
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+  }
+
+  export type WhiteboardOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workspace?: WorkspaceOrderByWithRelationInput
+  }
+
+  export type WhiteboardWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WhiteboardWhereInput | WhiteboardWhereInput[]
+    OR?: WhiteboardWhereInput[]
+    NOT?: WhiteboardWhereInput | WhiteboardWhereInput[]
+    title?: StringFilter<"Whiteboard"> | string
+    workspaceId?: StringFilter<"Whiteboard"> | string
+    createdAt?: DateTimeFilter<"Whiteboard"> | Date | string
+    updatedAt?: DateTimeFilter<"Whiteboard"> | Date | string
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+  }, "id">
+
+  export type WhiteboardOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WhiteboardCountOrderByAggregateInput
+    _max?: WhiteboardMaxOrderByAggregateInput
+    _min?: WhiteboardMinOrderByAggregateInput
+  }
+
+  export type WhiteboardScalarWhereWithAggregatesInput = {
+    AND?: WhiteboardScalarWhereWithAggregatesInput | WhiteboardScalarWhereWithAggregatesInput[]
+    OR?: WhiteboardScalarWhereWithAggregatesInput[]
+    NOT?: WhiteboardScalarWhereWithAggregatesInput | WhiteboardScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Whiteboard"> | string
+    title?: StringWithAggregatesFilter<"Whiteboard"> | string
+    workspaceId?: StringWithAggregatesFilter<"Whiteboard"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Whiteboard"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Whiteboard"> | Date | string
   }
 
   export type NodeWhereInput = {
@@ -10102,22 +16601,28 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    isProfileSetup?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Chat?: ChatListRelationFilter
     MindMap?: MindMapListRelationFilter
     UserSubscription?: XOR<UserSubscriptionNullableScalarRelationFilter, UserSubscriptionWhereInput> | null
+    TeamMember?: TeamMemberListRelationFilter
+    workspace?: WorkspaceListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isProfileSetup?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     Chat?: ChatOrderByRelationAggregateInput
     MindMap?: MindMapOrderByRelationAggregateInput
     UserSubscription?: UserSubscriptionOrderByWithRelationInput
+    TeamMember?: TeamMemberOrderByRelationAggregateInput
+    workspace?: WorkspaceOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -10127,17 +16632,21 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
+    isProfileSetup?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Chat?: ChatListRelationFilter
     MindMap?: MindMapListRelationFilter
     UserSubscription?: XOR<UserSubscriptionNullableScalarRelationFilter, UserSubscriptionWhereInput> | null
+    TeamMember?: TeamMemberListRelationFilter
+    workspace?: WorkspaceListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isProfileSetup?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -10152,6 +16661,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
+    isProfileSetup?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -10288,6 +16798,7 @@ export namespace Prisma {
     generatedBy: $Enums.GeneratedBy
     chatId?: string | null
     Chat?: ChatCreateNestedOneWithoutMindMapInput
+    workspace: WorkspaceCreateNestedOneWithoutMindmapsInput
     User: UserCreateNestedOneWithoutMindMapInput
     nodes?: NodeCreateNestedManyWithoutMindMapInput
   }
@@ -10295,6 +16806,7 @@ export namespace Prisma {
   export type MindMapUncheckedCreateInput = {
     id?: string
     title: string
+    workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -10314,6 +16826,7 @@ export namespace Prisma {
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     chatId?: NullableStringFieldUpdateOperationsInput | string | null
     Chat?: ChatUpdateOneWithoutMindMapNestedInput
+    workspace?: WorkspaceUpdateOneRequiredWithoutMindmapsNestedInput
     User?: UserUpdateOneRequiredWithoutMindMapNestedInput
     nodes?: NodeUpdateManyWithoutMindMapNestedInput
   }
@@ -10321,6 +16834,7 @@ export namespace Prisma {
   export type MindMapUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -10334,6 +16848,7 @@ export namespace Prisma {
   export type MindMapCreateManyInput = {
     id?: string
     title: string
+    workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -10355,6 +16870,7 @@ export namespace Prisma {
   export type MindMapUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -10417,6 +16933,300 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     mindMapId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    workspace: WorkspaceCreateNestedOneWithoutTeamsInput
+  }
+
+  export type TeamUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspaceId: string
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    workspace?: WorkspaceUpdateOneRequiredWithoutTeamsNestedInput
+  }
+
+  export type TeamUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspaceId: string
+  }
+
+  export type TeamUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TeamMemberCreateInput = {
+    id?: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+    user: UserCreateNestedOneWithoutTeamMemberInput
+    team: TeamCreateNestedOneWithoutMembersInput
+  }
+
+  export type TeamMemberUncheckedCreateInput = {
+    id?: string
+    userId: string
+    teamId: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+  }
+
+  export type TeamMemberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTeamMemberNestedInput
+    team?: TeamUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type TeamMemberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMemberCreateManyInput = {
+    id?: string
+    userId: string
+    teamId: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+  }
+
+  export type TeamMemberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMemberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkspaceCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teams?: TeamCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardCreateNestedManyWithoutWorkspaceInput
+    User?: UserCreateNestedOneWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+    teams?: TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapUncheckedCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartUncheckedCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardUncheckedCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUpdateManyWithoutWorkspaceNestedInput
+    User?: UserUpdateOneWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    teams?: TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUncheckedUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUncheckedUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUncheckedUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+  }
+
+  export type WorkspaceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkspaceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FlowchartCreateInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutFlowchartsInput
+  }
+
+  export type FlowchartUncheckedCreateInput = {
+    id?: string
+    title: string
+    workspaceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowchartUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutFlowchartsNestedInput
+  }
+
+  export type FlowchartUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowchartCreateManyInput = {
+    id?: string
+    title: string
+    workspaceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowchartUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowchartUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardCreateInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutWhiteboardsInput
+  }
+
+  export type WhiteboardUncheckedCreateInput = {
+    id?: string
+    title: string
+    workspaceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhiteboardUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutWhiteboardsNestedInput
+  }
+
+  export type WhiteboardUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardCreateManyInput = {
+    id?: string
+    title: string
+    workspaceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhiteboardUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10585,50 +17395,63 @@ export namespace Prisma {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Chat?: ChatCreateNestedManyWithoutUserInput
     MindMap?: MindMapCreateNestedManyWithoutUserInput
     UserSubscription?: UserSubscriptionCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     MindMap?: MindMapUncheckedCreateNestedManyWithoutUserInput
     UserSubscription?: UserSubscriptionUncheckedCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Chat?: ChatUpdateManyWithoutUserNestedInput
     MindMap?: MindMapUpdateManyWithoutUserNestedInput
     UserSubscription?: UserSubscriptionUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     MindMap?: MindMapUncheckedUpdateManyWithoutUserNestedInput
     UserSubscription?: UserSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10637,6 +17460,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10645,6 +17469,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10853,6 +17678,11 @@ export namespace Prisma {
     isNot?: ChatWhereInput | null
   }
 
+  export type WorkspaceScalarRelationFilter = {
+    is?: WorkspaceWhereInput
+    isNot?: WorkspaceWhereInput
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -10876,6 +17706,7 @@ export namespace Prisma {
   export type MindMapCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -10887,6 +17718,7 @@ export namespace Prisma {
   export type MindMapMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -10898,6 +17730,7 @@ export namespace Prisma {
   export type MindMapMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -10982,6 +17815,203 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     mindMapId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TeamMemberListRelationFilter = {
+    every?: TeamMemberWhereInput
+    some?: TeamMemberWhereInput
+    none?: TeamMemberWhereInput
+  }
+
+  export type TeamMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TeamCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workspaceId?: SortOrder
+  }
+
+  export type TeamMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workspaceId?: SortOrder
+  }
+
+  export type TeamMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    workspaceId?: SortOrder
+  }
+
+  export type EnumTeamRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.TeamRole | EnumTeamRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumTeamRoleFilter<$PrismaModel> | $Enums.TeamRole
+  }
+
+  export type TeamScalarRelationFilter = {
+    is?: TeamWhereInput
+    isNot?: TeamWhereInput
+  }
+
+  export type TeamMemberUserIdTeamIdCompoundUniqueInput = {
+    userId: string
+    teamId: string
+  }
+
+  export type TeamMemberCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    teamId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type TeamMemberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    teamId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type TeamMemberMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    teamId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type EnumTeamRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TeamRole | EnumTeamRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumTeamRoleWithAggregatesFilter<$PrismaModel> | $Enums.TeamRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTeamRoleFilter<$PrismaModel>
+    _max?: NestedEnumTeamRoleFilter<$PrismaModel>
+  }
+
+  export type TeamListRelationFilter = {
+    every?: TeamWhereInput
+    some?: TeamWhereInput
+    none?: TeamWhereInput
+  }
+
+  export type MindMapListRelationFilter = {
+    every?: MindMapWhereInput
+    some?: MindMapWhereInput
+    none?: MindMapWhereInput
+  }
+
+  export type FlowchartListRelationFilter = {
+    every?: FlowchartWhereInput
+    some?: FlowchartWhereInput
+    none?: FlowchartWhereInput
+  }
+
+  export type WhiteboardListRelationFilter = {
+    every?: WhiteboardWhereInput
+    some?: WhiteboardWhereInput
+    none?: WhiteboardWhereInput
+  }
+
+  export type TeamOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MindMapOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FlowchartOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WhiteboardOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WorkspaceCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type WorkspaceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type WorkspaceMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type FlowchartCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FlowchartMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FlowchartMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WhiteboardCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WhiteboardMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WhiteboardMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    workspaceId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11158,22 +18188,22 @@ export namespace Prisma {
     none?: ChatWhereInput
   }
 
-  export type MindMapListRelationFilter = {
-    every?: MindMapWhereInput
-    some?: MindMapWhereInput
-    none?: MindMapWhereInput
-  }
-
   export type UserSubscriptionNullableScalarRelationFilter = {
     is?: UserSubscriptionWhereInput | null
     isNot?: UserSubscriptionWhereInput | null
+  }
+
+  export type WorkspaceListRelationFilter = {
+    every?: WorkspaceWhereInput
+    some?: WorkspaceWhereInput
+    none?: WorkspaceWhereInput
   }
 
   export type ChatOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type MindMapOrderByRelationAggregateInput = {
+  export type WorkspaceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11181,6 +18211,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isProfileSetup?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11189,6 +18220,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isProfileSetup?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11197,6 +18229,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isProfileSetup?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11268,6 +18301,12 @@ export namespace Prisma {
     connect?: ChatWhereUniqueInput
   }
 
+  export type WorkspaceCreateNestedOneWithoutMindmapsInput = {
+    create?: XOR<WorkspaceCreateWithoutMindmapsInput, WorkspaceUncheckedCreateWithoutMindmapsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutMindmapsInput
+    connect?: WorkspaceWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutMindMapInput = {
     create?: XOR<UserCreateWithoutMindMapInput, UserUncheckedCreateWithoutMindMapInput>
     connectOrCreate?: UserCreateOrConnectWithoutMindMapInput
@@ -11314,6 +18353,14 @@ export namespace Prisma {
     delete?: ChatWhereInput | boolean
     connect?: ChatWhereUniqueInput
     update?: XOR<XOR<ChatUpdateToOneWithWhereWithoutMindMapInput, ChatUpdateWithoutMindMapInput>, ChatUncheckedUpdateWithoutMindMapInput>
+  }
+
+  export type WorkspaceUpdateOneRequiredWithoutMindmapsNestedInput = {
+    create?: XOR<WorkspaceCreateWithoutMindmapsInput, WorkspaceUncheckedCreateWithoutMindmapsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutMindmapsInput
+    upsert?: WorkspaceUpsertWithoutMindmapsInput
+    connect?: WorkspaceWhereUniqueInput
+    update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutMindmapsInput, WorkspaceUpdateWithoutMindmapsInput>, WorkspaceUncheckedUpdateWithoutMindmapsInput>
   }
 
   export type UserUpdateOneRequiredWithoutMindMapNestedInput = {
@@ -11432,6 +18479,306 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutChatInput | MessageUpdateWithWhereUniqueWithoutChatInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutChatInput | MessageUpdateManyWithWhereWithoutChatInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type TeamMemberCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
+  export type WorkspaceCreateNestedOneWithoutTeamsInput = {
+    create?: XOR<WorkspaceCreateWithoutTeamsInput, WorkspaceUncheckedCreateWithoutTeamsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutTeamsInput
+    connect?: WorkspaceWhereUniqueInput
+  }
+
+  export type TeamMemberUncheckedCreateNestedManyWithoutTeamInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
+  export type TeamMemberUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutTeamInput | TeamMemberUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutTeamInput | TeamMemberUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutTeamInput | TeamMemberUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type WorkspaceUpdateOneRequiredWithoutTeamsNestedInput = {
+    create?: XOR<WorkspaceCreateWithoutTeamsInput, WorkspaceUncheckedCreateWithoutTeamsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutTeamsInput
+    upsert?: WorkspaceUpsertWithoutTeamsInput
+    connect?: WorkspaceWhereUniqueInput
+    update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutTeamsInput, WorkspaceUpdateWithoutTeamsInput>, WorkspaceUncheckedUpdateWithoutTeamsInput>
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutTeamNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutTeamInput | TeamMemberUpsertWithWhereUniqueWithoutTeamInput[]
+    createMany?: TeamMemberCreateManyTeamInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutTeamInput | TeamMemberUpdateWithWhereUniqueWithoutTeamInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutTeamInput | TeamMemberUpdateManyWithWhereWithoutTeamInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutTeamMemberInput = {
+    create?: XOR<UserCreateWithoutTeamMemberInput, UserUncheckedCreateWithoutTeamMemberInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTeamMemberInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TeamCreateNestedOneWithoutMembersInput = {
+    create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
+    connect?: TeamWhereUniqueInput
+  }
+
+  export type EnumTeamRoleFieldUpdateOperationsInput = {
+    set?: $Enums.TeamRole
+  }
+
+  export type UserUpdateOneRequiredWithoutTeamMemberNestedInput = {
+    create?: XOR<UserCreateWithoutTeamMemberInput, UserUncheckedCreateWithoutTeamMemberInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTeamMemberInput
+    upsert?: UserUpsertWithoutTeamMemberInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTeamMemberInput, UserUpdateWithoutTeamMemberInput>, UserUncheckedUpdateWithoutTeamMemberInput>
+  }
+
+  export type TeamUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: TeamCreateOrConnectWithoutMembersInput
+    upsert?: TeamUpsertWithoutMembersInput
+    connect?: TeamWhereUniqueInput
+    update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutMembersInput, TeamUpdateWithoutMembersInput>, TeamUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type TeamCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<TeamCreateWithoutWorkspaceInput, TeamUncheckedCreateWithoutWorkspaceInput> | TeamCreateWithoutWorkspaceInput[] | TeamUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutWorkspaceInput | TeamCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: TeamCreateManyWorkspaceInputEnvelope
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+  }
+
+  export type MindMapCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<MindMapCreateWithoutWorkspaceInput, MindMapUncheckedCreateWithoutWorkspaceInput> | MindMapCreateWithoutWorkspaceInput[] | MindMapUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: MindMapCreateOrConnectWithoutWorkspaceInput | MindMapCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: MindMapCreateManyWorkspaceInputEnvelope
+    connect?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+  }
+
+  export type FlowchartCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<FlowchartCreateWithoutWorkspaceInput, FlowchartUncheckedCreateWithoutWorkspaceInput> | FlowchartCreateWithoutWorkspaceInput[] | FlowchartUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: FlowchartCreateOrConnectWithoutWorkspaceInput | FlowchartCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: FlowchartCreateManyWorkspaceInputEnvelope
+    connect?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+  }
+
+  export type WhiteboardCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<WhiteboardCreateWithoutWorkspaceInput, WhiteboardUncheckedCreateWithoutWorkspaceInput> | WhiteboardCreateWithoutWorkspaceInput[] | WhiteboardUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutWorkspaceInput | WhiteboardCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: WhiteboardCreateManyWorkspaceInputEnvelope
+    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutWorkspaceInput = {
+    create?: XOR<UserCreateWithoutWorkspaceInput, UserUncheckedCreateWithoutWorkspaceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkspaceInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TeamUncheckedCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<TeamCreateWithoutWorkspaceInput, TeamUncheckedCreateWithoutWorkspaceInput> | TeamCreateWithoutWorkspaceInput[] | TeamUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutWorkspaceInput | TeamCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: TeamCreateManyWorkspaceInputEnvelope
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+  }
+
+  export type MindMapUncheckedCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<MindMapCreateWithoutWorkspaceInput, MindMapUncheckedCreateWithoutWorkspaceInput> | MindMapCreateWithoutWorkspaceInput[] | MindMapUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: MindMapCreateOrConnectWithoutWorkspaceInput | MindMapCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: MindMapCreateManyWorkspaceInputEnvelope
+    connect?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+  }
+
+  export type FlowchartUncheckedCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<FlowchartCreateWithoutWorkspaceInput, FlowchartUncheckedCreateWithoutWorkspaceInput> | FlowchartCreateWithoutWorkspaceInput[] | FlowchartUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: FlowchartCreateOrConnectWithoutWorkspaceInput | FlowchartCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: FlowchartCreateManyWorkspaceInputEnvelope
+    connect?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+  }
+
+  export type WhiteboardUncheckedCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<WhiteboardCreateWithoutWorkspaceInput, WhiteboardUncheckedCreateWithoutWorkspaceInput> | WhiteboardCreateWithoutWorkspaceInput[] | WhiteboardUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutWorkspaceInput | WhiteboardCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: WhiteboardCreateManyWorkspaceInputEnvelope
+    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+  }
+
+  export type TeamUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<TeamCreateWithoutWorkspaceInput, TeamUncheckedCreateWithoutWorkspaceInput> | TeamCreateWithoutWorkspaceInput[] | TeamUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutWorkspaceInput | TeamCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: TeamUpsertWithWhereUniqueWithoutWorkspaceInput | TeamUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: TeamCreateManyWorkspaceInputEnvelope
+    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    update?: TeamUpdateWithWhereUniqueWithoutWorkspaceInput | TeamUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: TeamUpdateManyWithWhereWithoutWorkspaceInput | TeamUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
+  }
+
+  export type MindMapUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<MindMapCreateWithoutWorkspaceInput, MindMapUncheckedCreateWithoutWorkspaceInput> | MindMapCreateWithoutWorkspaceInput[] | MindMapUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: MindMapCreateOrConnectWithoutWorkspaceInput | MindMapCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: MindMapUpsertWithWhereUniqueWithoutWorkspaceInput | MindMapUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: MindMapCreateManyWorkspaceInputEnvelope
+    set?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    disconnect?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    delete?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    connect?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    update?: MindMapUpdateWithWhereUniqueWithoutWorkspaceInput | MindMapUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: MindMapUpdateManyWithWhereWithoutWorkspaceInput | MindMapUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: MindMapScalarWhereInput | MindMapScalarWhereInput[]
+  }
+
+  export type FlowchartUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<FlowchartCreateWithoutWorkspaceInput, FlowchartUncheckedCreateWithoutWorkspaceInput> | FlowchartCreateWithoutWorkspaceInput[] | FlowchartUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: FlowchartCreateOrConnectWithoutWorkspaceInput | FlowchartCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: FlowchartUpsertWithWhereUniqueWithoutWorkspaceInput | FlowchartUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: FlowchartCreateManyWorkspaceInputEnvelope
+    set?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    disconnect?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    delete?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    connect?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    update?: FlowchartUpdateWithWhereUniqueWithoutWorkspaceInput | FlowchartUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: FlowchartUpdateManyWithWhereWithoutWorkspaceInput | FlowchartUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: FlowchartScalarWhereInput | FlowchartScalarWhereInput[]
+  }
+
+  export type WhiteboardUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<WhiteboardCreateWithoutWorkspaceInput, WhiteboardUncheckedCreateWithoutWorkspaceInput> | WhiteboardCreateWithoutWorkspaceInput[] | WhiteboardUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutWorkspaceInput | WhiteboardCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: WhiteboardUpsertWithWhereUniqueWithoutWorkspaceInput | WhiteboardUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: WhiteboardCreateManyWorkspaceInputEnvelope
+    set?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    disconnect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    delete?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    update?: WhiteboardUpdateWithWhereUniqueWithoutWorkspaceInput | WhiteboardUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: WhiteboardUpdateManyWithWhereWithoutWorkspaceInput | WhiteboardUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
+  }
+
+  export type UserUpdateOneWithoutWorkspaceNestedInput = {
+    create?: XOR<UserCreateWithoutWorkspaceInput, UserUncheckedCreateWithoutWorkspaceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkspaceInput
+    upsert?: UserUpsertWithoutWorkspaceInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkspaceInput, UserUpdateWithoutWorkspaceInput>, UserUncheckedUpdateWithoutWorkspaceInput>
+  }
+
+  export type TeamUncheckedUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<TeamCreateWithoutWorkspaceInput, TeamUncheckedCreateWithoutWorkspaceInput> | TeamCreateWithoutWorkspaceInput[] | TeamUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutWorkspaceInput | TeamCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: TeamUpsertWithWhereUniqueWithoutWorkspaceInput | TeamUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: TeamCreateManyWorkspaceInputEnvelope
+    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    update?: TeamUpdateWithWhereUniqueWithoutWorkspaceInput | TeamUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: TeamUpdateManyWithWhereWithoutWorkspaceInput | TeamUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
+  }
+
+  export type MindMapUncheckedUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<MindMapCreateWithoutWorkspaceInput, MindMapUncheckedCreateWithoutWorkspaceInput> | MindMapCreateWithoutWorkspaceInput[] | MindMapUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: MindMapCreateOrConnectWithoutWorkspaceInput | MindMapCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: MindMapUpsertWithWhereUniqueWithoutWorkspaceInput | MindMapUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: MindMapCreateManyWorkspaceInputEnvelope
+    set?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    disconnect?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    delete?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    connect?: MindMapWhereUniqueInput | MindMapWhereUniqueInput[]
+    update?: MindMapUpdateWithWhereUniqueWithoutWorkspaceInput | MindMapUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: MindMapUpdateManyWithWhereWithoutWorkspaceInput | MindMapUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: MindMapScalarWhereInput | MindMapScalarWhereInput[]
+  }
+
+  export type FlowchartUncheckedUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<FlowchartCreateWithoutWorkspaceInput, FlowchartUncheckedCreateWithoutWorkspaceInput> | FlowchartCreateWithoutWorkspaceInput[] | FlowchartUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: FlowchartCreateOrConnectWithoutWorkspaceInput | FlowchartCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: FlowchartUpsertWithWhereUniqueWithoutWorkspaceInput | FlowchartUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: FlowchartCreateManyWorkspaceInputEnvelope
+    set?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    disconnect?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    delete?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    connect?: FlowchartWhereUniqueInput | FlowchartWhereUniqueInput[]
+    update?: FlowchartUpdateWithWhereUniqueWithoutWorkspaceInput | FlowchartUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: FlowchartUpdateManyWithWhereWithoutWorkspaceInput | FlowchartUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: FlowchartScalarWhereInput | FlowchartScalarWhereInput[]
+  }
+
+  export type WhiteboardUncheckedUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<WhiteboardCreateWithoutWorkspaceInput, WhiteboardUncheckedCreateWithoutWorkspaceInput> | WhiteboardCreateWithoutWorkspaceInput[] | WhiteboardUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: WhiteboardCreateOrConnectWithoutWorkspaceInput | WhiteboardCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: WhiteboardUpsertWithWhereUniqueWithoutWorkspaceInput | WhiteboardUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: WhiteboardCreateManyWorkspaceInputEnvelope
+    set?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    disconnect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    delete?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    connect?: WhiteboardWhereUniqueInput | WhiteboardWhereUniqueInput[]
+    update?: WhiteboardUpdateWithWhereUniqueWithoutWorkspaceInput | WhiteboardUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: WhiteboardUpdateManyWithWhereWithoutWorkspaceInput | WhiteboardUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
+  }
+
+  export type WorkspaceCreateNestedOneWithoutFlowchartsInput = {
+    create?: XOR<WorkspaceCreateWithoutFlowchartsInput, WorkspaceUncheckedCreateWithoutFlowchartsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutFlowchartsInput
+    connect?: WorkspaceWhereUniqueInput
+  }
+
+  export type WorkspaceUpdateOneRequiredWithoutFlowchartsNestedInput = {
+    create?: XOR<WorkspaceCreateWithoutFlowchartsInput, WorkspaceUncheckedCreateWithoutFlowchartsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutFlowchartsInput
+    upsert?: WorkspaceUpsertWithoutFlowchartsInput
+    connect?: WorkspaceWhereUniqueInput
+    update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutFlowchartsInput, WorkspaceUpdateWithoutFlowchartsInput>, WorkspaceUncheckedUpdateWithoutFlowchartsInput>
+  }
+
+  export type WorkspaceCreateNestedOneWithoutWhiteboardsInput = {
+    create?: XOR<WorkspaceCreateWithoutWhiteboardsInput, WorkspaceUncheckedCreateWithoutWhiteboardsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutWhiteboardsInput
+    connect?: WorkspaceWhereUniqueInput
+  }
+
+  export type WorkspaceUpdateOneRequiredWithoutWhiteboardsNestedInput = {
+    create?: XOR<WorkspaceCreateWithoutWhiteboardsInput, WorkspaceUncheckedCreateWithoutWhiteboardsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutWhiteboardsInput
+    upsert?: WorkspaceUpsertWithoutWhiteboardsInput
+    connect?: WorkspaceWhereUniqueInput
+    update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutWhiteboardsInput, WorkspaceUpdateWithoutWhiteboardsInput>, WorkspaceUncheckedUpdateWithoutWhiteboardsInput>
   }
 
   export type MindMapCreateNestedOneWithoutNodesInput = {
@@ -11593,6 +18940,20 @@ export namespace Prisma {
     connect?: UserSubscriptionWhereUniqueInput
   }
 
+  export type TeamMemberCreateNestedManyWithoutUserInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
+  export type WorkspaceCreateNestedManyWithoutUserInput = {
+    create?: XOR<WorkspaceCreateWithoutUserInput, WorkspaceUncheckedCreateWithoutUserInput> | WorkspaceCreateWithoutUserInput[] | WorkspaceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutUserInput | WorkspaceCreateOrConnectWithoutUserInput[]
+    createMany?: WorkspaceCreateManyUserInputEnvelope
+    connect?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+  }
+
   export type ChatUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ChatCreateWithoutUserInput, ChatUncheckedCreateWithoutUserInput> | ChatCreateWithoutUserInput[] | ChatUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ChatCreateOrConnectWithoutUserInput | ChatCreateOrConnectWithoutUserInput[]
@@ -11611,6 +18972,20 @@ export namespace Prisma {
     create?: XOR<UserSubscriptionCreateWithoutUserInput, UserSubscriptionUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserSubscriptionCreateOrConnectWithoutUserInput
     connect?: UserSubscriptionWhereUniqueInput
+  }
+
+  export type TeamMemberUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+  }
+
+  export type WorkspaceUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<WorkspaceCreateWithoutUserInput, WorkspaceUncheckedCreateWithoutUserInput> | WorkspaceCreateWithoutUserInput[] | WorkspaceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutUserInput | WorkspaceCreateOrConnectWithoutUserInput[]
+    createMany?: WorkspaceCreateManyUserInputEnvelope
+    connect?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
   }
 
   export type ChatUpdateManyWithoutUserNestedInput = {
@@ -11651,6 +19026,34 @@ export namespace Prisma {
     update?: XOR<XOR<UserSubscriptionUpdateToOneWithWhereWithoutUserInput, UserSubscriptionUpdateWithoutUserInput>, UserSubscriptionUncheckedUpdateWithoutUserInput>
   }
 
+  export type TeamMemberUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutUserInput | TeamMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutUserInput | TeamMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutUserInput | TeamMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type WorkspaceUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WorkspaceCreateWithoutUserInput, WorkspaceUncheckedCreateWithoutUserInput> | WorkspaceCreateWithoutUserInput[] | WorkspaceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutUserInput | WorkspaceCreateOrConnectWithoutUserInput[]
+    upsert?: WorkspaceUpsertWithWhereUniqueWithoutUserInput | WorkspaceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WorkspaceCreateManyUserInputEnvelope
+    set?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    disconnect?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    delete?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    connect?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    update?: WorkspaceUpdateWithWhereUniqueWithoutUserInput | WorkspaceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WorkspaceUpdateManyWithWhereWithoutUserInput | WorkspaceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WorkspaceScalarWhereInput | WorkspaceScalarWhereInput[]
+  }
+
   export type ChatUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<ChatCreateWithoutUserInput, ChatUncheckedCreateWithoutUserInput> | ChatCreateWithoutUserInput[] | ChatUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ChatCreateOrConnectWithoutUserInput | ChatCreateOrConnectWithoutUserInput[]
@@ -11687,6 +19090,34 @@ export namespace Prisma {
     delete?: UserSubscriptionWhereInput | boolean
     connect?: UserSubscriptionWhereUniqueInput
     update?: XOR<XOR<UserSubscriptionUpdateToOneWithWhereWithoutUserInput, UserSubscriptionUpdateWithoutUserInput>, UserSubscriptionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput> | TeamMemberCreateWithoutUserInput[] | TeamMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TeamMemberCreateOrConnectWithoutUserInput | TeamMemberCreateOrConnectWithoutUserInput[]
+    upsert?: TeamMemberUpsertWithWhereUniqueWithoutUserInput | TeamMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TeamMemberCreateManyUserInputEnvelope
+    set?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    disconnect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    delete?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    connect?: TeamMemberWhereUniqueInput | TeamMemberWhereUniqueInput[]
+    update?: TeamMemberUpdateWithWhereUniqueWithoutUserInput | TeamMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TeamMemberUpdateManyWithWhereWithoutUserInput | TeamMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+  }
+
+  export type WorkspaceUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WorkspaceCreateWithoutUserInput, WorkspaceUncheckedCreateWithoutUserInput> | WorkspaceCreateWithoutUserInput[] | WorkspaceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutUserInput | WorkspaceCreateOrConnectWithoutUserInput[]
+    upsert?: WorkspaceUpsertWithWhereUniqueWithoutUserInput | WorkspaceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WorkspaceCreateManyUserInputEnvelope
+    set?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    disconnect?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    delete?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    connect?: WorkspaceWhereUniqueInput | WorkspaceWhereUniqueInput[]
+    update?: WorkspaceUpdateWithWhereUniqueWithoutUserInput | WorkspaceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WorkspaceUpdateManyWithWhereWithoutUserInput | WorkspaceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WorkspaceScalarWhereInput | WorkspaceScalarWhereInput[]
   }
 
   export type SubscriptionPlanCreateNestedOneWithoutUserSubscriptionInput = {
@@ -11873,6 +19304,23 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumTeamRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.TeamRole | EnumTeamRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumTeamRoleFilter<$PrismaModel> | $Enums.TeamRole
+  }
+
+  export type NestedEnumTeamRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TeamRole | EnumTeamRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TeamRole[] | ListEnumTeamRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumTeamRoleWithAggregatesFilter<$PrismaModel> | $Enums.TeamRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTeamRoleFilter<$PrismaModel>
+    _max?: NestedEnumTeamRoleFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -12003,24 +19451,57 @@ export namespace Prisma {
     create: XOR<ChatCreateWithoutMindMapInput, ChatUncheckedCreateWithoutMindMapInput>
   }
 
+  export type WorkspaceCreateWithoutMindmapsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teams?: TeamCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardCreateNestedManyWithoutWorkspaceInput
+    User?: UserCreateNestedOneWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUncheckedCreateWithoutMindmapsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+    teams?: TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartUncheckedCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardUncheckedCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceCreateOrConnectWithoutMindmapsInput = {
+    where: WorkspaceWhereUniqueInput
+    create: XOR<WorkspaceCreateWithoutMindmapsInput, WorkspaceUncheckedCreateWithoutMindmapsInput>
+  }
+
   export type UserCreateWithoutMindMapInput = {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Chat?: ChatCreateNestedManyWithoutUserInput
     UserSubscription?: UserSubscriptionCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMindMapInput = {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     UserSubscription?: UserSubscriptionUncheckedCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMindMapInput = {
@@ -12091,6 +19572,39 @@ export namespace Prisma {
     Message?: MessageUncheckedUpdateManyWithoutChatNestedInput
   }
 
+  export type WorkspaceUpsertWithoutMindmapsInput = {
+    update: XOR<WorkspaceUpdateWithoutMindmapsInput, WorkspaceUncheckedUpdateWithoutMindmapsInput>
+    create: XOR<WorkspaceCreateWithoutMindmapsInput, WorkspaceUncheckedCreateWithoutMindmapsInput>
+    where?: WorkspaceWhereInput
+  }
+
+  export type WorkspaceUpdateToOneWithWhereWithoutMindmapsInput = {
+    where?: WorkspaceWhereInput
+    data: XOR<WorkspaceUpdateWithoutMindmapsInput, WorkspaceUncheckedUpdateWithoutMindmapsInput>
+  }
+
+  export type WorkspaceUpdateWithoutMindmapsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUpdateManyWithoutWorkspaceNestedInput
+    User?: UserUpdateOneWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateWithoutMindmapsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    teams?: TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUncheckedUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUncheckedUpdateManyWithoutWorkspaceNestedInput
+  }
+
   export type UserUpsertWithoutMindMapInput = {
     update: XOR<UserUpdateWithoutMindMapInput, UserUncheckedUpdateWithoutMindMapInput>
     create: XOR<UserCreateWithoutMindMapInput, UserUncheckedCreateWithoutMindMapInput>
@@ -12106,20 +19620,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Chat?: ChatUpdateManyWithoutUserNestedInput
     UserSubscription?: UserSubscriptionUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMindMapInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     UserSubscription?: UserSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NodeUpsertWithWhereUniqueWithoutMindMapInput = {
@@ -12158,20 +19678,26 @@ export namespace Prisma {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     MindMap?: MindMapCreateNestedManyWithoutUserInput
     UserSubscription?: UserSubscriptionCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChatInput = {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     MindMap?: MindMapUncheckedCreateNestedManyWithoutUserInput
     UserSubscription?: UserSubscriptionUncheckedCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChatInput = {
@@ -12187,6 +19713,7 @@ export namespace Prisma {
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     chatId?: string | null
+    workspace: WorkspaceCreateNestedOneWithoutMindmapsInput
     User: UserCreateNestedOneWithoutMindMapInput
     nodes?: NodeCreateNestedManyWithoutMindMapInput
   }
@@ -12194,6 +19721,7 @@ export namespace Prisma {
   export type MindMapUncheckedCreateWithoutChatInput = {
     id?: string
     title: string
+    workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -12247,20 +19775,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     MindMap?: MindMapUpdateManyWithoutUserNestedInput
     UserSubscription?: UserSubscriptionUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     MindMap?: MindMapUncheckedUpdateManyWithoutUserNestedInput
     UserSubscription?: UserSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MindMapUpsertWithoutChatInput = {
@@ -12282,6 +19816,7 @@ export namespace Prisma {
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     chatId?: NullableStringFieldUpdateOperationsInput | string | null
+    workspace?: WorkspaceUpdateOneRequiredWithoutMindmapsNestedInput
     User?: UserUpdateOneRequiredWithoutMindMapNestedInput
     nodes?: NodeUpdateManyWithoutMindMapNestedInput
   }
@@ -12289,6 +19824,7 @@ export namespace Prisma {
   export type MindMapUncheckedUpdateWithoutChatInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -12325,7 +19861,260 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Message"> | Date | string
   }
 
-  export type MindMapCreateWithoutNodesInput = {
+  export type TeamMemberCreateWithoutTeamInput = {
+    id?: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+    user: UserCreateNestedOneWithoutTeamMemberInput
+  }
+
+  export type TeamMemberUncheckedCreateWithoutTeamInput = {
+    id?: string
+    userId: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+  }
+
+  export type TeamMemberCreateOrConnectWithoutTeamInput = {
+    where: TeamMemberWhereUniqueInput
+    create: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TeamMemberCreateManyTeamInputEnvelope = {
+    data: TeamMemberCreateManyTeamInput | TeamMemberCreateManyTeamInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkspaceCreateWithoutTeamsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mindmaps?: MindMapCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardCreateNestedManyWithoutWorkspaceInput
+    User?: UserCreateNestedOneWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUncheckedCreateWithoutTeamsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+    mindmaps?: MindMapUncheckedCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartUncheckedCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardUncheckedCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceCreateOrConnectWithoutTeamsInput = {
+    where: WorkspaceWhereUniqueInput
+    create: XOR<WorkspaceCreateWithoutTeamsInput, WorkspaceUncheckedCreateWithoutTeamsInput>
+  }
+
+  export type TeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
+    where: TeamMemberWhereUniqueInput
+    update: XOR<TeamMemberUpdateWithoutTeamInput, TeamMemberUncheckedUpdateWithoutTeamInput>
+    create: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput>
+  }
+
+  export type TeamMemberUpdateWithWhereUniqueWithoutTeamInput = {
+    where: TeamMemberWhereUniqueInput
+    data: XOR<TeamMemberUpdateWithoutTeamInput, TeamMemberUncheckedUpdateWithoutTeamInput>
+  }
+
+  export type TeamMemberUpdateManyWithWhereWithoutTeamInput = {
+    where: TeamMemberScalarWhereInput
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyWithoutTeamInput>
+  }
+
+  export type TeamMemberScalarWhereInput = {
+    AND?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+    OR?: TeamMemberScalarWhereInput[]
+    NOT?: TeamMemberScalarWhereInput | TeamMemberScalarWhereInput[]
+    id?: StringFilter<"TeamMember"> | string
+    userId?: StringFilter<"TeamMember"> | string
+    teamId?: StringFilter<"TeamMember"> | string
+    role?: EnumTeamRoleFilter<"TeamMember"> | $Enums.TeamRole
+    joinedAt?: DateTimeFilter<"TeamMember"> | Date | string
+  }
+
+  export type WorkspaceUpsertWithoutTeamsInput = {
+    update: XOR<WorkspaceUpdateWithoutTeamsInput, WorkspaceUncheckedUpdateWithoutTeamsInput>
+    create: XOR<WorkspaceCreateWithoutTeamsInput, WorkspaceUncheckedCreateWithoutTeamsInput>
+    where?: WorkspaceWhereInput
+  }
+
+  export type WorkspaceUpdateToOneWithWhereWithoutTeamsInput = {
+    where?: WorkspaceWhereInput
+    data: XOR<WorkspaceUpdateWithoutTeamsInput, WorkspaceUncheckedUpdateWithoutTeamsInput>
+  }
+
+  export type WorkspaceUpdateWithoutTeamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mindmaps?: MindMapUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUpdateManyWithoutWorkspaceNestedInput
+    User?: UserUpdateOneWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateWithoutTeamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    mindmaps?: MindMapUncheckedUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUncheckedUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUncheckedUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type UserCreateWithoutTeamMemberInput = {
+    id: string
+    email: string
+    name: string
+    isProfileSetup?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Chat?: ChatCreateNestedManyWithoutUserInput
+    MindMap?: MindMapCreateNestedManyWithoutUserInput
+    UserSubscription?: UserSubscriptionCreateNestedOneWithoutUserInput
+    workspace?: WorkspaceCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTeamMemberInput = {
+    id: string
+    email: string
+    name: string
+    isProfileSetup?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    MindMap?: MindMapUncheckedCreateNestedManyWithoutUserInput
+    UserSubscription?: UserSubscriptionUncheckedCreateNestedOneWithoutUserInput
+    workspace?: WorkspaceUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTeamMemberInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTeamMemberInput, UserUncheckedCreateWithoutTeamMemberInput>
+  }
+
+  export type TeamCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutTeamsInput
+  }
+
+  export type TeamUncheckedCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspaceId: string
+  }
+
+  export type TeamCreateOrConnectWithoutMembersInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+  }
+
+  export type UserUpsertWithoutTeamMemberInput = {
+    update: XOR<UserUpdateWithoutTeamMemberInput, UserUncheckedUpdateWithoutTeamMemberInput>
+    create: XOR<UserCreateWithoutTeamMemberInput, UserUncheckedCreateWithoutTeamMemberInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTeamMemberInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTeamMemberInput, UserUncheckedUpdateWithoutTeamMemberInput>
+  }
+
+  export type UserUpdateWithoutTeamMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Chat?: ChatUpdateManyWithoutUserNestedInput
+    MindMap?: MindMapUpdateManyWithoutUserNestedInput
+    UserSubscription?: UserSubscriptionUpdateOneWithoutUserNestedInput
+    workspace?: WorkspaceUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTeamMemberInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    MindMap?: MindMapUncheckedUpdateManyWithoutUserNestedInput
+    UserSubscription?: UserSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    workspace?: WorkspaceUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TeamUpsertWithoutMembersInput = {
+    update: XOR<TeamUpdateWithoutMembersInput, TeamUncheckedUpdateWithoutMembersInput>
+    create: XOR<TeamCreateWithoutMembersInput, TeamUncheckedCreateWithoutMembersInput>
+    where?: TeamWhereInput
+  }
+
+  export type TeamUpdateToOneWithWhereWithoutMembersInput = {
+    where?: TeamWhereInput
+    data: XOR<TeamUpdateWithoutMembersInput, TeamUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type TeamUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutTeamsNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TeamCreateWithoutWorkspaceInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutWorkspaceInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutWorkspaceInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutWorkspaceInput, TeamUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type TeamCreateManyWorkspaceInputEnvelope = {
+    data: TeamCreateManyWorkspaceInput | TeamCreateManyWorkspaceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MindMapCreateWithoutWorkspaceInput = {
     id?: string
     title: string
     createdAt?: Date | string
@@ -12335,11 +20124,397 @@ export namespace Prisma {
     chatId?: string | null
     Chat?: ChatCreateNestedOneWithoutMindMapInput
     User: UserCreateNestedOneWithoutMindMapInput
+    nodes?: NodeCreateNestedManyWithoutMindMapInput
+  }
+
+  export type MindMapUncheckedCreateWithoutWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    isPublic?: boolean
+    generatedBy: $Enums.GeneratedBy
+    chatId?: string | null
+    Chat?: ChatUncheckedCreateNestedOneWithoutMindMapInput
+    nodes?: NodeUncheckedCreateNestedManyWithoutMindMapInput
+  }
+
+  export type MindMapCreateOrConnectWithoutWorkspaceInput = {
+    where: MindMapWhereUniqueInput
+    create: XOR<MindMapCreateWithoutWorkspaceInput, MindMapUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type MindMapCreateManyWorkspaceInputEnvelope = {
+    data: MindMapCreateManyWorkspaceInput | MindMapCreateManyWorkspaceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FlowchartCreateWithoutWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowchartUncheckedCreateWithoutWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FlowchartCreateOrConnectWithoutWorkspaceInput = {
+    where: FlowchartWhereUniqueInput
+    create: XOR<FlowchartCreateWithoutWorkspaceInput, FlowchartUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type FlowchartCreateManyWorkspaceInputEnvelope = {
+    data: FlowchartCreateManyWorkspaceInput | FlowchartCreateManyWorkspaceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WhiteboardCreateWithoutWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhiteboardUncheckedCreateWithoutWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhiteboardCreateOrConnectWithoutWorkspaceInput = {
+    where: WhiteboardWhereUniqueInput
+    create: XOR<WhiteboardCreateWithoutWorkspaceInput, WhiteboardUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type WhiteboardCreateManyWorkspaceInputEnvelope = {
+    data: WhiteboardCreateManyWorkspaceInput | WhiteboardCreateManyWorkspaceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutWorkspaceInput = {
+    id: string
+    email: string
+    name: string
+    isProfileSetup?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Chat?: ChatCreateNestedManyWithoutUserInput
+    MindMap?: MindMapCreateNestedManyWithoutUserInput
+    UserSubscription?: UserSubscriptionCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutWorkspaceInput = {
+    id: string
+    email: string
+    name: string
+    isProfileSetup?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    MindMap?: MindMapUncheckedCreateNestedManyWithoutUserInput
+    UserSubscription?: UserSubscriptionUncheckedCreateNestedOneWithoutUserInput
+    TeamMember?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutWorkspaceInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWorkspaceInput, UserUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type TeamUpsertWithWhereUniqueWithoutWorkspaceInput = {
+    where: TeamWhereUniqueInput
+    update: XOR<TeamUpdateWithoutWorkspaceInput, TeamUncheckedUpdateWithoutWorkspaceInput>
+    create: XOR<TeamCreateWithoutWorkspaceInput, TeamUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type TeamUpdateWithWhereUniqueWithoutWorkspaceInput = {
+    where: TeamWhereUniqueInput
+    data: XOR<TeamUpdateWithoutWorkspaceInput, TeamUncheckedUpdateWithoutWorkspaceInput>
+  }
+
+  export type TeamUpdateManyWithWhereWithoutWorkspaceInput = {
+    where: TeamScalarWhereInput
+    data: XOR<TeamUpdateManyMutationInput, TeamUncheckedUpdateManyWithoutWorkspaceInput>
+  }
+
+  export type TeamScalarWhereInput = {
+    AND?: TeamScalarWhereInput | TeamScalarWhereInput[]
+    OR?: TeamScalarWhereInput[]
+    NOT?: TeamScalarWhereInput | TeamScalarWhereInput[]
+    id?: StringFilter<"Team"> | string
+    name?: StringFilter<"Team"> | string
+    createdAt?: DateTimeFilter<"Team"> | Date | string
+    updatedAt?: DateTimeFilter<"Team"> | Date | string
+    workspaceId?: StringFilter<"Team"> | string
+  }
+
+  export type MindMapUpsertWithWhereUniqueWithoutWorkspaceInput = {
+    where: MindMapWhereUniqueInput
+    update: XOR<MindMapUpdateWithoutWorkspaceInput, MindMapUncheckedUpdateWithoutWorkspaceInput>
+    create: XOR<MindMapCreateWithoutWorkspaceInput, MindMapUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type MindMapUpdateWithWhereUniqueWithoutWorkspaceInput = {
+    where: MindMapWhereUniqueInput
+    data: XOR<MindMapUpdateWithoutWorkspaceInput, MindMapUncheckedUpdateWithoutWorkspaceInput>
+  }
+
+  export type MindMapUpdateManyWithWhereWithoutWorkspaceInput = {
+    where: MindMapScalarWhereInput
+    data: XOR<MindMapUpdateManyMutationInput, MindMapUncheckedUpdateManyWithoutWorkspaceInput>
+  }
+
+  export type MindMapScalarWhereInput = {
+    AND?: MindMapScalarWhereInput | MindMapScalarWhereInput[]
+    OR?: MindMapScalarWhereInput[]
+    NOT?: MindMapScalarWhereInput | MindMapScalarWhereInput[]
+    id?: StringFilter<"MindMap"> | string
+    title?: StringFilter<"MindMap"> | string
+    workspaceId?: StringFilter<"MindMap"> | string
+    createdAt?: DateTimeFilter<"MindMap"> | Date | string
+    updatedAt?: DateTimeFilter<"MindMap"> | Date | string
+    userId?: StringFilter<"MindMap"> | string
+    isPublic?: BoolFilter<"MindMap"> | boolean
+    generatedBy?: EnumGeneratedByFilter<"MindMap"> | $Enums.GeneratedBy
+    chatId?: StringNullableFilter<"MindMap"> | string | null
+  }
+
+  export type FlowchartUpsertWithWhereUniqueWithoutWorkspaceInput = {
+    where: FlowchartWhereUniqueInput
+    update: XOR<FlowchartUpdateWithoutWorkspaceInput, FlowchartUncheckedUpdateWithoutWorkspaceInput>
+    create: XOR<FlowchartCreateWithoutWorkspaceInput, FlowchartUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type FlowchartUpdateWithWhereUniqueWithoutWorkspaceInput = {
+    where: FlowchartWhereUniqueInput
+    data: XOR<FlowchartUpdateWithoutWorkspaceInput, FlowchartUncheckedUpdateWithoutWorkspaceInput>
+  }
+
+  export type FlowchartUpdateManyWithWhereWithoutWorkspaceInput = {
+    where: FlowchartScalarWhereInput
+    data: XOR<FlowchartUpdateManyMutationInput, FlowchartUncheckedUpdateManyWithoutWorkspaceInput>
+  }
+
+  export type FlowchartScalarWhereInput = {
+    AND?: FlowchartScalarWhereInput | FlowchartScalarWhereInput[]
+    OR?: FlowchartScalarWhereInput[]
+    NOT?: FlowchartScalarWhereInput | FlowchartScalarWhereInput[]
+    id?: StringFilter<"Flowchart"> | string
+    title?: StringFilter<"Flowchart"> | string
+    workspaceId?: StringFilter<"Flowchart"> | string
+    createdAt?: DateTimeFilter<"Flowchart"> | Date | string
+    updatedAt?: DateTimeFilter<"Flowchart"> | Date | string
+  }
+
+  export type WhiteboardUpsertWithWhereUniqueWithoutWorkspaceInput = {
+    where: WhiteboardWhereUniqueInput
+    update: XOR<WhiteboardUpdateWithoutWorkspaceInput, WhiteboardUncheckedUpdateWithoutWorkspaceInput>
+    create: XOR<WhiteboardCreateWithoutWorkspaceInput, WhiteboardUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type WhiteboardUpdateWithWhereUniqueWithoutWorkspaceInput = {
+    where: WhiteboardWhereUniqueInput
+    data: XOR<WhiteboardUpdateWithoutWorkspaceInput, WhiteboardUncheckedUpdateWithoutWorkspaceInput>
+  }
+
+  export type WhiteboardUpdateManyWithWhereWithoutWorkspaceInput = {
+    where: WhiteboardScalarWhereInput
+    data: XOR<WhiteboardUpdateManyMutationInput, WhiteboardUncheckedUpdateManyWithoutWorkspaceInput>
+  }
+
+  export type WhiteboardScalarWhereInput = {
+    AND?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
+    OR?: WhiteboardScalarWhereInput[]
+    NOT?: WhiteboardScalarWhereInput | WhiteboardScalarWhereInput[]
+    id?: StringFilter<"Whiteboard"> | string
+    title?: StringFilter<"Whiteboard"> | string
+    workspaceId?: StringFilter<"Whiteboard"> | string
+    createdAt?: DateTimeFilter<"Whiteboard"> | Date | string
+    updatedAt?: DateTimeFilter<"Whiteboard"> | Date | string
+  }
+
+  export type UserUpsertWithoutWorkspaceInput = {
+    update: XOR<UserUpdateWithoutWorkspaceInput, UserUncheckedUpdateWithoutWorkspaceInput>
+    create: XOR<UserCreateWithoutWorkspaceInput, UserUncheckedCreateWithoutWorkspaceInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWorkspaceInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWorkspaceInput, UserUncheckedUpdateWithoutWorkspaceInput>
+  }
+
+  export type UserUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Chat?: ChatUpdateManyWithoutUserNestedInput
+    MindMap?: MindMapUpdateManyWithoutUserNestedInput
+    UserSubscription?: UserSubscriptionUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    MindMap?: MindMapUncheckedUpdateManyWithoutUserNestedInput
+    UserSubscription?: UserSubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    TeamMember?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type WorkspaceCreateWithoutFlowchartsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teams?: TeamCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardCreateNestedManyWithoutWorkspaceInput
+    User?: UserCreateNestedOneWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUncheckedCreateWithoutFlowchartsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+    teams?: TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapUncheckedCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardUncheckedCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceCreateOrConnectWithoutFlowchartsInput = {
+    where: WorkspaceWhereUniqueInput
+    create: XOR<WorkspaceCreateWithoutFlowchartsInput, WorkspaceUncheckedCreateWithoutFlowchartsInput>
+  }
+
+  export type WorkspaceUpsertWithoutFlowchartsInput = {
+    update: XOR<WorkspaceUpdateWithoutFlowchartsInput, WorkspaceUncheckedUpdateWithoutFlowchartsInput>
+    create: XOR<WorkspaceCreateWithoutFlowchartsInput, WorkspaceUncheckedCreateWithoutFlowchartsInput>
+    where?: WorkspaceWhereInput
+  }
+
+  export type WorkspaceUpdateToOneWithWhereWithoutFlowchartsInput = {
+    where?: WorkspaceWhereInput
+    data: XOR<WorkspaceUpdateWithoutFlowchartsInput, WorkspaceUncheckedUpdateWithoutFlowchartsInput>
+  }
+
+  export type WorkspaceUpdateWithoutFlowchartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUpdateManyWithoutWorkspaceNestedInput
+    User?: UserUpdateOneWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateWithoutFlowchartsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    teams?: TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUncheckedUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUncheckedUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceCreateWithoutWhiteboardsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teams?: TeamCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartCreateNestedManyWithoutWorkspaceInput
+    User?: UserCreateNestedOneWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUncheckedCreateWithoutWhiteboardsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId?: string | null
+    teams?: TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapUncheckedCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartUncheckedCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceCreateOrConnectWithoutWhiteboardsInput = {
+    where: WorkspaceWhereUniqueInput
+    create: XOR<WorkspaceCreateWithoutWhiteboardsInput, WorkspaceUncheckedCreateWithoutWhiteboardsInput>
+  }
+
+  export type WorkspaceUpsertWithoutWhiteboardsInput = {
+    update: XOR<WorkspaceUpdateWithoutWhiteboardsInput, WorkspaceUncheckedUpdateWithoutWhiteboardsInput>
+    create: XOR<WorkspaceCreateWithoutWhiteboardsInput, WorkspaceUncheckedCreateWithoutWhiteboardsInput>
+    where?: WorkspaceWhereInput
+  }
+
+  export type WorkspaceUpdateToOneWithWhereWithoutWhiteboardsInput = {
+    where?: WorkspaceWhereInput
+    data: XOR<WorkspaceUpdateWithoutWhiteboardsInput, WorkspaceUncheckedUpdateWithoutWhiteboardsInput>
+  }
+
+  export type WorkspaceUpdateWithoutWhiteboardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUpdateManyWithoutWorkspaceNestedInput
+    User?: UserUpdateOneWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateWithoutWhiteboardsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    teams?: TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUncheckedUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUncheckedUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type MindMapCreateWithoutNodesInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isPublic?: boolean
+    generatedBy: $Enums.GeneratedBy
+    chatId?: string | null
+    Chat?: ChatCreateNestedOneWithoutMindMapInput
+    workspace: WorkspaceCreateNestedOneWithoutMindmapsInput
+    User: UserCreateNestedOneWithoutMindMapInput
   }
 
   export type MindMapUncheckedCreateWithoutNodesInput = {
     id?: string
     title: string
+    workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -12441,12 +20616,14 @@ export namespace Prisma {
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     chatId?: NullableStringFieldUpdateOperationsInput | string | null
     Chat?: ChatUpdateOneWithoutMindMapNestedInput
+    workspace?: WorkspaceUpdateOneRequiredWithoutMindmapsNestedInput
     User?: UserUpdateOneRequiredWithoutMindMapNestedInput
   }
 
   export type MindMapUncheckedUpdateWithoutNodesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -12601,12 +20778,14 @@ export namespace Prisma {
     generatedBy: $Enums.GeneratedBy
     chatId?: string | null
     Chat?: ChatCreateNestedOneWithoutMindMapInput
+    workspace: WorkspaceCreateNestedOneWithoutMindmapsInput
     nodes?: NodeCreateNestedManyWithoutMindMapInput
   }
 
   export type MindMapUncheckedCreateWithoutUserInput = {
     id?: string
     title: string
+    workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     isPublic?: boolean
@@ -12647,6 +20826,62 @@ export namespace Prisma {
   export type UserSubscriptionCreateOrConnectWithoutUserInput = {
     where: UserSubscriptionWhereUniqueInput
     create: XOR<UserSubscriptionCreateWithoutUserInput, UserSubscriptionUncheckedCreateWithoutUserInput>
+  }
+
+  export type TeamMemberCreateWithoutUserInput = {
+    id?: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+    team: TeamCreateNestedOneWithoutMembersInput
+  }
+
+  export type TeamMemberUncheckedCreateWithoutUserInput = {
+    id?: string
+    teamId: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+  }
+
+  export type TeamMemberCreateOrConnectWithoutUserInput = {
+    where: TeamMemberWhereUniqueInput
+    create: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type TeamMemberCreateManyUserInputEnvelope = {
+    data: TeamMemberCreateManyUserInput | TeamMemberCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WorkspaceCreateWithoutUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teams?: TeamCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    teams?: TeamUncheckedCreateNestedManyWithoutWorkspaceInput
+    mindmaps?: MindMapUncheckedCreateNestedManyWithoutWorkspaceInput
+    flowcharts?: FlowchartUncheckedCreateNestedManyWithoutWorkspaceInput
+    whiteboards?: WhiteboardUncheckedCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceCreateOrConnectWithoutUserInput = {
+    where: WorkspaceWhereUniqueInput
+    create: XOR<WorkspaceCreateWithoutUserInput, WorkspaceUncheckedCreateWithoutUserInput>
+  }
+
+  export type WorkspaceCreateManyUserInputEnvelope = {
+    data: WorkspaceCreateManyUserInput | WorkspaceCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type ChatUpsertWithWhereUniqueWithoutUserInput = {
@@ -12692,20 +20927,6 @@ export namespace Prisma {
     data: XOR<MindMapUpdateManyMutationInput, MindMapUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type MindMapScalarWhereInput = {
-    AND?: MindMapScalarWhereInput | MindMapScalarWhereInput[]
-    OR?: MindMapScalarWhereInput[]
-    NOT?: MindMapScalarWhereInput | MindMapScalarWhereInput[]
-    id?: StringFilter<"MindMap"> | string
-    title?: StringFilter<"MindMap"> | string
-    createdAt?: DateTimeFilter<"MindMap"> | Date | string
-    updatedAt?: DateTimeFilter<"MindMap"> | Date | string
-    userId?: StringFilter<"MindMap"> | string
-    isPublic?: BoolFilter<"MindMap"> | boolean
-    generatedBy?: EnumGeneratedByFilter<"MindMap"> | $Enums.GeneratedBy
-    chatId?: StringNullableFilter<"MindMap"> | string | null
-  }
-
   export type UserSubscriptionUpsertWithoutUserInput = {
     update: XOR<UserSubscriptionUpdateWithoutUserInput, UserSubscriptionUncheckedUpdateWithoutUserInput>
     create: XOR<UserSubscriptionCreateWithoutUserInput, UserSubscriptionUncheckedCreateWithoutUserInput>
@@ -12735,6 +20956,49 @@ export namespace Prisma {
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type TeamMemberUpsertWithWhereUniqueWithoutUserInput = {
+    where: TeamMemberWhereUniqueInput
+    update: XOR<TeamMemberUpdateWithoutUserInput, TeamMemberUncheckedUpdateWithoutUserInput>
+    create: XOR<TeamMemberCreateWithoutUserInput, TeamMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type TeamMemberUpdateWithWhereUniqueWithoutUserInput = {
+    where: TeamMemberWhereUniqueInput
+    data: XOR<TeamMemberUpdateWithoutUserInput, TeamMemberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TeamMemberUpdateManyWithWhereWithoutUserInput = {
+    where: TeamMemberScalarWhereInput
+    data: XOR<TeamMemberUpdateManyMutationInput, TeamMemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WorkspaceUpsertWithWhereUniqueWithoutUserInput = {
+    where: WorkspaceWhereUniqueInput
+    update: XOR<WorkspaceUpdateWithoutUserInput, WorkspaceUncheckedUpdateWithoutUserInput>
+    create: XOR<WorkspaceCreateWithoutUserInput, WorkspaceUncheckedCreateWithoutUserInput>
+  }
+
+  export type WorkspaceUpdateWithWhereUniqueWithoutUserInput = {
+    where: WorkspaceWhereUniqueInput
+    data: XOR<WorkspaceUpdateWithoutUserInput, WorkspaceUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WorkspaceUpdateManyWithWhereWithoutUserInput = {
+    where: WorkspaceScalarWhereInput
+    data: XOR<WorkspaceUpdateManyMutationInput, WorkspaceUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WorkspaceScalarWhereInput = {
+    AND?: WorkspaceScalarWhereInput | WorkspaceScalarWhereInput[]
+    OR?: WorkspaceScalarWhereInput[]
+    NOT?: WorkspaceScalarWhereInput | WorkspaceScalarWhereInput[]
+    id?: StringFilter<"Workspace"> | string
+    name?: StringFilter<"Workspace"> | string
+    createdAt?: DateTimeFilter<"Workspace"> | Date | string
+    updatedAt?: DateTimeFilter<"Workspace"> | Date | string
+    userId?: StringNullableFilter<"Workspace"> | string | null
+  }
+
   export type SubscriptionPlanCreateWithoutUserSubscriptionInput = {
     id: string
     name: string
@@ -12762,20 +21026,26 @@ export namespace Prisma {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Chat?: ChatCreateNestedManyWithoutUserInput
     MindMap?: MindMapCreateNestedManyWithoutUserInput
+    TeamMember?: TeamMemberCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserSubscriptionInput = {
     id: string
     email: string
     name: string
+    isProfileSetup?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
     MindMap?: MindMapUncheckedCreateNestedManyWithoutUserInput
+    TeamMember?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    workspace?: WorkspaceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserSubscriptionInput = {
@@ -12827,20 +21097,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Chat?: ChatUpdateManyWithoutUserNestedInput
     MindMap?: MindMapUpdateManyWithoutUserNestedInput
+    TeamMember?: TeamMemberUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserSubscriptionInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    isProfileSetup?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
     MindMap?: MindMapUncheckedUpdateManyWithoutUserNestedInput
+    TeamMember?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: WorkspaceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type NodeCreateManyMindMapInput = {
@@ -12919,6 +21195,168 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMemberCreateManyTeamInput = {
+    id?: string
+    userId: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+  }
+
+  export type TeamMemberUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTeamMemberNestedInput
+  }
+
+  export type TeamMemberUncheckedUpdateWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutTeamInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamCreateManyWorkspaceInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MindMapCreateManyWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    isPublic?: boolean
+    generatedBy: $Enums.GeneratedBy
+    chatId?: string | null
+  }
+
+  export type FlowchartCreateManyWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WhiteboardCreateManyWorkspaceInput = {
+    id?: string
+    title: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TeamUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateManyWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MindMapUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
+    chatId?: NullableStringFieldUpdateOperationsInput | string | null
+    Chat?: ChatUpdateOneWithoutMindMapNestedInput
+    User?: UserUpdateOneRequiredWithoutMindMapNestedInput
+    nodes?: NodeUpdateManyWithoutMindMapNestedInput
+  }
+
+  export type MindMapUncheckedUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
+    chatId?: NullableStringFieldUpdateOperationsInput | string | null
+    Chat?: ChatUncheckedUpdateOneWithoutMindMapNestedInput
+    nodes?: NodeUncheckedUpdateManyWithoutMindMapNestedInput
+  }
+
+  export type MindMapUncheckedUpdateManyWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
+    chatId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FlowchartUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowchartUncheckedUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FlowchartUncheckedUpdateManyWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardUncheckedUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WhiteboardUncheckedUpdateManyWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NodeCreateManyParentInput = {
@@ -13017,11 +21455,26 @@ export namespace Prisma {
   export type MindMapCreateManyUserInput = {
     id?: string
     title: string
+    workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
     isPublic?: boolean
     generatedBy: $Enums.GeneratedBy
     chatId?: string | null
+  }
+
+  export type TeamMemberCreateManyUserInput = {
+    id?: string
+    teamId: string
+    role?: $Enums.TeamRole
+    joinedAt?: Date | string
+  }
+
+  export type WorkspaceCreateManyUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ChatUpdateWithoutUserInput = {
@@ -13056,12 +21509,14 @@ export namespace Prisma {
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     chatId?: NullableStringFieldUpdateOperationsInput | string | null
     Chat?: ChatUpdateOneWithoutMindMapNestedInput
+    workspace?: WorkspaceUpdateOneRequiredWithoutMindmapsNestedInput
     nodes?: NodeUpdateManyWithoutMindMapNestedInput
   }
 
   export type MindMapUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
@@ -13074,11 +21529,62 @@ export namespace Prisma {
   export type MindMapUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     generatedBy?: EnumGeneratedByFieldUpdateOperationsInput | $Enums.GeneratedBy
     chatId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TeamMemberUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    team?: TeamUpdateOneRequiredWithoutMembersNestedInput
+  }
+
+  export type TeamMemberUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TeamMemberUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    teamId?: StringFieldUpdateOperationsInput | string
+    role?: EnumTeamRoleFieldUpdateOperationsInput | $Enums.TeamRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WorkspaceUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUncheckedUpdateManyWithoutWorkspaceNestedInput
+    mindmaps?: MindMapUncheckedUpdateManyWithoutWorkspaceNestedInput
+    flowcharts?: FlowchartUncheckedUpdateManyWithoutWorkspaceNestedInput
+    whiteboards?: WhiteboardUncheckedUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
